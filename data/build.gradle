@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    namespace 'com.pizzery.data'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    //noinspection GradleDependency
+    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.3")
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.3")
+    implementation("io.ktor:ktor-serialization-jackson:2.2.3")
+    implementation("io.ktor:ktor-client-logging:2.2.3")
+    implementation("io.ktor:ktor-client-okhttp:2.2.3")
+    implementation("io.ktor:ktor-client-core:2.2.3")
+    implementation("io.ktor:ktor-client-core:2.2.3")
+    implementation("io.ktor:ktor-client-cio:2.2.3")
+
+    implementation("androidx.room:room-ktx:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    api("androidx.room:room-runtime:2.5.2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    implementation(project(":shared"))
+}

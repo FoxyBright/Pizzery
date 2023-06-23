@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_screen_label">Этот экран пуст</string>
+    <string name="empty_screen_return_button">На главную</string>
+
+    <string name="food_menu_label">Меню</string>
+    <string name="food_profile_label">Профиль</string>
+    <string name="food_basket_label">Корзина</string>
+
+    <string name="empty_tab_label">Ничего не найдено</string>
+</resources>
