@@ -1,17 +1,19 @@
-//
-//  PizzeryApp.swift
-//  Pizzery
-//
-//  Created by Иван Волков on 27.05.2025.
-//
-
 import SwiftUI
 
 @main
 struct PizzeryApp: App {
+    
+    // MARK: Init ViewModels
+    @StateObject private var loginVm = LoginViewModel()
+    @StateObject private var mainVm = MainViewModel()
+    @StateObject private var ordersVm = OrdersViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainContainer()
+                .environmentObject(loginVm)
+                .environmentObject(mainVm)
+                .environmentObject(ordersVm)
         }
     }
 }

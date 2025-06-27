@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F19C1FA62DF3A76100970A70 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = F19C1FA52DF3A76100970A70 /* AnyCodable */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F15E698A2DE650B00076E100 /* Pizzery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pizzery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F14273292DF0E8BF00846090 /* Exceptions for "Pizzery" folder in "Pizzery" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F15E69892DE650B00076E100 /* Pizzery */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F15E698C2DE650B00076E100 /* Pizzery */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F14273292DF0E8BF00846090 /* Exceptions for "Pizzery" folder in "Pizzery" target */,
+			);
 			path = Pizzery;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19C1FA62DF3A76100970A70 /* AnyCodable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				F15E698C2DE650B00076E100 /* Pizzery */,
+				F19C1F9E2DF3A69400970A70 /* Frameworks */,
 				F15E698B2DE650B00076E100 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,6 +64,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F19C1F9E2DF3A69400970A70 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -52,6 +78,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F15E69952DE650B10076E100 /* Build configuration list for PBXNativeTarget "Pizzery" */;
 			buildPhases = (
+				F19DAD242DF22B4600BAF9D2 /* Build Swagger Models */,
 				F15E69862DE650B00076E100 /* Sources */,
 				F15E69872DE650B00076E100 /* Frameworks */,
 				F15E69882DE650B00076E100 /* Resources */,
@@ -65,6 +92,7 @@
 			);
 			name = Pizzery;
 			packageProductDependencies = (
+				F19C1FA52DF3A76100970A70 /* AnyCodable */,
 			);
 			productName = Pizzery;
 			productReference = F15E698A2DE650B00076E100 /* Pizzery.app */;
@@ -86,14 +114,17 @@
 				};
 			};
 			buildConfigurationList = F15E69852DE650B00076E100 /* Build configuration list for PBXProject "Pizzery" */;
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				ru,
 			);
 			mainGroup = F15E69812DE650B00076E100;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F15E698B2DE650B00076E100 /* Products */;
 			projectDirPath = "";
@@ -113,6 +144,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F19DAD242DF22B4600BAF9D2 /* Build Swagger Models */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Pizzery/generate_models.sh",
+				"$(SRCROOT)/Pizzery/swagger.yaml",
+			);
+			name = "Build Swagger Models";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pizzery/Models/openapi/.generated",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#cd \"${SRCROOT}/Pizzery/\"\n#./generate_models.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F15E69862DE650B00076E100 /* Sources */ = {
@@ -185,6 +240,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -242,6 +298,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -256,11 +313,15 @@
 				DEVELOPMENT_TEAM = 3XP3D72P85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pizzery/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daddy Pizza";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -284,11 +345,15 @@
 				DEVELOPMENT_TEAM = 3XP3D72P85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pizzery/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daddy Pizza";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,6 +389,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Flight-School/AnyCodable.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F19C1FA52DF3A76100970A70 /* AnyCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */;
+			productName = AnyCodable;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F15E69822DE650B00076E100 /* Project object */;
 }

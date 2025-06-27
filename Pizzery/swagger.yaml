@@ -1,0 +1,5148 @@
+swagger: '2.0'
+info:
+  title: Box
+  description: box
+  version: 1.0.0
+schemes:
+  - https
+host: box.customapp.tech
+basePath: /api
+produces:
+  - application/json
+consumes:
+  - application/json
+
+paths:
+  /auth:
+    post:
+      tags:
+        - Авторизация
+      description: Авторизация по логин-паролю
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/AuthRequest'
+      responses:
+        200:
+          description: Результат успешной авторизации
+          schema:
+            $ref: '#/definitions/AuthResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/phone:
+    post:
+      tags:
+        - Авторизация
+      description: Авторизация по номеру телефона (отправляется смс с кодом). Если новый пользователь, то создается клиент с пустыми данными
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/AuthPhoneRequest'
+      responses:
+        200:
+          description: Результат успешной авторизации по номеру телефона
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/code:
+    post:
+      tags:
+        - Авторизация
+      description: Авторизация по коду авторизации (из смс). Если новый пользователь, то приходит клиент с пустыми полями
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/AuthCodeRequest'
+      responses:
+        200:
+          description: Результат успешной авторизации по коду авторизации
+          schema:
+            $ref: '#/definitions/AuthResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/try:
+    post:
+      tags:
+        - Авторизация
+      description: Попытка авторизации с куками
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Результат успешной авторизации
+          schema:
+            $ref: '#/definitions/AuthResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/refresh:
+    post:
+      tags:
+        - Авторизация
+      description: Рефреш токенов через refresh_token
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Результат успешного рефреша
+          schema:
+            $ref: '#/definitions/AuthResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/logout:
+    post:
+      tags:
+        - Авторизация
+      description: Закрытие текущей сессии пользователя (читать удаление одной пары jwt)
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /auth/full_logout:
+    post:
+      tags:
+        - Авторизация
+      description: Закрытие всех действующих сессий пользователя (читать удаление всех jwt)
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /geocoding/direct:
+    post:
+      tags:
+        - Геокодинг
+      description: Координаты по адресу
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/GeocodingDirectRequest'
+      responses:
+        200:
+          description: Ответ от сервиса геокодинга
+          schema:
+            $ref: '#/definitions/GeocodingDirectResponse'
+        default:
+          $ref: '#/responses/default'
+  /geocoding/reverse:
+    post:
+      tags:
+        - Геокодинг
+      description: Адрес по координатам
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/GeocodingReverseRequest'
+      responses:
+        200:
+          description: Ответ от сервиса геокодинга
+          schema:
+            $ref: '#/definitions/GeocodingReverseResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /admin/partners/list:
+    post:
+      tags:
+        - Админ
+      description: Список партнеров
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/AdminPartnerListRequest'
+      responses:
+        200:
+          description: Список партнеров
+          schema:
+            $ref: '#/definitions/AdminPartnerListResponse'
+        default:
+          $ref: '#/responses/default'
+  /admin/partners/create:
+    post:
+      tags:
+        - Админ
+      description: Создание партнера
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/AdminPartnerCreateRequest'
+      responses:
+        200:
+          description: Созданный партнер
+          schema:
+            $ref: '#/definitions/AdminPartnerCreateResponse'
+        default:
+          $ref: '#/responses/default'
+  /admin/partners/{id}/delete:
+    delete:
+      tags:
+        - Админ
+      description: Удаление партнера
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success delete
+          schema:
+            $ref: '#/definitions/AdminPartnerDeleteResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /partners/{id}/update:
+    patch:
+      tags:
+        - Партнеры
+      description: Обновление партнера (partner_id - для передачи айди партнера при вызове админом. Для партнеров можно подставлять 0)
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/partner_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PartnerUpdateRequest'
+      responses:
+        200:
+          description: Обновленный партнер
+          schema:
+            $ref: '#/definitions/Partner'
+        default:
+          $ref: '#/responses/default'
+  /partners/set_iiko:
+    patch:
+      tags:
+        - Партнеры
+      description: Добавление ключа iiko профиля
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PartnerSetIikoRequest'
+      responses:
+        200:
+          description: Структура партнера
+          schema:
+            $ref: '#/definitions/Partner'
+        default:
+          $ref: '#/responses/default'
+
+  /employees/{id}/create:
+    post:
+      tags:
+        - Сотрудники
+      description: Создание сотрудника (partner_id - для передачи айди партнера при вызове админом. Для партнеров можно подставлять 0)
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/partner_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/EmployeeCreateRequest'
+      responses:
+        200:
+          description: Созданный сотрудник
+          schema:
+            $ref: '#/definitions/EmployeeCreateResponse'
+        default:
+          $ref: '#/responses/default'
+  /employees/list:
+    post:
+      tags:
+        - Сотрудники
+      description: Список сотрудников
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EmployeeListRequest'
+      responses:
+        200:
+          description: Список сотрудников
+          schema:
+            $ref: '#/definitions/EmployeeListResponse'
+        default:
+          $ref: '#/responses/default'
+  /employees/{id}/update:
+    patch:
+      tags:
+        - Сотрудники
+      description: Обновление сотрудника
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/EmployeeUpdateRequest'
+      responses:
+        200:
+          description: Обновленный сотрудник
+          schema:
+            $ref: '#/definitions/Employee'
+        default:
+          $ref: '#/responses/default'
+  /employees/{id}/delete:
+    delete:
+      tags:
+        - Сотрудники
+      description: Удаление (блокировка) сотрудника
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /clients/register/finish:
+    post:
+      tags:
+        - Клиенты
+      description: Завершение регистрации клиента
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/ClientRegisterFinishRequest'
+      responses:
+        200:
+          description: Созданный клиент
+          schema:
+            $ref: '#/definitions/Client'
+        default:
+          $ref: '#/responses/default'
+  /clients/update:
+    patch:
+      tags:
+        - Клиенты
+      description: обновление инфы клиента
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/ClientUpdateRequest'
+      responses:
+        200:
+          description: обновленный клиент
+          schema:
+            $ref: '#/definitions/Client'
+        default:
+          $ref: '#/responses/default'
+  /clients/loyalty/check_in:
+    post:
+      tags:
+        - Клиенты
+      description: Запрос для генерации QR кода для получения баллов за заказ
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Данные для генерации QR кода
+          schema:
+            $ref: '#/definitions/ClientLoyaltyCheckInResponse'
+        default:
+          $ref: '#/responses/default'
+  /clients/loyalty/debit:
+    post:
+      tags:
+        - Клиенты
+      description: Запрос для генерации QR кода для списания баллов за заказ
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/ClientLoyaltyDebitRequest'
+      responses:
+        200:
+          description: Данные для генерации QR кода
+          schema:
+            $ref: '#/definitions/ClientLoyaltyDebitResponse'
+        default:
+          $ref: '#/responses/default'
+  /client-review/create:
+    post:
+      tags:
+        - Отзывы
+      description: Создание отзыва
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/ReviewCreateRequest'
+      responses:
+        200:
+          description: Созданный отзыв
+          schema:
+            $ref: '#/definitions/ReviewCreateResponse'
+        default:
+          $ref: '#/responses/default'
+  /parner-review/{id}/visibility-update:
+    patch: 
+      tags:
+        - Отзывы
+      description: Обновление видимости отзыва
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+              $ref: "#/definitions/ReviewUpdateRequest"
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Обновленный отзыв
+          schema:
+            $ref: '#/definitions/Review'
+        default:
+          $ref: '#/responses/default'
+  /partner/reviews/list:
+    post:
+      tags:
+        - Отзывы
+      description: Список отзывов конкретного партнера
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+              $ref: '#/definitions/ReviewListRequest'
+      responses:
+        200:
+          description: Список отзывов
+          schema:
+            $ref: '#/definitions/ReviewListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /partner/clients/list:
+    post:
+      tags:
+        - Клиенты партнера
+      description: Список клиентов
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/PartnerClientListRequest"
+      responses:
+        200:
+          description: Список клиентов
+          schema:
+            $ref: '#/definitions/PartnerClientListResponse'
+        default:
+          $ref: '#/responses/default'
+  /partner/clients/{id}/orders:
+    get:
+      tags:
+        - Клиенты партнера
+      description: Список заказов клиента
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Список заказов клиента
+          schema:
+            $ref: '#/definitions/ClientOrdersListResponse'
+        default:
+          $ref: '#/responses/default'
+  /partner/clients/{id}/info:
+    get:
+      tags:
+        - Клиенты партнера
+      description: Клиент
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Клиент
+          schema:
+            $ref: '#/definitions/Client'
+        default:
+          $ref: '#/responses/default'
+  /partner/clients/{id}/update:
+    patch:
+      tags:
+        - Клиенты партнера
+      description: Обновление клиента
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PartnerClientUpdateRequest'
+      responses:
+        200:
+          description: Обновленный клиент
+          schema:
+            $ref: '#/definitions/Client'
+        default:
+          $ref: '#/responses/default'
+  /partner/clients/{id}/block:
+    patch:
+      tags:
+        - Клиенты партнера
+      description: Блокировка клиента
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PartnerClientBlockRequest'
+      responses:
+        200:
+          description: Обновленный клиент
+          schema:
+            $ref: '#/definitions/Client'
+        default:
+          $ref: '#/responses/default'
+
+  /partners/{id}/brand-config/update:
+    patch:
+      tags:
+        - Настройки бренда
+      description: Обновление настройки бренда
+      consumes: 
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - name: primaryColor
+          in: formData
+          type: string
+          description: Основной цвет
+          required: true
+        - name: secondaryColor
+          in: formData
+          type: string
+          description: Вторичный цвет
+          required: true
+        - name: accentColor
+          in: formData
+          type: string
+          description: Акцентный цвет
+          required: true
+        - name: fontFamily
+          in: formData
+          type: string
+          description: Шрифт
+          required: true
+        - name: roundness
+          in: formData
+          type: integer
+          description: Округлость
+          required: true
+        - name: name
+          in: formData
+          type: string
+          description: Название
+          required: true
+        - name: supportEmail
+          in: formData
+          type: string
+          description: Email поддержки
+          required: true
+        - name: smallDesc
+          in: formData
+          type: string
+          description: Краткое описание
+          required: true
+        - name: description
+          in: formData
+          type: string
+          description: Описание
+          required: true
+        - name: contactList
+          in: formData
+          type: string
+          description: Список контактов в формате JSON строки
+          required: true
+        - name: referralBonus
+          in: formData
+          type: integer
+          description: Бонус за рефералов
+          required: true
+        - name: logo
+          in: formData
+          type: file
+          description: Brand config logo
+        - name: mobileAppLogo
+          in: formData
+          type: file
+          description: Brand config MobileAppLogo
+      responses:
+        200:
+          description: Обновленная настройка бренда
+          schema:
+            $ref: '#/definitions/BrandConfigUpdateRequest'
+        default:
+          $ref: '#/responses/default'
+  /partners/{id}/brand-config:
+    get:
+      tags:
+        - Настройки бренда
+      description: Настройки бренда
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Настройки бренда
+          schema:
+            $ref: '#/definitions/BrandConfig'
+        default:
+          $ref: '#/responses/default'
+  /partners/{id}/brand-config/create-pictures:
+    patch:
+      tags:
+        - Настройки бренда
+      description: Добавление картинки для настроек партнера
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: pictures
+          type: file
+          description: Картинка/ки настроек партнера
+          required: true
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/BrandConfig'
+        default:
+          $ref: '#/responses/default'
+  /partners/{id}/brand-config/delete-pictures:
+    post:
+      tags:
+        - Настройки бренда
+      description: Удаление картинок в настройках партнера
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: "#/definitions/BrandConfigDeletePicturesRequest"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/BrandConfig'
+        default:
+          $ref: '#/responses/default'
+
+  /users/{id}/update/password:
+    patch:
+      tags:
+        - Пользователи
+      description: Обновление пароля пользователя
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/UserPasswordUpdateRequest'
+      responses:
+        200:
+          description: Обновленный пользователь
+          schema:
+            $ref: '#/definitions/UserResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /bonus_transactions/create:
+    post:
+      tags:
+        - Транзакции бонусов
+      description: Создание транзакции
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/BonusTransactionCreateRequest'
+      responses:
+        200:
+          description: Созданная транзакция
+          schema:
+            $ref: '#/definitions/BonusTransaction'
+        default:
+          $ref: '#/responses/default'
+  /bonus_transactions/list:
+    post:
+      tags:
+        - Транзакции бонусов
+      description: Список транзакции
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/BonusTransactionListRequest'
+      responses:
+        200:
+          description: Список транзакции
+          schema:
+            $ref: '#/definitions/BonusTransactionListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /outlets/list:
+    post:
+      tags:
+        - Рестораны
+      description: Список ресторанов
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OutletListRequest'
+      responses:
+        200:
+          description: Список ресторанов
+          schema:
+            $ref: '#/definitions/OutletListResponse'
+        default:
+          $ref: '#/responses/default'
+  /outlets/{id}/info:
+    get:
+      tags:
+        - Рестораны
+      description: Ресторан
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+  /outlets/{id}/update:
+    patch:
+      tags:
+        - Рестораны
+      description: Обновление ресторана
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OutletUpdateRequest'
+      responses:
+        200:
+          description: Обновленный ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+  /outlets/{id}/update_menu_picture:
+    patch:
+      tags:
+        - Рестораны
+      description: Обновление картинки меню для ресторана
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: picture
+          type: file
+          description: Картинка меню
+          required: true
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Обновленный ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+  /outlets/{id}/to_loyalty:
+    patch:
+      tags:
+        - Рестораны
+      description: |
+        Добавление ресторана в программу лояльности.
+        Добавить возможно только после выбора во всех терминалах ресторана платежа для скидки и хотябы одного платежа для кешбека
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Обновленный ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+  /outlets/terminals/set_payment:
+    patch:
+      tags:
+        - Рестораны
+      description: |
+        Изменение функционала платежа в терминале. Возможность установить или убрать платеж для скидки или для кешбека.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/SetPaymentForTerminalRequest'
+      responses:
+        200:
+          description: Обновленный ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+  /outlets/terminals/set_list_payments:
+    patch:
+      tags:
+        - Рестораны
+      description: |
+        Изменение функционала всех платежей в терминале сразу. Возможность установить или убрать платеж для скидки или для кешбека.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/SetListPaymentsForTerminalRequest'
+      responses:
+        200:
+          description: Обновленный ресторан
+          schema:
+            $ref: '#/definitions/Outlet'
+        default:
+          $ref: '#/responses/default'
+
+  /poster/create:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Создание афиши
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PosterCreateRequest'
+      responses:
+        200:
+          description: Созданная афиша
+          schema:
+            $ref: '#/definitions/Poster'
+        default:
+          $ref: '#/responses/default'
+  /poster/{id}/update:
+    patch:
+      tags:
+        - Афиши ресторана
+      description: Обновление афиши ресторана
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/Poster'
+      responses:
+        200:
+          description: Обновленная афиша ресторана
+          schema:
+            $ref: '#/definitions/Poster'
+        default:
+          $ref: '#/responses/default'
+  /poster/{id}/delete:
+    delete:
+      tags:
+        - Афиши ресторана
+      description: Удаление афиши
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /poster/{id}/create-images:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Обновление/Добавление картинок к афише
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: formData
+          name: images
+          type: file
+          description: Картинки афиши
+          required: true
+      responses:
+        200:
+          description: Афиша с обновленными/добавленными картинками
+          schema:
+            $ref: '#/definitions/PosterCreateImagesResponse'
+        default:
+          $ref: '#/responses/default'
+  /poster/{id}/delete-images:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Удаление картинок к афише
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: "#/definitions/PosterImagesDeleteRequest"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /poster/list:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Список афиш ресторана
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/PosterListRequest'
+      responses:
+        200:
+          description: Список афиш ресторана
+          schema:
+            $ref: '#/definitions/PosterListResponse'
+        default:
+          $ref: '#/responses/default'
+  /outlet-to-poster/create:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Создание связи афиши с рестораном
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OutletToPosterCreateRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /outlet-to-poster/update:
+    put:
+      tags:
+        - Афиши ресторана
+      description: Обновление связи афиши с рестораном
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OutletToPosterUpdateRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /outlet-to-poster/delete:
+    post:
+      tags:
+        - Афиши ресторана
+      description: Удаление связи афиши с рестораном
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OutletToPosterDeleteRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /menus/list:
+    post:
+      tags:
+        - Меню
+      description: Список меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuListRequest'
+      responses:
+        200:
+          description: Список меню
+          schema:
+            $ref: '#/definitions/MenuListResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu/{id}/categories:
+    get:
+      tags:
+        - Меню
+      description: Список категорий конкретного меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Список меню
+          schema:
+            $ref: '#/definitions/MenuCategoriesListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /menu/{id}/categories-menu-items:
+    get:
+      tags:
+        - Меню
+      description: Список категорий и блюд конкретного меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Список меню
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MenuCategory'
+        default:
+          $ref: '#/responses/default'
+
+  /menu/full-data:
+    get:
+      tags:
+        - Меню
+      description: Список категорий и блюд партнера
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Список меню
+          schema:
+            $ref: '#/definitions/MenusListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /menu-items/create:
+    post:
+      tags:
+        - Позиции меню
+      description: Создание позиции в меню
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Созданная позиция в меню
+          schema:
+            $ref: '#/definitions/MenuItem'
+        default:
+          $ref: '#/responses/default'
+  /menu-items/{id}/create-icon:
+    post:
+      tags:
+        - Позиции меню
+      description: Добавление картинки для блюда
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+          - in: formData
+            name: icon
+            type: file
+            description: Картинка блюда
+            required: true
+          - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/MenuItemCreateIconResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-items-to-category/create:
+    post:
+      tags:
+        - Позиции меню
+      description: Создание связи блюда с категорией и меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemToCategoryCreateRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-items-to-category/update:
+    put:
+      tags:
+        - Позиции меню
+      description: Обновление связи блюда с категорией и меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemToCategoryUpdateRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-items-to-category/delete:
+    post:
+      tags:
+        - Позиции меню
+      description: Удаление связи блюда с категорией и меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemToCategoryDeleteRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-items/list:
+    post:
+      tags:
+        - Позиции меню
+      description: Список позиций в меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemListRequest'
+      responses:
+        200:
+          description: Список позиций в меню
+          schema:
+            $ref: '#/definitions/MenuItemListResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-items/{id}/update:
+    put:
+      tags:
+        - Позиции меню
+      description: Обновление позиции в меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemUpdateRequest'
+      responses:
+        200:
+          description: Обновленная позиция в меню
+          schema:
+            $ref: '#/definitions/MenuItem'
+        default:
+          $ref: '#/responses/default'
+  /menu-items/{id}/delete:
+    delete:
+      tags:
+        - Позиции меню
+      description: Удаление позиции меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /menu-categories/{id}/menu-items/list:
+    post:
+      tags:
+        - Позиции меню
+      description: Список позиций меню по категории
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuItemListRequest'
+      responses:
+        200:
+          description: Список позиций меню по категории
+          schema:
+            $ref: '#/definitions/MenuItemListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /menu-categories/create:
+    post:
+      tags:
+        - Категории меню
+      description: Создание категории меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuCategoryCreateRequest'
+      responses:
+        200:
+          description: Созданная категория меню
+          schema:
+            $ref: '#/definitions/MenuCategory'
+        default:
+          $ref: '#/responses/default'
+  /menu-categories/{id}/create-icon:
+    patch:
+      tags:
+        - Категории меню
+      description: Добавление картинки для категории
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: icon
+          type: file
+          description: Картинка категории
+          required: true
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/CategoryCreateIconResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-to-categories/create:
+    post:
+      tags:
+        - Категории меню
+      description: Создание связи категории и меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuToCategoryCreateRequest'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-to-categories/update:
+    put:
+      tags:
+        - Категории меню
+      description: Обновление связи категории и меню
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuToCategory'
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-categories/list:
+    get:
+      tags:
+        - Категории меню
+      description: Категории меню
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Категории меню
+          schema:
+            $ref: '#/definitions/MenuCategoryListResponse'
+        default:
+          $ref: '#/responses/default'
+  /menu-categories/{id}/update:
+    patch:
+      tags:
+        - Категории меню
+      description: Обновление категории меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/MenuCategoryUpdateRequest'
+      responses:
+        200:
+          description: Обновленная категория меню
+          schema:
+            $ref: '#/definitions/MenuCategory'
+        default:
+          $ref: '#/responses/default'
+  /menu-categories/{id}/delete:
+    delete:
+      tags:
+        - Категории меню
+      description: Удаление категории меню
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /loyalty_lvl/list:
+    get:
+      tags:
+        - Уровни лояльности
+      description: Запрос списка уровней лояльности
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Список уровней лояльности
+          schema:
+            $ref: '#/definitions/LoyaltyLvlListResponse'
+        default:
+          $ref: '#/responses/default'
+  /loyalty_lvl/create:
+    post:
+      tags:
+        - Уровни лояльности
+      description: | 
+        Создание уровня лояльности. При этом меняются соседние уровни (сужаются), чтобы не было наложения. 
+        Ошибка при полном перекрытии существующего уровня или разделении сущ уровня на два
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/LoyaltyLvlCreateRequest'
+      responses:
+        200:
+          description: Полный список уровней (тк могут меняться при создании)
+          schema:
+            $ref: '#/definitions/LoyaltyLvlListResponse'
+        default:
+          $ref: '#/responses/default'
+  /loyalty_lvl/{id}/update:
+    patch:
+      tags:
+        - Уровни лояльности
+      description: | 
+        Обновление уровня лояльности. При этом граница соседнего уровня тоже меняется, чтобы не было наложения.
+        Если началом уровня указать начало предыдущего, то предыдущий удаляется. Если концом уровня указать конец следующего, то следующий удаляется
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/LoyaltyLvlUpdateRequest'
+      responses:
+        200:
+          description: Полный список уровней (тк могут меняться)
+          schema:
+            $ref: '#/definitions/LoyaltyLvlListResponse'
+        default:
+          $ref: '#/responses/default'
+  /loyalty_lvl/{id}/delete:
+    delete:
+      tags:
+        - Уровни лояльности
+      description: Удаление уровня лояльности. Удалять разрешено только наибольший (последний) уровень, чтобы не было промежутков пустых
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Полный список уровней (тк предпоследний меняется)
+          schema:
+            $ref: '#/definitions/LoyaltyLvlListResponse'
+        default:
+          $ref: '#/responses/default'
+  /loyalty_lvl/{id}/add-picture:
+    post:
+      tags:
+        - Уровни лояльности
+      description: Добавление картинки для уровня лояльности
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: picture
+          type: file
+          description: Картинка уровня лояльности
+          required: true
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/LoyaltyLvlPictureCreateResponse'
+        default:
+          $ref: '#/responses/default'
+  /loyalty_lvl/{id}/delete-picture:
+    patch:
+      tags:
+        - Уровни лояльности
+      description: Удаление картинки уровня лояльности
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/LoyaltyLvlPictureDeleteRequest'
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: Success response
+          schema:
+            $ref: '#/definitions/LoyaltyLvlPictureDeleteResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /ref_codes/create:
+    post:
+      tags:
+        - Реф коды
+      description: Создание реф кода
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/RefCodesCreateRequest'
+      responses:
+        200:
+          description: Созданный реф код
+          schema:
+            $ref: '#/definitions/RefCodesCreateResponse'
+        default:
+          $ref: '#/responses/default'
+  /ref_codes/{id}/update:
+    patch:
+      tags:
+        - Реф коды
+      description: изменение реф кода
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/RefCodesUpdateRequest'
+      responses:
+        200:
+          description: Измененный реф код
+          schema:
+            $ref: '#/definitions/RefCode'
+        default:
+          $ref: '#/responses/default'
+  /ref_codes/existence_check:
+    get:
+      tags:
+        - Реф коды
+      description: Проверка на существование реф кода
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          in: query
+          description: код для проверки
+          required: true
+          type: string
+      responses:
+        200:
+          description: Результат проверки
+          schema:
+            $ref: '#/definitions/RefCodesExistenceCheckResponse'
+        default:
+          $ref: '#/responses/default'
+  /ref_codes/{id}/get:
+    get:
+      tags:
+        - Реф коды
+      description: получение реф кода по айди
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: реф код
+          schema:
+            $ref: '#/definitions/RefCode'
+        default:
+          $ref: '#/responses/default'
+  /ref_codes/list:
+    post:
+      tags:
+        - Реф коды
+      description: получение реф кодов с пагинацией
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/RefCodesListRequest'
+      responses:
+        200:
+          description: список реф кодов
+          schema:
+            $ref: '#/definitions/RefCodesListResponse'
+        default:
+          $ref: '#/responses/default'
+
+  /reports/clients/main_info/download:
+    get:
+      tags:
+        - Отчеты
+      description: скачать excel файл с инфой о пользователях
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Скачан
+
+        default:
+          $ref: '#/responses/default'
+
+# для iiko 
+  /orders/{id}/event:
+    post:
+      tags:
+        - Iiko
+      description: Ивент по заказу из айко
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/iiko_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OrdersEventRequest'
+      responses:
+        200:
+          description: Успешный ответ
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          $ref: '#/responses/default'
+      security:
+        - iikoAuth: [ ]
+  /orders/{id}/payment_by_points:
+    post:
+      tags:
+        - Iiko
+      description: оплата заказа баллами
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/iiko_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OrdersPaymentByPointsRequest'
+      responses:
+        200:
+          description: Успешный ответ
+          schema:
+            $ref: '#/definitions/OrdersPaymentByPointsResponse'
+        default:
+          $ref: '#/responses/default'
+      security:
+        - iikoAuth: [ ]
+  /orders/{id}/checkin:
+    post:
+      tags:
+        - Iiko
+      description: Привязка гостя к заказу
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/iiko_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OrdersChekinRequest'
+      responses:
+        200:
+          description: Клиент
+          schema:
+            $ref: '#/definitions/OrdersChekinResponse'
+        default:
+          $ref: '#/responses/default'
+      security:
+        - iikoAuth: [ ]
+    delete:
+      tags:
+        - Iiko
+      description: Отвязка гостя от заказа
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/iiko_id"
+        - in: body
+          name: req
+          schema:
+            $ref: '#/definitions/OrdersChekinRequest'
+      responses:
+        204:
+          description: NoContent
+        default:
+          $ref: '#/responses/default'
+      security:
+        - iikoAuth: [ ]
+  /orders/{id}/paymentLimits:
+    get:
+      tags:
+        - Iiko
+      description: Получение лимитов системы лояльности клиента по айко айди заказа к которому он зачекинен
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/iiko_id"
+      responses:
+        200:
+          description: Лимиты
+          schema:
+            $ref: '#/definitions/PaymentLimitsResponse'
+        default:
+          $ref: '#/responses/default'
+      security:
+        - iikoAuth: [ ]
+  /ping:
+    get:
+      tags:
+        - Iiko
+      responses:
+        204:
+          description: NoContent
+
+definitions:
+  TimeFilter:
+      type: object
+      properties:
+        time:
+          type: integer
+          format: int64
+        modificator:
+          type: string
+          enum:
+            - GT
+            - LT
+            - EQ
+  # requests & responses
+  ErrorResponse:
+    type: object
+    description: Типовая ошибка
+    required:
+      - code
+      - message
+      - detail
+    properties:
+      code:
+        type: integer
+        description: Код ошибки
+      message:
+        type: string
+        description: Сообщение ошибки
+      detail:
+        type: string
+        description: Дополнительные детали
+      localized_message:
+        type: string
+        description: Локализованное сообщение об ошибке
+  SuccessResponse:
+    type: object
+    description: Типовой запрос для ответа на Post запросы, которые не должны возвращать никаких данных
+    properties:
+      success:
+        type: boolean 
+  MenuItemCreateIconResponse:
+    type: object
+    description: Запрос для добавления картинки блюда
+    properties:
+      menu_item:
+        $ref: '#/definitions/MenuItem'
+  CategoryCreateIconResponse:
+    type: object
+    description: Запрос для добавления картинки категории
+    properties:
+      category:
+        $ref: '#/definitions/MenuCategory'
+
+  AuthRequest:
+    type: object
+    description: Авторизационный запрос
+    required:
+      - login
+      - password
+    properties:
+      login:
+        type: string
+        description: Логин
+      password:
+        type: string
+        description: Пароль (двойной sha256 от строки с паролем)
+  AuthPhoneRequest:
+    type: object
+    description: Авторизационный запрос по номеру телефона
+    required:
+      - phone
+    properties:
+      phone:
+        type: string
+        description: Номер телефона (только цифры, без '+', начиная с 7). Пока ожидаем только рос номера
+        pattern: '^7\d{10}$'
+  AuthCodeRequest:
+    type: object
+    required:
+      - code
+    properties:
+      code:
+        type: string
+        description: Код авторизации из смс. По факту там цифры будут
+  AuthResponse:
+    type: object
+    description: Обобщенный ответ на разные запрос авторизации
+    required:
+      - user
+    properties:
+      access_expires_at:
+        type: integer
+        format: int64
+        description: Время истечения жизни jwt-токена (timestamp в миллисекундах)
+      refresh_expires_at:
+        type: integer
+        format: int64
+        description: Время истечения жизни jwt-токена (timestamp в миллисекундах)
+      server_time:
+        description: текущее серверное время (timestamp в миллисекундах)
+        type: integer
+        format: int64
+      user:
+        $ref: '#/definitions/UserResponse'
+
+  UserResponse:
+    type: object
+    required:
+      - role
+    properties:
+      role:
+        $ref: '#/definitions/UserRole'
+      # one of partner/client/employee/admin:
+      partner:
+        $ref: '#/definitions/Partner'
+      client:
+        $ref: '#/definitions/Client'
+      employee:
+        $ref: '#/definitions/Employee'
+      admin:
+        $ref: '#/definitions/Admin'
+
+  GeocodingDirectRequest:
+    type: object
+    required:
+      - address
+    properties:
+      address:
+        type: string
+        description: Адрес
+  GeocodingDirectResponse:
+    type: object
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/GeoData'
+  GeocodingReverseRequest:
+    type: object
+    required:
+      - lat
+      - lon
+    properties:
+      lat:
+        type: number
+        format: float64
+      lon:
+        type: number
+        format: float64
+      count:
+        format: int64
+        type: integer
+        description: Кол-во возвращаемых результатов (по умолчанию 10, максимум 20)
+      radius_meters:
+        format: int64
+        type: integer
+        description: Радиус поиска в метрах (по умолчанию 100, максимум 1000)
+      language:
+        type: string
+        description: ru / en (по умолчанию ru)
+  GeocodingReverseResponse:
+    type: object
+    required:
+      - suggestions
+    properties:
+      suggestions:
+        type: array
+        items:
+          type: object
+          required:
+            - value
+            - unrestricted_value
+            - data
+          properties:
+            value:
+              type: string
+              description: Форматированный адрес
+            unrestricted_value:
+              type: string
+            data:
+              $ref: '#/definitions/GeoData'
+
+  AdminPartnerListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      pagination:
+        $ref: '#/definitions/Pagination'
+  AdminPartnerListResponse:
+    type: object
+    required:
+      - partners
+      - pagination
+    properties:
+      partners:
+        type: array
+        items:
+          $ref: '#/definitions/Partner'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  AdminPartnerCreateRequest:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      name:
+        type: string
+      label:
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        description: Двойной sha256 от строки с паролем
+  AdminPartnerCreateResponse:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Partner'
+  AdminPartnerDeleteResponse:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Partner'
+
+  PartnerUpdateRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Partner'
+  PartnerSetIikoRequest:
+    type: object
+    required:
+      - iiko_key
+    properties:
+      iiko_key:
+        type: string
+        description: |
+          iiko api key для стягивания всей инфы из айко. 
+          Обязательный для заполняния после создания партнера. 
+          Факт создания контролировать полем presence_iiko_key в Partner.
+          При последующих запросах добавляется в массив ключей
+
+  EmployeeCreateRequest:
+    type: object
+    required:
+      - iiko_id
+      - outlet_id
+      - role
+      - email
+      - password
+    allOf:
+      - $ref: '#/definitions/FullName'
+    properties:
+      iiko_id:
+        type: string
+        format: uuid
+      role:
+        $ref: '#/definitions/EmployeeRole'
+      outlet_id:
+        type: integer
+        format: int64
+        description: id ресторана к которому привязан сотрудник
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      password:
+        type: string
+        description: Двойной sha256 от строки с паролем
+  EmployeeCreateResponse:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Employee'
+  EmployeeUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/Employee'
+  EmployeeListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  blocked -  value_group: none;
+                  is_deleted - value_group: none;
+                  outlet_id - фильтрация по ресторанам value_type: int64, value_group: single, repeated;
+              enum:
+                - blocked
+                - is_deleted
+                - outlet_id
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                full_search - по наименованию id, name, surname, patronymic, phone, email
+              enum:
+                - full_search
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              outlet - по наименованию ресторана
+            enum:
+              - surname
+              - outlet
+              - blocked
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  EmployeeListResponse:
+    type: object
+    required:
+      - employees
+      - pagination
+    properties:
+      employees:
+        type: array
+        items:
+          $ref: '#/definitions/Employee'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  ClientRegisterFinishRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/FullName'
+    properties:
+      email:
+        type: string
+        format: email
+      day_of_birth:
+        type: integer
+        format: int64
+        description: День др
+      month_of_birth:
+        type: integer
+        format: int64
+        description: Месяц др
+      year_of_birth:
+        type: integer
+        format: int64
+        description: Год др
+      gender:
+        $ref: '#/definitions/Gender'
+      loyalty_card:
+        type: string
+        description: Код карты лояльности (старый реф код!) переиспользовать на ref_code
+      ref_code:
+        type: string
+        description: реферальный код
+  ClientUpdateRequest:
+    type: object
+    required:
+      - email
+    properties:
+      email:
+        type: string
+  ClientLoyaltyCheckInResponse:
+    type: object
+    required:
+      - code
+    properties:
+      code:
+        type: string
+        description: Код для начисления баллов
+  ClientLoyaltyDebitRequest:
+    type: object
+    properties:
+      amount:
+        type: integer
+        format: int64
+        description: Количество баллов на списание, в копейках
+      full:
+        type: boolean
+        description: Полное списание баллов (либо полная оплата заказа, либо списание всех баллов). Имеет приоритет перед amount
+  ClientLoyaltyDebitResponse:
+    type: object
+    required:
+      - code
+    properties:
+      code:
+        type: string
+        description: Код для списания баллов
+
+  BrandConfigUpdateRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BrandConfig'
+
+  PartnerClientUpdateRequest:
+    type: object
+    properties:
+      note:
+        type: string
+        description: Заметка о клиенте
+  PartnerClientBlockRequest:
+    type: object
+    properties:
+      block:
+        type: boolean
+        description: Блокировка
+  PartnerClientListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  orders_count - количество заказов. value_type: int64, value_group: single, interval;
+                  spent_sum - сумма потраченных денег. value_type: int64, value_group: single, interval; 
+                  average_order_amount - средняя сумма заказа. value_type: int64, value_group: single, interval;
+                  order_date - период с хотя бы одним заказом. value_type: int64, value_group: single, repeated;
+                  loyalty_level - уровень лояльности. value_type: int64, value_group: single;
+                  balance - баланс баллов. value_type: int64, value_group: single, interval; 
+                  created_at - дата регистрации. value_type: int64, value_group: single, interval; 
+                  gender - пол, использовать Gender. value_type: string, value_group: single.
+                  age - возраст. value_type: int64, value_group: single, interval;
+                  status - статус клиента, использовать ClientStatus. value_type: string, value_group: single.
+              enum:
+                - orders_count
+                - spent_sum
+                - average_order_amount
+                - order_date
+                - loyalty_level
+                - balance
+                - created_at
+                - gender
+                - age
+                - status
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: Параметр, по которому осуществляется сортировка
+            enum:
+              - orders_count
+              - balance
+              - spent_sum
+              - created_at
+              - last_active_at
+          sort_type:
+            $ref: '#/definitions/SortType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск по имени/id/телефону
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                full_search - поиск по id, phone и name или surname
+                нужно учитывать, что номера начинаются с '7'
+              enum:
+                - full_search
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      pagination:
+        $ref: '#/definitions/Pagination'
+  PartnerClientListResponse:
+    type: object
+    required:
+      - clients
+      - pagination
+    properties:
+      clients:
+        type: array
+        items:
+          $ref: '#/definitions/Client'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  UserPasswordUpdateRequest:
+    type: object
+    required:
+      - current_password
+      - new_password
+    properties:
+      current_password:
+        type: string
+        description: Текущий пароль (двойной sha256 от строки с паролем)
+      new_password:
+        type: string
+        description: Новый Пароль (двойной sha256 от строки с паролем)
+
+  BonusTransactionCreateRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/BonusTransaction'
+  BonusTransactionListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  created_at - По дате создания. value_type: int64, value_group: interval;
+                  client_id - Айди клиента. value_type: int64, value_group: single;
+                  amount - По кол-ву баллов. value_type: int64, value_group: interval;
+                  reason - По причине. value_type: string, value_group: single использовать BonusTransactionReason;
+                  type - По типу. value_type: string, value_group: single использовать BonusTransactionType;
+              enum:
+                - created_at
+                - client_id
+                - amount
+                - reason
+                - type
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+              enum:
+                - id
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              created_at - По дате создания
+              amount - По кол-ву баллов
+            enum:
+              - created_at
+              - amount
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  BonusTransactionListResponse:
+    type: object
+    required:
+      - transactions
+      - pagination
+    properties:
+      transactions:
+        type: array
+        items:
+          $ref: '#/definitions/BonusTransaction'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  OutletListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  in_loyalty - Добавление в лояльность. value_group: none;
+                  is_deleted - Удаленные из iiko. value_group: none;
+                  is_visible_on_map - Видимость на карте. value_group: none;
+                  partner_id - Айди партнера. value_type: int64, value_group: single;
+              enum:
+                - in_loyalty
+                - is_deleted
+                - is_visible_on_map
+                - partner_id
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                name_outlet - по префиксу наименования
+                address - по подстроке в адресе
+              enum:
+                - name_outlet
+                - address
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      pagination:
+        $ref: '#/definitions/Pagination'
+  OutletListResponse:
+    type: object
+    required:
+      - outlets
+      - pagination
+    properties:
+      outlets:
+        type: array
+        items:
+          $ref: '#/definitions/Outlet'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  OutletUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/Outlet'
+  SetPaymentForTerminalRequest:
+    type: object
+    required:
+      - terminal_id
+      - payment_id
+    properties:
+      terminal_id:
+        type: integer
+        format: int64
+      payment_id:
+        type: integer
+        format: int64
+      # one_of
+      for_discount:
+        type: boolean
+        description: |
+          Имеет приоритет перед for_cashback
+          true - использовать для проведения скидки (если в терминале есть другой платеж для скидки он сбрасывается)
+          false - ничего не меняет, потому что нужен хоть один платеж для скидки.
+          Можно установить только для платежей с can_be_used_for_discount = true
+      for_cashback:
+        type: boolean
+        description: |
+          игнорируется при for_discount = true
+          true - использовать для начисления баллов
+          false - не использовать для начисления баллов (если это последний платеж в терминале, то вернется ошибка, 
+            потому что нужен хоть один платеж для начисления баллов)
+
+  SetListPaymentsForTerminalRequest:
+    type: object
+    required:
+      - terminal_id
+      - payments
+    properties:
+      terminal_id:
+        type: integer
+        format: int64
+      payments:
+        type: array
+        description: Список в котором передать все привязанные платежи к терминалу (старый стейт полностью удалится) 
+        items:
+          type: object
+          required:
+            - payment_id
+          properties:
+            payment_id:
+              type: integer
+              format: int64
+            # one_of
+            for_discount:
+              type: boolean
+              description: |
+                Имеет приоритет перед for_cashback
+                true - использовать для проведения скидки (если в терминале есть другой платеж для скидки он сбрасывается)
+                false - ничего не меняет, потому что нужен хоть один платеж для скидки.
+                Можно установить только для платежей с can_be_used_for_discount = true
+            for_cashback:
+              type: boolean
+
+  MenuListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      pagination:
+        $ref: '#/definitions/Pagination'
+  MenuListResponse:
+    type: object
+    required:
+      - menus
+      - pagination
+    properties:
+      menus:
+        type: array
+        items:
+          $ref: '#/definitions/Menu'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  MenuCategoriesAndItemsListResponse:
+    type: object
+    required:
+      - categories
+    properties:
+      categories:
+        type: array
+        items:
+          $ref: '#/definitions/MenuCategory'
+  MenusListResponse:
+    type: object
+    required:
+      - menus
+    properties:
+      menus:
+        type: array
+        items:
+          $ref: '#/definitions/Menu'
+  MenuItemCreateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuItem'
+  MenuItemToCategoryCreateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuItemToCategory'
+  MenuItemToCategoryUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuItemToCategory'
+  MenuItemToCategoryDeleteRequest:
+    allOf:
+      - $ref: '#/definitions/MenuItemToCategory'
+  MenuItemToCategory:
+    type: object
+    required:
+      - menu_item_id
+      - category_id
+      - menu_id
+    properties:
+      menu_item_id:
+        type: integer
+        description: ID блюда
+        minimum: 1
+      category_id:
+        type: integer
+        description: ID категории
+        minimum: 1
+      menu_id:
+        type: integer
+        description: ID меню
+        minimum: 1
+      position:
+        type: integer
+        format: int32
+        description: Позиция блюда в категории
+        minimum: 1
+  MenuItemUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuItem'
+  MenuItemListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  partner_id - фильтрация по партнерам value_type: int64, value_group: single, repeated;
+                  visible - фильтрация по видимым блюдам
+              enum:
+                - partner_id
+                - visible
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                outlet - по наименованию ресторана, по подстроке
+              enum:
+                - id
+                - login
+                - surname
+                - outlet
+                - names
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              outlet - по наименованию ресторана
+            enum:
+              - surname
+              - outlet
+              - blocked
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  MenuItemListResponse:
+    type: object
+    required:
+      - menuItems
+      - pagination
+    properties:
+      menuItems:
+        type: array
+        items:
+          $ref: '#/definitions/MenuItem'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  ReviewsListResponse:
+    type: object
+    required:
+      - reviews
+      - pagination
+    properties:
+      reviews:
+        type: array
+        items:
+          $ref: '#/definitions/Review'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  MenuCategoryCreateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuCategory'
+  MenuToCategoryCreateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuToCategory'
+  ReviewCreateRequest:
+    allOf:
+      - $ref: '#/definitions/Review'
+  ReviewCreateResponse:
+    allOf:
+      - $ref: '#/definitions/Review'
+    properties:
+      links_to_maps:
+        type: array
+        items:
+          type: string
+          description: ссылки ресторана на картах, для того, чтобы переводить на них пользователей после высоких отзывов 
+  PosterCreateRequest:
+    allOf:
+      - $ref: '#/definitions/Poster'
+  PosterUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/Poster'
+  PosterImagesDeleteRequest:
+    properties:
+      images:
+        type: array
+        items:
+          type: string
+          description: урлы картинок
+  PosterCreateImagesResponse:
+    type: object
+    description: Запрос для добавления картинки/ок к афише
+    properties:
+      images:
+        type: array
+        items:
+          type: string
+          description: урлы картинок
+  PosterListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  start_date - фильтрация по дате начала value_type: int64, value_group: single, repeated;
+                  finish_date - фильтрация по дате окончания value_type: int64, value_group: single, repeated;
+                  partner_id - фильтрация по партнеру value_type: int64, value_group: single, repeated;
+                  outlet_id - фильтрация по ресторану value_type: int64, value_group: single, repeated;
+              enum:
+                - outlet_id
+                - partner_id
+                - start_date
+                - finish_date
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                name - по наименованию афиши, по подстроке
+              enum:
+                - name
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              outlet_id - по ресторану
+              start_date - по дате начала
+            enum:
+              - start_date
+              - outlet_id
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  PosterListResponse:
+    type: object
+    required:
+      - posters
+      - pagination
+    properties:
+      posters:
+        type: array
+        items:
+          $ref: '#/definitions/Poster'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  OutletToPosterCreateRequest:
+    allOf:
+      - $ref: '#/definitions/OutletToPoster'
+  OutletToPosterUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/OutletToPoster'
+  OutletToPosterDeleteRequest:
+    allOf:
+      - $ref: '#/definitions/OutletToPoster'
+  ReviewUpdateRequest:
+    properties:
+      visible:
+        type: boolean
+        description: Виден ли отзыв
+  ReviewListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  partner_id - фильтрация по партнерам value_type: int64, value_group: single, repeated;
+                  outlet_id - фильтрация по ресторанам value_type: int64, value_group: single, repeated;
+                  rating - фильтрация по оценке value_type: int64, value_group: single, repeated, interval;
+                  created_at - фильтрация по дате создания value_type: int64, value_group: interval;
+              enum:
+                - partner_id
+                - outlet_id
+                - rating
+                - created_at
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                outlet - по наименованию ресторана, по подстроке
+              enum:
+                - id
+                - login
+                - surname
+                - outlet
+                - names
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              created_at - по дате создания
+            enum:
+              - created_at
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  ReviewListResponse:
+    type: object
+    required:
+      - reviews
+      - pagination
+    properties:
+      reviews:
+        type: array
+        items:
+          $ref: '#/definitions/Review'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  MenuToCategory:
+    type: object
+    required:
+      - category_id
+      - menu_id
+      - position
+    properties:
+      category_id:
+        type: integer
+        description: ID категории
+        minimum: 1
+      menu_id:
+        type: integer
+        description: ID меню
+        minimum: 1
+      position:
+        type: integer
+        format: int32
+        description: Позиция категории в меню
+        minimum: 1
+
+  MenuCategoryListResponse:
+    type: object
+    required:
+      - categories
+      - pagination
+    properties:
+      categories:
+        type: array
+        items:
+          $ref: '#/definitions/MenuCategory'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  MenuCategoriesListResponse:
+    type: object
+    required:
+      - categories
+    properties:
+      categories:
+        type: array
+        items:
+          $ref: '#/definitions/MenuCategory'
+  MenuCategoryUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/MenuCategory'
+  # entitites
+  LoyaltyLvlListResponse:
+    type: object
+    required:
+      - loyalty_lvls
+    properties:
+      loyalty_lvls:
+        type: array
+        items:
+          $ref: '#/definitions/LoyaltyLevel'
+  LoyaltyLvlCreateRequest:
+    type: object
+    description: Создание уровня лояльности
+    required:
+      - name
+      - min
+      - max
+      - percent
+    properties:
+      name:
+        type: string
+      min:
+        type: integer
+        format: int64
+        description: Начиная с какого баланса действует уровень, включая. В копейках
+      max:
+        type: integer
+        format: int64
+        description: До какого баланса действует уровень, не включая. В копейках
+      percent:
+        type: integer
+        format: int64
+        description: Процент кэшбека. В %*10000
+      partner_id:
+        type: integer
+        format: int64
+        description: id партнера, передавать, если вызывает админ
+  LoyaltyLvlUpdateRequest:
+    type: object
+    description: Обновление уровня лояльности
+    required:
+      - name
+      - min
+      - max
+      - percent
+    properties:
+      name:
+        type: string
+      min:
+        type: integer
+        format: int64
+        description: Начиная с какого баланса действует уровень, включая. В копейках
+      max:
+        type: integer
+        format: int64
+        description: До какого баланса действует уровень, не включая. В копейках
+      percent:
+        type: integer
+        format: int64
+        description: Процент кэшбека. В %*10000
+  LoyaltyLvlPictureDeleteRequest:
+    properties:
+      picture:
+        type: string
+        description: урл картинки
+  LoyaltyLvlPictureCreateResponse:
+    type: object
+    properties:
+      loyalty_lvls:
+        type: array
+        items:
+          $ref: '#/definitions/LoyaltyLevel'
+  LoyaltyLvlPictureDeleteResponse:
+    type: object
+    properties:
+      loyalty_lvls:
+        type: array
+        items:
+          $ref: '#/definitions/LoyaltyLevel'
+
+  RefCodesCreateRequest:
+    type: object
+    required:
+      - code
+      - point_amount
+      - note
+      - is_blocked
+    properties:
+      code:
+        type: string
+        description: код
+      point_amount:
+        type: integer
+        format: int64
+        description: количество начисляемых баллов *100
+      note:
+        type: string
+        description: примечание
+      is_blocked:
+        type: boolean
+        description: заблокирован или нет
+  RefCodesCreateResponse:
+    allOf:
+      - $ref: '#/definitions/RefCode'
+  RefCodesUpdateRequest:
+    type: object
+    required:
+      - point_amount
+      - note
+      - is_blocked
+    properties:
+      point_amount:
+        type: integer
+        format: int64
+        description: количество начисляемых баллов *100
+      note:
+        type: string
+        description: примечание
+      is_blocked:
+        type: boolean
+        description: заблокирован или нет
+  RefCodesExistenceCheckResponse:
+    type: object
+    properties:
+    # one of
+      not_exist:
+        type: boolean
+        description: реф кода не существует
+      exist:
+        type: boolean
+        description: реф код существует
+      blocked:
+        type: boolean
+        description: заблокирован
+
+  RefCodesListRequest:
+    type: object
+    required:
+      - pagination
+    properties:
+      filter:
+        type: array
+        description: Фильтрация по параметрам
+        items:
+          type: object
+          required:
+            - filter_parameter
+            - value_group
+            - filter_type
+          properties:
+            filter_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется фильтрация.
+                  count_referrals - по кол-ву рефералов. value_group: interval;
+                  is_blocked - заблокированные. value_group: none;
+              enum:
+                - count_referrals
+                - is_blocked
+            input_value:
+              $ref: '#/definitions/FilterInputValue'
+            value_group:
+              $ref: '#/definitions/FilterValueGroup'
+            filter_type:
+              $ref: '#/definitions/FilterType'
+      search:
+        type: array
+        description: Поиск по параметрам
+        items:
+          description: Поиск
+          type: object
+          required:
+            - search_parameter
+            - input_value
+          properties:
+            search_parameter:
+              type: string
+              description: |
+                Параметр, по которому осуществляется поиск
+                full_search - поиск по id или по префиксу кода
+              enum:
+                - full_search
+            input_value:
+              type: string
+              description: Значение для поиска, введенное пользователем
+      sort:
+        type: object
+        description: Сортировка по параметрам
+        required:
+          - sort_parameter
+          - sort_type
+        properties:
+          sort_parameter:
+            type: string
+            description: |
+              Параметр, по которому осуществляется сортировка
+              count_referrals - по кол-ву рефералов
+            enum:
+              - count_referrals
+          sort_type:
+            $ref: '#/definitions/SortType'
+      pagination:
+        $ref: '#/definitions/Pagination'
+  RefCodesListResponse:
+    type: object
+    required:
+      - ref_codes
+      - pagination
+    properties:
+      ref_codes:
+        type: array
+        items:
+          $ref: '#/definitions/RefCode'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  RefCode:
+    type: object
+    description: реф код
+    required:
+      - id
+      - code
+      - note
+      - point_amount
+      - count_referrals
+      - created_at
+      - is_blocked
+    properties:
+      id:
+        type: integer
+        format: int64
+      code:
+        type: string
+      note:
+        type: string
+      client_id:
+        type: integer
+        format: int64
+        description: Идентификатор клиента, к которому относится реф код (может отсутствовать)
+      point_amount:
+        type: integer
+        format: int64
+        description: количество начисляемых баллов *100
+      count_referrals:
+        type: integer
+        format: int64
+        description: количество рефералов
+      created_at:
+        type: integer
+        format: int64
+        description: дата создания кода
+      is_blocked:
+        type: boolean
+        description: заблокирован или нет
+
+# entitites
+  GeoData:
+    type: object
+    description: Данные с сервиса геокодинга
+    properties:
+      source:
+        type: string
+        description: не форматированный адрес, как он был получен
+      result:
+        type: string
+        description: Форматированный адрес
+      postal_code:
+        type: string
+        description: Индекс
+      country:
+        type: string
+        description: Название страны
+      region:
+        type: string
+        description: Название области / края / региона / федерального округа
+      city_area:
+        type: string
+        description: Название района / города
+      city_district:
+        type: string
+        description: Название района внутри города
+      street:
+        type: string
+        description: Название улицы
+      house:
+        type: string
+        description: Номер дома
+      geo_lat:
+        type: string
+        description: Широта
+      geo_lon:
+        type: string
+        description: Долгота
+      qc_geo:
+        type: integer
+        description: \
+          Код качества геоданных
+          0 – точные координаты дома
+          1 – ближайший дом
+          2 – улица
+          3 – населенный пункт
+          4 – город
+          5 – координаты не определены
+  ClientOrdersListResponse:
+    type: object
+    required:
+      - orders
+    properties:
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/Order'
+
+  BrandConfig:
+    type: object
+    description: Настройки бренда
+    required:
+      - primary_color
+      - secondary_color
+      - accent_color
+      - font_family
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      partner_id:
+        type: integer
+        format: int64
+        description: id партнера
+        readOnly: true
+      primary_color:
+        type: string
+        description: primary цвет темы
+      secondary_color:
+        type: string
+        description: secondary цвет темы
+      accent_color:
+        type: string
+        description: accent (brand) цвет темы
+      logo:
+        type: string
+        description: url c логотипом ресторана
+      mobile_app_logo:
+        type: string
+        description: url c логотипом для мобильного приложения
+      font_family:
+        type: string
+        description: шрифт
+      roundness:
+        type: integer
+        description: закругленность интерфейса
+      name:
+        type: string
+        description: название настроек
+      support_email:
+        type: string
+        description: почта суппорта
+      small_description:
+        type: string
+        description: описание
+      description:
+        type: string
+        description: подробное описание
+      contact_list:
+        type: array
+        items:
+          type: string
+        description: список контактов
+      pictures:
+        type: array
+        items:
+          type: string
+        description: список картинок
+      referral_bonus:
+        type: integer
+        format: int64
+        description: реферальный бонус
+      bonus_cost:
+        type: integer
+        format: int64
+        description: стоимость бонуса
+      play_market_link:
+        type: string 
+        description: ссылка на play market
+      app_store_link:
+        type: string 
+        description: ссылка на app store
+      app_gallery_link:
+        type: string 
+        description: ссылка на app gallery
+      privacy_policy_link:
+        type: string 
+        description: ссылка на политику конфиденциальности
+      terms_of_use_link:
+        type: string 
+        description: ссылка на условия использования
+
+  Partner:
+    type: object
+    description: Партнер
+    required:
+      - email
+      - label
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      email:
+        type: string
+      name:
+        type: string
+      label:
+        type: string
+        description: Название торговой сети
+      availability_iiko_key:
+        type: boolean
+        readOnly: true
+        description: факт добавления iiko api key после регистрации
+      is_deleted:
+        type: boolean
+        readOnly: true
+        description: партнер удален
+  Client:
+    type: object
+    description: Клиент
+    allOf:
+      - $ref: '#/definitions/FullName'
+    required:
+      - is_blocked
+      - init
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      iiko_id:
+        type: string
+        readOnly: true
+      loyalty_card:
+        description: Код карты лояльности 6 цифр
+        type: string
+      partner_id:
+        type: integer
+        format: int64
+        description: К какому партнеру привязан
+        readOnly: true
+      created_at:
+        type: integer
+        format: int64
+        description: unix timestamp ms
+        readOnly: true
+      updated_at:
+        type: integer
+        format: int64
+        description: unix timestamp ms
+        readOnly: true
+      last_active_at:
+        type: integer
+        format: int64
+        description: unix timestamp ms
+        readOnly: true
+      phone:
+        type: string
+      email:
+        type: string
+      orders_count:
+        type: integer
+        format: int64
+        readOnly: true
+      loyalty_level:
+        $ref: '#/definitions/LoyaltyLevel'
+      bonus_balance:
+        type: integer
+        format: int64
+        description: Баланс баллов (в копейках)
+        readOnly: true
+      total_sum_orders:
+        type: integer
+        format: int64
+        description: Сумма оплаты заказов за все время, для определения уровня лояльности (в копейках)
+        readOnly: true
+      spent_sum:
+        type: integer
+        format: int64
+        readOnly: true
+        description: Потраченная сумма (в копейках)
+      average_order_amount:
+        type: integer
+        format: int64
+        readOnly: true
+        description: Средний чек (в копейках)
+      day_of_birth:
+        type: integer
+        format: int64
+        description: День др
+      month_of_birth:
+        type: integer
+        format: int64
+        description: Месяц др
+      year_of_birth:
+        type: integer
+        format: int64
+        description: Год др
+      gender:
+        $ref: '#/definitions/Gender'
+      note:
+        type: string
+        description: Заметка о клиенте
+      is_blocked:
+        type: boolean
+        description: Заблокирован ли клиент
+      is_deleted:
+        type: boolean
+        description: Удален ли клиент
+      init:
+        type: boolean
+        description: Инициализирован ли клиент
+      referrer_id:
+        type: integer
+        format: int64
+        description: Устарело, не использовать!
+      source_refcode_id:
+        type: integer
+        format: int64
+        description: айди реф кода, по которому была регистрация
+      refcode_id:
+        type: integer
+        format: int64
+        description: айди реф кода клиента
+      refcode:
+        type: string
+        description: реф код клиента
+  Review:
+    type: object
+    description: Отзыв на ресторан
+    required:
+      - client_id
+      - review
+      - rating
+      - visible
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      client_id:
+        type: integer
+        format: int64
+        description: Идентификатор клиента, к которому относится клиент
+      outlet_id:
+        type: integer
+        format: int64
+        description: Идентификатор ресторана, к которому относится отзыв
+      partner_id:
+        type: integer
+        format: int64
+        description: Идентификатор партнера, к которому относится отзыв
+      review:
+        type: string
+        description: Отзыв
+      created_at:
+        type: integer
+        format: int64
+        description: unix timestamp ms
+        readOnly: true
+      rating:
+        type: integer
+        format: int32
+        description: Оценка клиента от 1 до 5
+      visible:
+        type: boolean
+        description: Видно ли отзыв
+  Order:
+    type: object
+    description: Заказ
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      iiko_id:
+        type: string
+        description: Iiko ID заказа
+      is_deleted:
+        type: boolean
+        description: удалени ли заказ
+      status:
+        type: integer
+        format: int32
+        description: статус заказа
+        enum:
+          - 0 # В обработке
+          - 1 # Завершен
+          - 2 # Отменен
+          - 3 # Ошибка
+          - 4 # Возврат
+      created_at:
+        type: integer
+        format: int64
+        description: дата создания
+      client_id:
+        type: integer
+        format: int64
+        description: ID клиента
+      sum:
+        type: integer
+        format: int64
+        description: сумма заказа
+  Employee:
+    type: object
+    description: Сотрудник ресторана
+    required:
+      - role
+      - outlet_id
+    allOf:
+      - $ref: '#/definitions/FullName'
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      email:
+        type: string
+        readOnly: true
+      phone:
+        type: string
+        readOnly: true
+      role:
+        $ref: '#/definitions/EmployeeRole'
+      is_blocked:
+         type: boolean
+         readOnly: true
+      is_deleted:
+         type: boolean
+         readOnly: true
+      outlet_id:
+        type: integer
+        format: int64
+        description: id ресторана к которому привязан сотрудник
+        readOnly: true
+      outlet:
+        type: string
+        description: Наименование ресторана к которому привязан сотрудник
+        readOnly: true
+  Admin:
+    type: object
+    description: Админ
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      login:
+        type: string
+
+  LoyaltyLevel:
+    type: object
+    description: Уровень программы лояльности
+    required:
+      - name
+      - min
+      - max
+      - percent
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+      min:
+        type: integer
+        format: int64
+        description: Начиная с какой суммы действует уровень, включая. В копейках
+      max:
+        type: integer
+        format: int64
+        description: До какой суммы действует уровень, не включая. В копейках. У последнего уровня 0
+      percent:
+        type: integer
+        format: int64
+        description: Процент кэшбека. В %*10000
+      picture:
+        type: string
+        description: картинка уровня
+  BonusTransaction:
+    type: object
+    description: Транзакция бонусов
+    required:
+      - amount
+      - client_id
+      - reason
+      - type
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      created_at:
+        type: integer
+        format: int64
+        description: unix timestamp ms
+        readOnly: true
+      amount:
+        type: integer
+        format: int64
+        description: Сумма (в копейках)
+      client_id:
+        type: integer
+        format: int64
+        description: id клиента по которому проводилась транзакция
+      creator_name:
+        type: string
+        readOnly: true
+      creator_role:
+        readOnly: true
+        $ref: '#/definitions/UserRole'
+      creator_employee_role:
+        readOnly: true
+        $ref: '#/definitions/EmployeeRole'
+      reason:
+        $ref: '#/definitions/BonusTransactionReason'
+      comment:
+        type: string
+        description: Комментарий
+      type:
+        $ref: '#/definitions/BonusTransactionType'
+
+  Outlet:
+    type: object
+    description: Ресторан
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        description: Название ресторана
+      address:
+        type: string
+        description: Адрес ресторана
+      working_hours:
+        type: string
+        description: Рабочие часы
+      phones:
+        type: array
+        items:
+          type: string
+        description: Номера телефонов
+      latitude:
+        type: number
+        format: float64
+        description: Широта
+      longitude:
+        type: number
+        format: float64
+        description: Долгота
+      is_visible_on_map:
+        type: boolean
+        description: Отображать ли ресторан на карте
+      partner_id:
+        type: integer
+        format: int64
+        description: id партнера к которому привязан ресторан
+        readOnly: true
+      in_loyalty:
+        type: boolean
+        description: Добавлен ли рест в лояльность (изменять отдельной ручкой)
+        readOnly: true
+      image_urls:
+        type: array
+        items:
+          type: string
+        description: Урлы пикч
+      description:
+        type: string
+        description: Описание
+      small_description:
+        type: string
+        description: Краткое описание
+      terminals:
+        description: выводятся только для админа и партнера
+        type: array
+        items:
+          $ref: '#/definitions/IikoTerminal'
+      is_deleted:
+        type: boolean
+        description: Удален из iiko
+        readOnly: true
+      links_to_maps:
+        type: array
+        items:
+          type: string
+          description: ссылки ресторана на картах, для того, чтобы переводить на них пользователей после высоких отзывов
+      menu_image_url:
+        type: string
+        description: Урл пикчи меню
+  IikoTerminal:
+    type: object
+    description: iiko терминал
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        readOnly: true
+      payments:
+        type: array
+        items:
+          $ref: '#/definitions/IikoPayment'
+      is_deleted:
+        type: boolean
+        readOnly: true
+  IikoPayment:
+    type: object
+    description: iiko платежи заказов (используются для проведения скидки в заказе или определении кэшбека за заказ)
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        readOnly: true
+      kind:
+        type: string
+        readOnly: true
+      for_discount:
+        type: boolean
+        description: используется для проведения скидки в данном терминале (только один платеж на терминал)
+      for_cashback:
+        type: boolean
+        description: используется для начисления баллов в данном терминале (может быть несколько)
+      can_be_used_for_discount:
+        type: boolean
+        readOnly: true
+        description: можно ли платеж использовать для скидки, необходимо учитывать  при /outlets/terminals/set_payment
+      is_deleted:
+        type: boolean
+        readOnly: true
+  Poster:
+    type: object
+    description: Афиша в ресторане
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      outlet_id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        readOnly: true
+      partner_id:
+        type: integer
+        format: int64
+        description: id партнера
+      small_description:
+        type: string
+        description: описание афишы
+      description:
+        type: string
+        description: подробное описание афишы
+      image_urls:
+        type: array
+        items:
+          type: string
+        description: Урлы пикч
+      image_qty:
+        type: integer
+        format: int32
+        description: кол-во пикч
+      visible:
+        type: boolean
+        description: видна ли афиша
+      public_date:
+        type: integer
+        format: int64
+        description: дата публикации афиши
+        minimum: 1
+      start_date:
+        type: integer
+        format: int64
+        description: дата начала мероприятия/афиши
+        minimum: 1
+      finish_date:
+        type: integer
+        format: int64
+        description: дата окончания мероприятия/афиши
+        minimum: 1
+  OutletToPoster:
+    type: object
+    required:
+      - poster_id
+      - outlet_id
+    properties:
+      poster_id:
+        type: integer
+        format: int64
+        description: ID афиши
+        minimum: 1
+      outlet_id:
+        type: integer
+        format: int64
+        description: ID ресторана
+        minimum: 1
+      public_date:
+        type: integer
+        format: int64
+        description: дата публикации афиши
+        minimum: 1
+      start_date:
+        type: integer
+        format: int64
+        description: дата начала мероприятия/афиши
+        minimum: 1
+      finish_date:
+        type: integer
+        format: int64
+        description: дата окончания мероприятия/афиши
+        minimum: 1
+
+  Menu:
+    type: object
+    description: Меню ресторана
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        description: Название
+        readOnly: true
+      partner_id:
+        type: integer
+        format: int64
+        description: id партнера
+        readOnly: true
+      outlet_id:
+        type: integer
+        format: int64
+        description: id ресторана
+        readOnly: true
+      categories:
+        type: array
+        readOnly: true
+        items:
+          $ref: '#/definitions/MenuCategory'
+        description: Категории в меню
+
+  MenuCategory:
+    type: object
+    description: Категория в меню ресторана
+    required:
+      - name
+      - available_time
+      - available_week_days
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      partner_id:
+        type: integer
+        format: int64
+        description: Идентификатор партнера, к которому относится категория
+      menu_id:
+        type: integer
+        format: int64
+        description: Идентификатор меню, к которому относится категория
+      name:
+        type: string
+        description: Название категории
+      description:
+        type: string
+        description: Описание категории
+      visible:
+        type: boolean
+        description: Доступна ли категория
+      position:
+        type: integer
+        format: int32
+        description: Позиция в списке
+      icon:
+        type: string
+        description: url иконки
+      is_always_avalable:
+        type: boolean
+        description: Доступна ли категория всегда
+      available_week_days:
+        $ref: '#/definitions/AvalilableWeekDays'
+      available_time:
+        $ref: '#/definitions/AvalilableTime'
+      iiko_id:
+        type: string
+        description: Айко ID
+      is_deleted:
+        type: boolean
+        description: Удален
+      menu_items:
+        type: array
+        readOnly: true
+        items:
+          $ref: '#/definitions/MenuItem'
+        description: Блюда
+  MenuItem:
+    type: object
+    description: Позиция в меню ресторана
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        description: Название позиции
+      description:
+        type: string
+        description: Описание позиции
+      price:
+        type: number
+        format: int64
+        description: Цена позиции
+      visible:
+        type: boolean
+        description: Доступна ли позиция
+      menu_category_id:
+        type: integer
+        format: int64
+      icon:
+        type: string
+        description: url иконки
+      position:
+        type: integer
+        format: int32
+        description: Позиция в списке
+      weight:
+        type: integer
+        format: int64
+        description: Вес
+      calories:
+        type: integer
+        format: int64
+        description: Калории
+      proteins:
+        type: integer
+        format: int64
+        description: Белки
+      fats:
+        type: integer
+        format: int64
+        description: Жиры
+      carbs:
+        type: integer
+        format: int64
+        description: Углеводы
+      composition:
+        type: string
+        description: Состав блюда
+      partner_id:
+        type: integer
+        format: int64
+        description: ID Партнера
+      iiko_id:
+        type: string
+        description: Айко ID
+      is_deleted:
+        type: boolean
+        description: Удален
+
+  BrandConfigDeletePicturesRequest:
+      properties:
+        pictures:
+          type: array
+          items:
+            type: string
+            description: урлы картинок
+
+  # utils
+  AvalilableWeekDays:
+    type: object
+    description: Дни недели
+    properties:
+      monday:
+        type: boolean
+        description: Понедельник
+      tuesday:
+        type: boolean
+        description: Вторник
+      wednesday:
+        type: boolean
+        description: Среда
+      thursday:
+        type: boolean
+        description: Четверг
+      friday:
+        type: boolean
+        description: Пятница
+      saturday:
+        type: boolean
+        description: Суббота
+      sunday:
+        type: boolean
+        description: Воскресенье
+  AvalilableTime:
+    type: object
+    description: Доступное время
+    properties:
+      from:
+        type: string
+        description: например, "12:00"
+      to:
+        type: string
+        description: например, "16:00"
+
+  # IIKO
+  OrdersEventRequest:
+    type: object 
+    required:
+      - event
+      - order
+    properties:
+      event:
+        $ref: '#/definitions/OrderEvents'
+      order:
+        $ref: '#/definitions/IikoOrder'
+
+  OrdersPaymentByPointsRequest:
+    type: object
+    required:
+      - points
+    properties:
+      points:
+        type: number
+        format: float64
+        description: сколько баллов списывается в заказ
+  OrdersPaymentByPointsResponse:
+    type: object
+    required:
+      - points_available
+      - success
+    properties:
+      points_available:
+        type: number
+        format: float64
+        description: сколько баллов доступно для списания (актуальное значение)
+      success:
+        type: boolean
+        description: Успех, баллы списаны (или не списаны)
+
+  OrdersChekinRequest:
+    type: object 
+    required:
+      - WaiterPin
+    properties:
+      Value:
+        type: string
+      WaiterPin:
+        type: string
+      success:
+        type: boolean
+        description: Флаг при успешном чекине, при false отправляет просто инфа о клиенте
+      ResultSum:
+        type: number
+        format: decimal
+        description: Total sum to be paid, sum of all not deleted order items with discounts and both included and excluded vat.
+  OrdersChekinResponse:
+    type: object 
+    properties:
+      client:
+        $ref: '#/definitions/Client'
+      payment_in_points:
+        type: number
+        format: decimal
+        description: оплата заказа баллами. Например 120.50 рублей
+  PaymentLimitsResponse:
+    type: object 
+    properties:
+      client:
+        $ref: '#/definitions/Client'
+
+
+  OrderEvents:
+      type: string
+      enum:
+        - Created
+        - Updated
+        - Removed
+
+  IikoOrder:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      FullSum:
+        type: number
+        format: decimal
+        description: Subtotal, sum of all not deleted order items with included vat, but without excluded vat and discounts.
+      ResultSum:
+        type: number
+        format: decimal
+        description: Total sum to be paid, sum of all not deleted order items with discounts and both included and excluded vat.
+      Discounts:
+        type: array
+        description: Discount items that have been added to the order.
+        items:
+          $ref: '#/definitions/DiscountItem'
+      AppliedDiscounts:
+        type: array
+        description: The result of applying discount items from Discounts. Discount items that don't affect the order, aren't included into this collection.
+        items:
+          $ref: '#/definitions/AppliedDiscountItem'
+      PaymentDiscounts:
+        type: array
+        description: The result of applying payment items from Payments processed or fiscalized as discounts.
+        items:
+          $ref: '#/definitions/AppliedDiscountItem'
+      CustomerIds:
+        type: array
+        items:
+          type: string
+          format: uuid
+      Guests:
+        type: array
+        items:
+          $ref: '#/definitions/Guest'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItem'
+      RemovedItems:
+        description: List of items which were deleted before printing.
+      Payments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/PaymentItem'
+      Donations:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentItem'
+      Status:
+        type: integer
+        description: \
+          0 - New. Newly created order. This status corresponds to lifetime from creation to ready-to-pay state.
+          1 - Bill. Bill cheque printed order. This status corresponds to lifetime between billing and payment.
+          2 - Closed. Paid order.
+          3 - Deleted. Deleted order.
+      OpenTime:
+        type: string
+        format: date-time
+      BillTime:
+        type: string
+        format: date-time
+        x-nullable: true
+        description: Gets the bill cheque print time of the current order.
+      CloseTime:
+        type: string
+        format: date-time
+        x-nullable: true
+        description: Gets the payment time of the current order.
+      RepeatBillNumber:
+        type: integer
+      FiscalChequeNumbers:
+        type: array
+        description: Fiscal cheque numbers.
+        items:
+          type: integer
+      Number:
+        type: integer
+      Tables:
+        type: array
+        items:
+          $ref: '#/definitions/Table'
+      Waiter:
+        description: Waiter
+        $ref: '#/definitions/Waiter'
+      Cashier:
+        description: Gets the user closed the current order.
+      Reserve:
+        description: Reserve / banquet related to the order.
+      IsBanquetOrder:
+        type: boolean
+      IsFastFoodOrder:
+        type: boolean
+      ProcessedPaymentsSum:
+        type: number
+        description: Sum of all processed payment items in order.
+      EstimatedGuestsCount:
+        type: integer
+        description: Gets estimated guests count, that is greater than or equal to added guests count. When single order is used to serve many people and handling each of them as a separate guest may be inconvenient, this property will indicate estimated guests count while guests collection will contain as many guests as needed for waiters.
+      OrderType:
+        $ref: '#/definitions/OrderType'
+        x-nullable: true
+      OriginName:
+        type: string
+        x-nullable: true
+        description: Optional marker used to specify order origin. This property contains either null or name of the source order was received from. Specifying origin allows to analyse efficiency of external order sources such as different web-sites, mobile applications and so on.
+      Comment:
+        type: string
+        x-nullable: true
+        description: Order comment.
+      PricingTime:
+        type: string
+        format: date-time
+        x-nullable: true
+        description: Time, which determines the price of products. By default time is taken from items print time.
+      Combos:
+        type: array
+        items:
+          $ref: '#/definitions/OrderCombo'
+      IikoCard51Info:
+        $ref: '#/definitions/IikoCardInfo'
+        x-nullable: false
+        description: Specific data for iikoCard51.
+      WasPrepaid:
+        type: boolean
+        description: Whether order was prepaid. Any processed or deleted prepay.
+      IsTopCookingPriority:
+        type: boolean
+        description: The flag specifies that this order should be cooked out-of-order at kitchen. All orders which have this flag set on will appear above other orders at the kitchen display. Both groups (top priority and non-top priority) will be sorted separately using usual sorting logic (custom cooking priority, then default built-in criterions. Default value is false.
+      CookingPriority:
+        type: integer
+        description: Specifies a custom cooking priority. While the application provides built-in prioritization logic for orders based on timing, dish courses, etc., you can override it and enforce custom cooking order based on your external logic. Ideally, all dishes should be cooked timely, but in case of concurrency when kitchen is high-loaded, you have to decide which orders are more important and should be cooked in the first place and which orders are allowed to be delayed. Higher priority values mean that the order, its serve groups and dishes will appear at the kitchen display earlier. Default value is zero. Both positive and negative values are allowed for raising and lowering the priority correspondingly. Orders with the same cooking priority will be sorted using default built-in logic.
+      PriceCategory:
+        $ref: '#/definitions/PriceCategory'
+        x-nullable: true
+      TabName:
+        type: string
+        x-nullable: true
+        description: Optional marker used to specify that the order is a tab. This property contains name of the tab if the order is marked as tab, otherwise null.
+      StornedOrderId:
+        type: string
+        format: uuid
+        x-nullable: true
+        description: Source order's identifier this order copied from during storno operation. null if the order has never storned.
+      LastChangedTerminalId:
+        type: string
+        format: uuid
+        description: Id of the terminal (ITerminal) that last changed the order.
+      ExternalNumber:
+        type: string
+        x-nullable: true
+        description: Optional order number in the external system. This can be used to match the external order to the iiko one. This property contains either null or number of the source order was received from. Specifying origin order number allows to analyse efficiency of external order sources such as different web-sites, mobile applications and so on.
+      ParentOrderId:
+        type: string
+        format: uuid
+        x-nullable: true
+        description: The Id of the original order, if the current order is the result of a split.
+      GroupOrderId:
+        type: string
+        format: uuid
+        x-nullable: true
+        description: Group order id, if current order is an additional order.
+      ChequeAdditionalInfo:
+        $ref: '#/definitions/ChequeAdditionalInfo'
+        x-nullable: true
+        description: Cheque information of the order.
+      Revision:
+        type: integer
+        description: Incremental version of the entity. (как я понял версионность объекта)
+  
+  PriceCategory:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+        description: Name of price category.
+      Deleted:
+        type: boolean
+        description: Is this item deleted.
+      Code:
+        type: string
+        description: Unique price category code.
+      CanApplyManually:
+        type: boolean
+        description: Can price category be applied to order manually.
+     
+  ChequeAdditionalInfo:
+    type: object
+    description: Cheque additional information according to russian federal law #54. 
+    properties:
+      NeedReceipt:
+        type: boolean
+        description: Whether paper cheque should be printed.
+      Phone:
+        type: string
+        x-nullable: true
+        description: Phone to send cheque information (by sms).
+      Email:
+        type: string
+        x-nullable: true
+        description: Email to send cheque information.
+      SettlementPlace:
+        type: string
+        x-nullable: true
+        description: Settlement place.
+
+  OrderType:
+    type: object
+    properties: 
+      Id:
+        type: string
+        format: guid
+      Name:
+        type: string
+      OrderServiceType:
+        type: integer
+        description: Orders of which service type this order type is applicable for. There is only one service type, single enum value, despite of the flags attribute. \
+          1 - Common. Regular order to be served on table or sold as a FastFood.
+          2 - DeliveryByCourier. Delivery order to be delivered by courier.
+          4 - DeliveryByClient. Да 4, а не 3. Delivery order to be picked up by client himself.
+      IsDefaultForServiceType:
+        type: boolean
+        description: Gets a value that indicates whether this order type set by default to orders with corresponding service type.
+      IsActive:
+        type: boolean
+        description: Gets a value that indicates whether this order type can be set to orders. Order type can be activated or deactivated via iikoOffice.
+  
+  OrderCombo:
+    type: object
+    properties: 
+      Id:
+        type: string
+        format: guid
+      SourceActionId:
+        type: string
+        format: guid
+      ProgramId:
+        type: string
+        format: guid
+        description: Identifier of the loyalty program.
+      Name:
+        type: string
+      Amount:
+        type: integer
+      Price:
+        type: number
+        format: decimal
+      GuestId:
+        type: string
+        format: guid
+      OrderRootItemsByGroups:
+        type: object
+        additionalProperties:
+          type: object
+          properties:
+            key:
+              type: string
+              format: guid
+            value:
+              type: string
+              format: guid
+        description: map[guid]guid
+      Size:
+        $ref: '#/definitions/ProductSize'
+        description: Size of combo.
+  
+  ProductSize:
+    type: object
+    description: Size of the product, affects ingredient consumption and price.
+    properties: 
+      Id:
+        type: string
+        format: guid
+      Name:
+        type: string
+        description: Name of the product size.
+      KitchenName:
+        type: string
+        description: Name of the product size adapted for kitchen displays (usually as short as possible).
+      MenuIndex:
+        type: integer
+        description: Gets an index of the current size in the list of the product scale sizes, can be used to sort product sizes in menu.
+  
+  Guest:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+      Rank:
+        type: integer
+        description: Guest's rank in order.
+  Waiter:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+
+  PaymentItem:
+    type: object
+    properties: 
+      Id:
+        type: string
+        format: guid
+      Sum:
+        type: number
+        format: decimal
+      MinSum:
+        type: number
+        format: decimal
+        x-nullable: true
+        description: Minimum allowed payment sum, lower bound for the payment. null means default limit value.
+      MaxSum:
+        type: number
+        format: decimal
+        x-nullable: true
+        description: Maximum allowed payment sum, upper bound for the payment. null means default limit value.
+      Status:
+        type: integer
+        description: \
+          0 - New
+          1 - Processed
+          2 - Storned
+          3 - Cancelled
+      AdditionalData:
+        type: object
+        x-nullable: true
+        description: Additional data object
+      Type:
+        $ref: '#/definitions/PaymentType'
+      DonationType:
+        description: IDonationType object
+      IsPreliminary:
+        type: boolean
+      IsExternal:
+        type: boolean
+      IsFiscalizedExternally:
+        type: boolean
+      IsProcessedExternally:
+        type: boolean
+      IsProcessedAsDiscount:
+        type: boolean
+        description: Is prepay was processed as discount both on cash register and in iiko
+      IsFiscalizedAsDiscount:
+        type: boolean
+        description: Is prepay was fiscalized as discount on cash register but stay as non-fiscal payment in iiko
+      IsPrepay:
+        type: boolean
+        description: Whether payment item is prepay
+      PointOfSale:
+        description: Point of sale where payment was processed
+      OrganizationDetailsInfo:
+        description: Organization details information
+      GuestId:
+        type: string
+        format: uuid
+        x-nullable: true
+        description: Guest id to which payment item was added, or null if payment item not associated with any guest.
+      
+  PaymentType:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: guid
+      Name:
+        type: string
+        description: Name of payment type
+      IsCombinable:
+        type: boolean
+        description: Is payment type combinable with other payment types
+      PrintCheque:
+        type: boolean
+        description: Is payment type must be fiscalized on cash register
+      ProcessAsDiscount:
+        type: boolean
+        description: Is payment type must be processed as discount both on cash register and in iiko
+      FiscalizeAsDiscount:
+        type: boolean
+        description: Is payment type must be fiscalized as discount on cash register but stay as non-fiscal payment in iiko
+      Kind:
+        type: integer
+        description: \
+          0 - Unknown
+          1 - Cash
+          2 - Card
+          3 - Credit
+          4 - Writeoff
+          5 - Voucher
+          6 - External (custom payment processor)
+          7 - SmartSale
+          8 - Sberbank
+          9 - Trpos
+      IsEnabled:
+        type: boolean
+        description: Is payment type enabled for some kind of usage
+      IsHidden:
+        type: boolean
+        description: Is payment type hidden from payment type selector UI
+      CanDisplayChange:
+        type: boolean
+        description: If change can be displayed for payment type
+      DiscountType:
+        $ref: '#/definitions/DiscountType'
+      CanBeExternalProcessed:
+        type: boolean
+        description: Can be added as processed external
+      OpenCashDrawerOnPay:
+        type: boolean
+        description: Indicates if BaseType needs to open cash drawer    
+  
+  DiscountType:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: guid
+      Name:
+        type: string
+        description: Name of discount type
+      Deleted:
+        type: boolean
+        description: Is this item deleted
+      IsActive:
+        type: boolean
+        description: Is this item active for current group
+      IsAutomatic:
+        type: boolean
+        description: A sign that the discount is added automatically to order
+      CanApplyManually:
+        type: boolean
+        description: Can discount be applied to order manually
+      CanApplyByCardNumber:
+        type: boolean
+        description: Can discount be applied to order by card number
+      DiscountByFlexibleSum:
+        type: boolean
+        description: Does it need to set discount sum on adding
+      CanApplyByDiscountCard:
+        type: boolean
+        description: Can discount be applied to order by discount card
+      CanApplySelectively:
+        type: boolean
+        description: Can discount be applied to order items selectively
+  
+  DiscountItem:
+    type: object
+    description: Discount item is the result of adding discount to an order, contains discount parameters, which will be used to calculate sums. While discount params are persistent, discount sums are calculated on demand, because they are subject to change (they may depend on the time, etc). Call IOperationService. GetOrderAppliedDiscounts to get calculated sums
+    properties: 
+      DiscountType:
+        $ref: '#/definitions/DiscountType'
+      IsSelectivelyApplied:
+        type: boolean
+        description: Whether this discount item is applied selectively to some order items
+      DiscountPaymentItem:
+        description: Payment item from Payments processed or fiscalized as discount from which this discount item was created. null if disount item was not created from payment item.
+        $ref: '#/definitions/PaymentItem'
+        x-nullable: true
+         
+  AppliedDiscountItem:
+    type: object
+    properties: 
+      Discount:
+        $ref: '#/definitions/DiscountItem'
+        x-nullable: true
+      DiscountSum:
+        type: number
+        format: decimal
+        description: Total discount sum given by the discount item for all order items.
+      DiscountSumByOrderItemId:
+        type: object
+        additionalProperties:
+          type: object
+          properties:
+            id:
+              type: string
+              format: guid
+            discount:
+              type: number
+              format: decimal
+        description: map[guid]decimal. Discount sums given by the discount item for each order item (products, compounds, services and modifiers). Absence of some order item's id means zero discount for that item.
+      IsRounding:
+        type: boolean
+        description: Indicates that the discount was used to round off the order sum. Depending on the settings, rounding can be performed up or down for individual items as well as for the entire order.
+  
+  OrderItem:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Product:
+        $ref: '#/definitions/Product'
+      ProductCustomName:
+        type: string
+        x-nullable: true
+      Price:
+        type: number
+        format: decimal
+      Cost:
+        type: number
+        format: decimal
+      OpenPrice:
+        type: number
+        format: decimal
+        x-nullable: true
+      IsPricePredefined:
+        type: boolean
+      CommodityMark:
+        type: string
+        x-nullable: true
+      ResultSum:
+        type: number
+        format: decimal
+      TaxPercent:
+        type: number
+        format: decimal
+        x-nullable: true
+      Amount:
+        type: number
+      CookingStartTime:
+        type: string
+        format: date-time
+        x-nullable: true
+      CookingFinishTime:
+        type: string
+        format: date-time
+        x-nullable: true
+      CookingTime:
+        type: string
+        x-nullable: true
+      ServeTime:
+        type: string
+        x-nullable: true
+      Comment:
+        type: string
+        x-nullable: true
+      Course:
+        type: integer
+
+  Product:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+        x-nullable: true
+      FullName:
+        type: string
+        x-nullable: true
+      Description:
+        type: string
+        x-nullable: true
+      ForeignName:
+        type: string
+        x-nullable: true
+      DescriptionForeign:
+        type: string
+        x-nullable: true
+      KitchenName:
+        type: string
+        x-nullable: true
+      FoodValueFat:
+        type: number
+        format: decimal
+      FoodValueProtein:
+        type: number
+        format: decimal
+      FoodValueCarbohydrate:
+        type: number
+        format: decimal
+      FoodValueCaloricity:
+        type: number
+        format: decimal
+      Price:
+        type: number
+        format: decimal
+      CanSetOpenPrice:
+        type: boolean
+        description: Gets a value that indicates whether the product possible to set an open price.
+      DefaultCourse:
+        type: integer
+        description: enum \
+          -1 - Default. Order item should be cooked and served with default priority.
+          0 - Vip. Order item should be cooked and served as soon as possible, this is highest priority.
+          1 - First. Order item cooking should start immediately after service cheque printing.
+          2 - Second.
+          3 - Third.
+          4 - Fourth.
+          5 - Fifth.
+          6 - Sixth.
+          7 - Seventh.
+          8 - Eighth.
+          9 - Ninth.
+          10 - Tenth.
+          11 - Eleventh.
+          12 - Twelfth.
+          13 - Thirteenth.
+          14 - Fourteenth.
+          15 - Fifteenth.
+          16 - Sixteenth.
+          17 - Seventeenth.
+          18 - Eighteenth.
+          19 - Nineteenth.
+          20 - Twentieth.
+      Type:
+        type: integer
+        description: \
+          0 - Goods,
+          1 - Dish,
+          2 - Modifier,
+          3 - Service,
+          4 - Rate,
+          5 - Petrol,
+          6 - HalfFinishedGoods,
+          7 - ExternalGoods,
+          8 - ForPurchase,
+      Category:
+        $ref: '#/definitions/Category'
+        x-nullable: true
+      ItemCategory:
+        $ref: '#/definitions/ItemCategory'
+        x-nullable: true
+      IsActive:
+        type: boolean
+        description: Gets a value that indicates whether this product is active in assortment base. Product can be activated or deactivated via iikoOffice.
+      MenuIndex:
+        type: integer
+        description: Gets an index of product in hierarchical menu, can be used to sort products inside the same product group.
+      Number:
+        type: string
+        description: Nomenclature article of product.
+      ExpirationTime:
+        type: string
+        x-nullable: true
+      MeasuringUnitName:
+        type: string
+        description: Measurement unit of product to be displayed
+      FastCode:
+        type: string
+        description: Quick type product code
+      TaxCategory:
+        $ref: '#/definitions/TaxCategory'
+      UseBalanceForSell:
+        type: boolean
+      CookingPlaceType:
+        $ref: '#/definitions/CookingPlaceType'
+
+  Category:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+
+  ItemCategory:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Code:
+        type: string
+
+  TaxCategory:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+      VatPercent:
+        type: number
+      IsCalculated:
+        type: boolean
+
+  CookingPlaceType:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Name:
+        type: string
+
+  Table:
+    type: object
+    properties:
+      Id:
+        type: string
+        format: uuid
+      Number:
+        type: integer
+        description: Number of the table.
+      Name:
+        type: string
+        description: Table name specified in the organization settings.
+      SeatingCapacity:
+        type: integer
+        description: Seating capacity of the table.
+      IsActive:
+        type: boolean
+        description: Gets a value that indicates whether new orders can be created on this table. The table can be activated or deactivated via iikoOffice.
+      RestaurantSection:
+        description: Gets the restaurant section that the table belongs to. If table deleted the section will be null.
+
+  IikoCardInfo:
+    type: object
+    properties:
+      Coupon:
+        $ref: '#/definitions/IikoCard51CouponInfo'
+      AppliedManualConditions:
+        type: array
+        items:
+          type: string
+          format: guid
+      HasFixedDiscounts:
+        type: boolean
+        description: Order has fixed precalculated iikoCard discounts.
+      DynamicDiscounts:
+        type: object
+        additionalProperties: 
+          type: object
+          properties: 
+            id:
+              type: string
+              format: guid
+            discount:    
+              type: number
+              format: decimal
+        description: map[guid]decimal. Dynamic discount sums for manual condition. It applies optionally with arbitrary discount value
+        
+  IikoCard51CouponInfo:
+    type: object
+    properties:
+      Series:
+        type: string
+        description: Card series
+        x-nullable: true
+      Number:
+        type: string
+        description: Card number
+        x-nullable: false
+      Applied:
+        type: boolean
+        description: Whether coupon is applied
+
+  Pagination:
+    type: object
+    required:
+      - page
+      - page_size
+    properties:
+      total:
+        type: integer
+        format: int32
+        description: Всего элементов
+      page:
+        type: integer
+        format: int32
+        description: Номер страницы, начиная с 0
+      page_size:
+        type: integer
+        format: int32
+        description: Размер страницы
+
+  FilterInputValue:
+    type: array
+    items:
+      type: object
+      properties:
+        value_type:
+          type: string
+          enum:
+            - string
+            - int64
+        string_value:
+          type: string
+        int64_value:
+          type: integer
+          format: int64
+  FilterValueGroup:
+    type: string
+    description: |
+      Количество передаваемых значений:
+        single   - одно значение;
+        repeated - несколько значений;
+        interval - два значения (если нужно передать только нижнюю или верхнюю границу, 
+          то для незадействованной границы интервала передать '-1').
+          Обязательно первая граница "меньше" второй;
+        none - без значений;
+    enum:
+      - single
+      - repeated
+      - interval
+      - none
+  FilterType:
+    type: string
+    description: Тип фильтрации - вернуть записи, для которых условие выполняется или не выполняется
+    enum:
+      - accept # вернуть записи, для которых условие выполняется
+      - reject # вернуть записи, для которых условие не выполняется
+  SortType:
+    type: string
+    description: Тип сортировки (по возрастанию или по убыванию)
+    enum:
+      - asc  # по возрастанию
+      - desc # по убыванию
+  FullName:
+    type: object
+    properties:
+      first_name:
+        type: string
+        description: Имя
+      last_name:
+        type: string
+        description: Фамилия
+      middle_name:
+        type: string
+        description: Отчество при наличии
+
+  BonusTransactionType:
+    type: string
+    description: Тип транзакции
+    enum:
+      - increase
+      - decrease
+  BonusTransactionReason:
+    type: string
+    description: Причина транзакции
+    enum:
+      - manual
+      - order
+      - system
+
+  UserRole:
+    type: string
+    description: Роль пользователя
+    enum:
+      - admin
+      - client
+      - partner
+      - employee
+  EmployeeRole:
+    type: string
+    description: Роль сотрудника
+    enum:
+      - manager
+      - waiter
+  Gender:
+    type: string
+    description: Пол
+    enum:
+      - other
+      - male
+      - female
+
+tags:
+  - name: Авторизация
+  - name: Геокодинг
+  - name: Админ
+  - name: Настройки бренда
+  - name: Партнеры
+  - name: Сотрудники
+  - name: Клиенты партнера
+  - name: Клиенты
+  - name: Пользователи
+  - name: Транзакции бонусов
+  - name: Рестораны
+  - name: Меню
+  - name: Позиции меню
+  - name: Категории меню
+  - name: Уровни лояльности
+  - name: Реф коды
+  - name: Отчеты
+  - name: Iiko
+
+responses:
+  default:
+    description: Error
+    schema:
+      $ref: '#/definitions/ErrorResponse'
+
+parameters:
+  id:
+    in: path
+    name: id
+    required: true
+    type: integer
+    format: int64
+  partner_id:
+    in: path
+    name: id
+    required: true
+    type: integer
+    format: int64
+  iiko_id:
+    in: path
+    name: id
+    required: true
+    type: string
+    description: uuid
+
+securityDefinitions:
+  iikoAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: Authorization header
