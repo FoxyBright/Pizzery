@@ -15,7 +15,7 @@ struct MenuScreen: View {
                 .padding(.top, 46)
             }
 
-            Text("hotDaddyPizza")
+            Text(R.strings.hotDaddyPizza)
                 .font(.regular24)
                 .foregroundStyle(
                     LinearGradient(

@@ -8,13 +8,13 @@ struct WalletScreen: View {
 
     @StateObject
     private var cardsRepository = BankCardRepository.shared
-    
+
     @State private var isShowingSheet = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Text("personalWallet")
+                Text(R.strings.personalWallet)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.black)
                     .font(.semibold16)
@@ -28,10 +28,9 @@ struct WalletScreen: View {
                         method: PaymentMethod.daddyPoints,
                         isSelected: ordersVm.selectedPaymentMethod
                             == PaymentMethod.daddyPoints,
-                        balance: "\(loginVm.user?.bonusBalance ?? 0)"
-                    ) { method in
-                        ordersVm.selectedPaymentMethod = method
-                    }
+                        balance: String(loginVm.user?.bonusBalance ?? 0),
+                        onSelect: { ordersVm.selectPaymentMethod($0) }
+                    )
 
                     Divider()
                         .foregroundColor(.grayCBCBCB)
@@ -41,10 +40,9 @@ struct WalletScreen: View {
                         PaymentMethodView(
                             method: .card(card: card),
                             isSelected: ordersVm.selectedPaymentMethod
-                                == .card(card: card)
-                        ) { method in
-                            ordersVm.selectedPaymentMethod = method
-                        }
+                                == .card(card: card),
+                            onSelect: { ordersVm.selectPaymentMethod($0) }
+                        )
                         Divider()
                             .foregroundColor(.grayCBCBCB)
                             .padding(.horizontal, 16)
@@ -53,10 +51,9 @@ struct WalletScreen: View {
                     PaymentMethodView(
                         method: PaymentMethod.cash,
                         isSelected: ordersVm.selectedPaymentMethod
-                            == PaymentMethod.cash
-                    ) { method in
-                        ordersVm.selectedPaymentMethod = method
-                    }
+                            == PaymentMethod.cash,
+                        onSelect: { ordersVm.selectPaymentMethod($0) }
+                    )
                 }
                 .background {
                     RoundedRectangle(cornerRadius: 16)
@@ -68,11 +65,11 @@ struct WalletScreen: View {
 
                 Button(action: { isShowingSheet = true }) {
                     HStack(spacing: 10) {
-                        Image("plus")
+                        Image(R.drawable.plus)
                             .resizable()
                             .frame(width: 10, height: 10)
                             .foregroundColor(.mainOrange)
-                        Text("addCard")
+                        Text(R.strings.addCard)
                             .foregroundColor(.mainOrange)
                             .font(.bold14)
                     }
@@ -108,7 +105,7 @@ private struct PaymentMethodView: View {
                 case let .card(card):
                     HStack(spacing: 8) {
                         if card.system == .unknown {
-                            Image("wallet")
+                            Image(R.drawable.wallet)
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         } else {
@@ -128,20 +125,20 @@ private struct PaymentMethodView: View {
 
                 case .cash:
                     HStack(spacing: 8) {
-                        Image("money")
+                        Image(R.drawable.money)
                             .resizable()
                             .frame(width: 24, height: 24)
-                        Text("cash")
+                        Text(R.strings.cash)
                             .foregroundColor(.black)
                             .font(.regular16)
                     }
 
                 case .daddyPoints:
                     HStack(spacing: 8) {
-                        Image("wallet")
+                        Image(R.drawable.wallet)
                             .resizable()
                             .frame(width: 24, height: 24)
-                        Text("daddyPoints")
+                        Text(R.strings.daddyPoints)
                             .foregroundColor(.black)
                             .font(.regular16)
                     }
@@ -160,7 +157,7 @@ private struct PaymentMethodView: View {
                         .foregroundColor(isSelected ? .mainOrange : .clear)
                         .overlay {
                             if isSelected {
-                                Image("check")
+                                Image(R.drawable.check)
                                     .resizable()
                                     .frame(width: 22, height: 22)
                                     .foregroundColor(.white)

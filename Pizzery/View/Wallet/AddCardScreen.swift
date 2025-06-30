@@ -10,71 +10,61 @@ struct AddCardScreen: View {
     @State private var cvv = ""
     @State private var date = ""
 
+    private var datePlaceholder: String {
+        return Calendar.current
+            .date(byAdding: .year, value: 4, to: Date())?
+            .format("MM/yy") ?? "00/00"
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                Text(String.resource(.addCard))
+                Text(R.strings.addCard)
                     .font(.title2)
                     .padding()
 
                 VStack(spacing: 16) {
                     CardTextField(
                         text: $number,
-                        label: String.resource(.cardNumber),
+                        label: R.strings.cardNumber,
                         placeholder: "0000 0000 0000 0000",
                         keyboardType: UIKeyboardType.numberPad,
-                    ) { text in
-                        let masked =
-                            text.filter { $0.isNumber }
-                            .applyMask("**** **** **** ****", changedChar: "*")
-                        if masked != text {
-                            number = masked
-                        }
-                    }
+                        onTextChange: onCardNumberChange
+                    )
+
                     HStack(spacing: 13) {
                         CardTextField(
                             text: $date,
-                            label: String.resource(.expirationDate),
-                            placeholder: "01/29",
+                            label: R.strings.expirationDate,
+                            placeholder: datePlaceholder,
                             keyboardType: UIKeyboardType.numberPad,
-                        ) { text in
-                            let masked =
-                                text.filter { $0.isNumber }
-                                .applyMask("**/**", changedChar: "*")
-                            if masked != text {
-                                date = masked
-                            }
-                        }
+                            onTextChange: onDateChange
+                        )
+
                         CardTextField(
                             text: $cvv,
-                            label: String.resource(.cvv),
+                            label: R.strings.cvv,
                             placeholder: "1234",
                             keyboardType: .numberPad,
                             hasInfoButton: true,
                             onInfoCLick: {
                                 // TODO: on info click
-                            }
-                        ) { text in
-                            let masked =
-                                text.filter { $0.isNumber }
-                                .applyMask("****", changedChar: "*")
-                            if masked != text {
-                                cvv = masked
-                            }
-                        }
+                            },
+                            onTextChange: onCVVChange
+                        )
                     }
 
                     CardTextField(
                         text: $holderName,
-                        label: String.resource(.cardHolder),
-                        placeholder: String.resource(.enterCardHolderName)
-                    ) { text in
-                        holderName = text
-                    }
+                        label: R.strings.cardHolder,
+                        placeholder: R.strings.enterCardHolderName,
+                        setAutocapitalization: true,
+                        onTextChange: onCardHolderNameChange
+                    )
                 }
 
                 DefaultButton(
-                    text: String.resource(.continueStr),
+                    text: R.strings.continueStr,
                     action: {
                         cardsRepository.addCard(
                             Card(
@@ -92,6 +82,56 @@ struct AddCardScreen: View {
             }.padding(.horizontal, 24)
         }
     }
+
+    private func onCardNumberChange(_ value: String) {
+        number = value.filter { $0.isNumber }
+            .applyMask("**** **** **** ****", changedChar: "*")
+    }
+
+    private func onDateChange(_ value: String) {
+        let filtered = value.filter { $0.isNumber }
+        var chars = Array(filtered.applyMask("**/**", changedChar: "*"))
+
+        if chars.count >= 2 {
+            if let inputYear = Int(String(chars[0...1])) {
+                let month = String(
+                    format: "%02d",
+                    max(1, min(12, inputYear))
+                )
+                chars[0] = month.first!
+                chars[1] = month.last!
+            }
+        }
+
+        if chars.count >= 5 {
+            if let inputYear = Int(String(chars[3...4])) {
+                let currentYear =
+                    Calendar.current
+                    .component(.year, from: Date()) % 100
+                let year = String(
+                    format: "%02d",
+                    max(currentYear, inputYear)
+                )
+                chars[3] = year.first!
+                chars[4] = year.last!
+            }
+        }
+
+        date = String(chars)
+    }
+
+    private func onCVVChange(_ value: String) {
+        cvv = value.filter { $0.isNumber }.applyMask("****", changedChar: "*")
+    }
+
+    private func onCardHolderNameChange(_ value: String) {
+        let allowed = value.filter { ($0.isASCII && $0.isLetter) || $0.isWhitespace }
+        let endsWithSpace = allowed.last?.isWhitespace ?? false
+        let words = allowed.split(whereSeparator: \.isWhitespace).prefix(2)
+        var result = words.joined(separator: " ")
+        if endsWithSpace && words.count == 1 { result.append(" ") }
+        holderName = result.uppercased()
+    }
 }
 
 private struct CardTextField: View {
@@ -100,6 +140,7 @@ private struct CardTextField: View {
     var placeholder: String = ""
     var keyboardType: UIKeyboardType = .default
     var hasInfoButton: Bool = false
+    var setAutocapitalization: Bool = false
     var onInfoCLick: () -> Void = {}
     var onTextChange: (String) -> Void
 
@@ -113,7 +154,7 @@ private struct CardTextField: View {
                 Spacer()
                 if hasInfoButton {
                     Button(action: onInfoCLick) {
-                        Image("info")
+                        Image(R.drawable.info)
                             .resizable()
                             .frame(width: 20, height: 20)
                             .foregroundColor(.gray828181)
@@ -121,8 +162,12 @@ private struct CardTextField: View {
                 }
             }
             TextField(placeholder, text: $text)
+                .disableAutocorrection(true)
                 .keyboardType(keyboardType)
                 .foregroundColor(.black)
+                .textInputAutocapitalization(
+                    setAutocapitalization ? .characters : .never
+                )
                 .font(.regular15)
         }
         .padding(.horizontal, 16)

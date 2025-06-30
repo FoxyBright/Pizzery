@@ -47,7 +47,7 @@ extension Publisher where Output == Token, Failure == Never {
             .dropFirst()
             .sink { token in
                 defaults.set(token.expireTime, forKey: key.rawValue)
-                if token.value.isNotBlank {
+                if token.value.isNotEmpty {
                     keychain.save(token.value, for: key.rawValue)
                 } else {
                     keychain.delete(key.rawValue)

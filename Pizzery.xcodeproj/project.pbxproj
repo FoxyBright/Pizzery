@@ -78,7 +78,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F15E69952DE650B10076E100 /* Build configuration list for PBXNativeTarget "Pizzery" */;
 			buildPhases = (
-				F19DAD242DF22B4600BAF9D2 /* Build Swagger Models */,
 				F15E69862DE650B00076E100 /* Sources */,
 				F15E69872DE650B00076E100 /* Frameworks */,
 				F15E69882DE650B00076E100 /* Resources */,
@@ -144,30 +143,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F19DAD242DF22B4600BAF9D2 /* Build Swagger Models */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Pizzery/generate_models.sh",
-				"$(SRCROOT)/Pizzery/swagger.yaml",
-			);
-			name = "Build Swagger Models";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pizzery/Models/openapi/.generated",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#cd \"${SRCROOT}/Pizzery/\"\n#./generate_models.sh\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F15E69862DE650B00076E100 /* Sources */ = {

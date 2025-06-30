@@ -6,7 +6,7 @@ struct LoginScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image("logo")
+            Image(R.drawable.logo)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 260, maxHeight: 200)
@@ -15,8 +15,8 @@ struct LoginScreen: View {
             Spacer()
 
             DefaultButton(
-                text: String.resource("continue"),
-                trailingIcon: "arrowRight",
+                text: R.strings.continueStr,
+                trailingIcon: R.drawable.arrowRight,
                 action: {
                     navController.push(
                         .menu,
@@ -41,7 +41,7 @@ struct LoginScreen: View {
         .background(
             ZStack {
                 GradientBackground()
-                Image("loginBackground")
+                Image(R.drawable.loginBackground)
                     .resizable()
                     .padding(.trailing, 24)
                     .scaledToFill()
@@ -57,19 +57,15 @@ private struct TermsOfUseView: View {
     var body: some View {
         ClickableText(
             text: {
-                var text = AttributedString(String.resource("termsOfUse"))
-                if let terms = text.range(
-                    of: String.resource("terms")
-                ) {
-                    text[terms].link = URL(string: "terms")
+                var text = AttributedString(R.strings.termsOfUse)
+                if let terms = text.range(of: R.strings.terms) {
+                    text[terms].link = URL(string: R.strings.terms)
                     text[terms].foregroundColor = .mainRed
                     text[terms].underlineStyle = .single
                     text[terms].font = .semibold12
                 }
-                if let privacy = text.range(
-                    of: String.resource("privacyPolicy")
-                ) {
-                    text[privacy].link = URL(string: "privacy")
+                if let privacy = text.range(of: R.strings.privacyPolicy) {
+                    text[privacy].link = URL(string: R.strings.privacyPolicy)
                     text[privacy].foregroundColor = .mainRed
                     text[privacy].underlineStyle = .single
                     text[privacy].font = .semibold12
@@ -78,11 +74,11 @@ private struct TermsOfUseView: View {
             },
             onClick: { link in
                 switch link {
-                case "terms":
+                case R.strings.terms:
                     onTermsClick()
                     break
 
-                case "privacy":
+                case R.strings.privacyPolicy:
                     onPrivacyPolicyClick()
                     break
 

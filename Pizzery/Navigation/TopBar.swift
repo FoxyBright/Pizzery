@@ -29,7 +29,7 @@ struct TopBar<Content>: View where Content: View {
             } else {
                 Spacer().frame(width: 28)
             }
-            Text(String.resource(title))
+            Text(title)
                 .foregroundColor(.black)
                 .font(.bold20)
                 .lineLimit(1)

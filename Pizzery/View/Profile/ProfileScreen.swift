@@ -17,26 +17,26 @@ struct ProfileScreen: View {
                     Spacer().frame(height: 10)
 
                     ProfileButtonView(
-                        icon: "profile",
-                        label: String.resource("accountData"),
+                        icon: R.drawable.profile,
+                        label: R.strings.accountData,
                         onClick: { navController.push(.account) }
                     )
 
                     ProfileButtonView(
-                        icon: "map",
-                        label: String.resource("addresses"),
+                        icon: R.drawable.map,
+                        label: R.strings.addresses,
                         onClick: { navController.push(.addresses) }
                     )
 
                     ProfileButtonView(
-                        icon: "orderPackage",
-                        label: String.resource("orders"),
+                        icon:  R.drawable.orderPackage,
+                        label: R.strings.orders,
                         onClick: { navController.push(.orders) }
                     )
 
                     ProfileButtonView(
-                        icon: "deleteTrash",
-                        label: String.resource("deleteAccount")
+                        icon: R.drawable.deleteTrash,
+                        label: R.strings.deleteAccount
                     ) {
                         // TODO: on delete account click
                     }
@@ -50,10 +50,10 @@ struct ProfileScreen: View {
                 .shadow(color: .black.opacity(0.1), radius: 2, y: 1)
 
                 DefaultButton(
-                    text: String.resource("exit"),
+                    text: R.strings.exitStr,
                     containerColor: .mainRed.opacity(0.7),
                     contentColor: .white,
-                    leadingIcon: "exit"
+                    leadingIcon: R.drawable.exitIcon
                 ) {
                     // TODO: on exit click
                 }
@@ -96,7 +96,7 @@ private struct ProfileCard: View {
                         .frame(width: 80, height: 80)
                         .foregroundColor(.gray828181)
                         .overlay {
-                            Image("navProfile")
+                            Image(R.drawable.navProfile)
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.white)
@@ -164,7 +164,7 @@ private struct ProfileButtonView: View {
 
                 Spacer()
 
-                Image("nextButton")
+                Image(R.drawable.nextButton)
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.gray32343E)

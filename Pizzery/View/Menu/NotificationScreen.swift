@@ -51,10 +51,15 @@ private struct NotificationView: View {
     @State private var isExpanded = false
     var onDelete: (@MainActor () -> Void)? = nil
 
+    private var createdAt: String {
+        return Date(notification.createdAt)
+            .format("d MMMM yyyy HH:mm")
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                Image("notificationBell")
+                Image(R.drawable.notificationBell)
                     .resizable()
                     .frame(width: 42, height: 42)
                     .foregroundColor(.gray3E3E3E)
@@ -73,7 +78,7 @@ private struct NotificationView: View {
                 Spacer()
 
                 DefaultIconButton(
-                    "trash",
+                    R.drawable.trash,
                     size: 20,
                     containerColor: Color.clear,
                     contentColor: Color.mainRed,
@@ -81,7 +86,7 @@ private struct NotificationView: View {
                 )
             }
 
-            Text(Date(notification.createdAt).format("d MMMM yyyy HH:mm"))
+            Text(createdAt)
                 .font(.light10)
                 .foregroundColor(.gray737373)
                 .frame(maxWidth: .infinity, alignment: .trailing)

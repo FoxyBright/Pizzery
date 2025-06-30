@@ -68,6 +68,7 @@
       }
     },
     "cash" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -88,7 +89,7 @@
         }
       }
     },
-    "continue" : {
+    "continueStr" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
@@ -132,6 +133,17 @@
         }
       }
     },
+    "enterCardHolderName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите имя владельца"
+          }
+        }
+      }
+    },
     "enterCode" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -154,7 +166,7 @@
         }
       }
     },
-    "exit" : {
+    "exitStr" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
@@ -243,6 +255,7 @@
       }
     },
     "personalWallet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

@@ -5,17 +5,27 @@ struct SignInScreen: View {
     @EnvironmentObject var navController: NavController<Destination>
     @EnvironmentObject var loginVm: LoginViewModel
 
+    private var isButtonEnabled: Bool {
+        guard !loginVm.pendingCode, !loginVm.pendingLogin else { return false }
+        if loginVm.hasCode {
+            return loginVm.authCode.isNotEmpty
+        } else {
+            let phoneNumber = loginVm.phoneNumber
+                .filter { $0.isNumber }.count
+            return phoneNumber >= loginVm.country.info.phoneSize
+        }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
 
             Text(
                 loginVm.hasCode
-                    ? String.resource("codeWasSentTo")
-                        .appending(
-                            " \(loginVm.formPhone(filterNumbers: false))"
-                        )
-                    : String.resource("weSendCode")
+                    ? R.strings.codeWasSentTo
+                        .appending(" ")
+                        .appending(loginVm.formPhone(filterNumbers: false))
+                    : R.strings.weSendCode
             )
             .multilineTextAlignment(.center)
             .foregroundColor(.gray828181)
@@ -35,24 +45,19 @@ struct SignInScreen: View {
             Spacer()
 
             DefaultButton(
-                text: String.resource(
-                    loginVm.hasCode ? "sendCode" : "getCode"
-                ),
+                text: loginVm.hasCode
+                    ? R.strings.sendCode
+                    : R.strings.getCode,
                 isLoading: loginVm.pendingCode
                     || loginVm.pendingLogin,
-                enabled: !loginVm.pendingCode
-                    && !loginVm.pendingLogin
-                    && (loginVm.hasCode
-                        ? loginVm.authCode.isNotEmpty
-                        : loginVm.phoneNumber.filter { $0.isNumber }.count
-                            >= loginVm.country.info.phoneSize),
+                enabled: isButtonEnabled,
                 action: {
                     if loginVm.hasCode {
                         loginVm.login()
                     } else {
                         loginVm.getAuthCode()
                     }
-                },
+                }
             )
             .padding(.horizontal, 16)
         }
@@ -78,7 +83,7 @@ struct SignInScreen: View {
     private func codeField(_ loginVm: LoginViewModel) -> some View {
         NumberTextField(
             text: $loginVm.authCode,
-            placeholder: .resource("smsCode"),
+            placeholder: R.strings.smsCode,
         ) { text in
             loginVm.authCode = text
         }
@@ -103,12 +108,12 @@ struct SignInScreen: View {
                 text: $loginVm.phoneNumber,
                 placeholder: loginVm.country.info.phoneMask,
             ) { text in
-//                let masked =
-//                    text.filter { $0.isNumber }
-//                    .applyMask(loginVm.country.info.phoneMask, changedChar: "_")
-//                if masked != text {
-//                    loginVm.phoneNumber = masked
-//                }
+                let masked =
+                    text.filter { $0.isNumber }
+                    .applyMask(loginVm.country.info.phoneMask, changedChar: "_")
+                if masked != text {
+                    loginVm.phoneNumber = masked
+                }
             }
         }
     }
@@ -167,15 +172,19 @@ private struct BublesView: View {
                     .frame(maxWidth: W, maxHeight: 65)
                     .foregroundColor(.mainOrange)
 
-                Text(loginVm.hasCode ? "enterCode" : "enterPhoneNumber")
-                    .frame(maxWidth: W, alignment: .leading)
-                    .addSafeArea()
-                    .foregroundColor(.white)
-                    .font(.regular20)
-                    .padding(.leading, 24)
-                    .padding(.top, 110)
+                Text(
+                    loginVm.hasCode
+                        ? R.strings.enterCode
+                        : R.strings.enterPhoneNumber
+                )
+                .frame(maxWidth: W, alignment: .leading)
+                .addSafeArea()
+                .foregroundColor(.white)
+                .font(.regular20)
+                .padding(.leading, 24)
+                .padding(.top, 110)
 
-                Text("signIn")
+                Text(R.strings.signIn)
                     .frame(maxWidth: W, alignment: .trailing)
                     .addSafeArea()
                     .foregroundColor(.white)

@@ -1,6 +1,6 @@
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 extension View {
     @ViewBuilder
@@ -27,24 +27,13 @@ extension Color {
 }
 
 extension String {
-    static func resource(_ id: String, comment: String = "") -> String {
-        NSLocalizedString(id, comment: comment)
-    }
-    
-    static func resource(_ key: StringResources, comment: String = "") -> String {
-        NSLocalizedString(key.rawValue, comment: comment)
-    }
-
     var isNotEmpty: Bool { !self.isEmpty }
 
-    var isNotBlank: Bool {
-        self.filter { !$0.isWhitespace }.isNotEmpty
+    func ifEmpty(_ defaultValue: () -> String) -> String {
+        self.isEmpty ? defaultValue() : self
     }
-    
-    func applyMask(
-        _ mask: String,
-        changedChar: Character
-    ) -> String {
+
+    func applyMask(_ mask: String, changedChar: Character) -> String {
         var result = ""
         var index = self.startIndex
         for ch in mask {
@@ -64,6 +53,10 @@ extension String {
 
 extension Array where Element: Equatable {
     var isNotEmpty: Bool { !self.isEmpty }
+
+    func ifEmpty(_ defaultValue: () -> Array) -> Array {
+        self.isEmpty ? defaultValue() : self
+    }
 }
 
 extension Date {
@@ -73,6 +66,32 @@ extension Date {
 
     init(_ millis: Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(millis) / 1000)
+    }
+
+    init(day: Int, month: Int, year: Int) {
+        var components = DateComponents()
+        let calendar = Calendar.current
+        components.day = day
+        components.month = month
+        components.year = year
+        self = calendar.date(from: components)!
+    }
+
+    init(
+        hour: Int = 0,
+        minute: Int = 0,
+        second: Int = 0,
+        millisecond: Int = 0,
+        nanosecond: Int = 0
+    ) {
+        var components = Calendar.current
+            .dateComponents([.year, .month, .day], from: Date())
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        components.nanosecond = nanosecond + millisecond * 1_000_000
+
+        self = Calendar.current.date(from: components)!
     }
 
     func format(

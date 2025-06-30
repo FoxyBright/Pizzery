@@ -10,6 +10,6 @@ struct Token {
     }
 
     var isValid: Bool {
-        value.isNotBlank && expireTime >= Date().millis
+        value.isNotEmpty && expireTime >= Date().millis
     }
 }

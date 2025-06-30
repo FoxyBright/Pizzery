@@ -6,11 +6,11 @@ struct SearchBar: View {
 
     var body: some View {
         HStack(spacing: 18) {
-            Image("magnifire")
+            Image(R.drawable.magnifire)
                 .resizable()
                 .frame(width: 24, height: 24)
                 .foregroundColor(.black)
-            TextField("searchPlaceholder", text: $text)
+            TextField(R.strings.searchPlaceholder, text: $text)
                 .foregroundColor(.black)
                 .font(.medium18)
                 .onChange(of: text) { newValue in

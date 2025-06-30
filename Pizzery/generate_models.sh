@@ -1,3 +1,4 @@
+# generate swagger models
 /opt/homebrew/bin/openapi-generator generate \
     -i swagger.yaml \
     -g swift5 \

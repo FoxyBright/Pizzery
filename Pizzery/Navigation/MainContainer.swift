@@ -17,22 +17,16 @@ struct MainContainer: View {
             }
             NavHost(navController) { route in
                 switch route {
-
                 case .login: LoginScreen()
                 case .signIn: SignInScreen()
-
                 case .menu: MenuScreen()
                 case .notifications: NotificationScreen()
-
-                case .wallet: WalletScreen()
-
-                case .basket: BasketScreen()
-
                 case .favourites: FavouritesScreen()
-
+                case .basket: BasketScreen()
+                case .wallet: WalletScreen()
+                case .orderInfo(let id): OrderInfoScreen(orderId: id)
+                case .orders: OrderListScreen()
                 case .profile: ProfileScreen()
-
-                // case .Detail(let id): DetailView(id: id)
                 default: EmptyView()
                 }
             }
