@@ -3,7 +3,7 @@ import Foundation
 /// Project resources
 enum R {
 
-    /// String resources with localize
+    /// String resources with localization
     enum strings {
         // MARK: Login
         static var terms: String { localizedStr("terms") }
@@ -34,6 +34,7 @@ enum R {
         static var cash: String { localizedStr("cash") }
         static var daddyPoints: String { localizedStr("daddyPoints") }
         static var addCard: String { localizedStr("addCard") }
+        static var fillCardData: String { localizedStr("fillCardData") }
         static var cardHolder: String { localizedStr("cardHolder") }
         static var enterCardHolderName: String { localizedStr("enterCardHolderName") }
         static var cardNumber: String { localizedStr("cardNumber") }
@@ -67,13 +68,20 @@ enum R {
         static var orderPackage: String { "orderPackage" }
         static var deleteTrash: String { "deleteTrash" }
         static var exitIcon: String { "exit" }
-        static var navProfile: String { "navProfile" }
         static var nextButton: String { "nextButton" }
         static var info: String { "info" }
         static var plus: String { "plus" }
         static var wallet: String { "wallet" }
         static var money: String { "money" }
         static var check: String { "check" }
+        static var heart: String { "heart" }
+        static var backButton: String { "backButton" }
+        static var notifyCircle: String { "notifyCircle" }
+        static var navMenu: String { "navMenu" }
+        static var navWallet: String { "navWallet" }
+        static var navBasket: String { "navBasket" }
+        static var navFavorites: String { "navFavorites" }
+        static var navProfile: String { "navProfile" }
     }
 
     /// localization strings method

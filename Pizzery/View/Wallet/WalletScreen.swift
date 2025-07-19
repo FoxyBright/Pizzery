@@ -15,13 +15,11 @@ struct WalletScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 Text(R.strings.personalWallet)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(.black)
-                    .font(.semibold16)
+                    .font(.semibold16, .black)
+                    .fillMaxWidth(alignment: .leading)
                     .lineLimit(1)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
-                    .padding(.top, 46)
+                    .padding(top: 46, bottom: 24)
+                    .padding(horizontal: 20)
 
                 VStack(spacing: 0) {
                     PaymentMethodView(
@@ -34,7 +32,7 @@ struct WalletScreen: View {
 
                     Divider()
                         .foregroundColor(.grayCBCBCB)
-                        .padding(.horizontal, 16)
+                        .padding(horizontal: 16)
 
                     ForEach(cardsRepository.cards, id: \.number) { card in
                         PaymentMethodView(
@@ -45,7 +43,7 @@ struct WalletScreen: View {
                         )
                         Divider()
                             .foregroundColor(.grayCBCBCB)
-                            .padding(.horizontal, 16)
+                            .padding(horizontal: 16)
                     }
 
                     PaymentMethodView(
@@ -59,119 +57,33 @@ struct WalletScreen: View {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(.grayCBCBCB, lineWidth: 1)
                         .background(.white)
-                        .cornerRadius(16)
+                        .clip(16)
                 }
-                .padding(.horizontal, 16)
+                .padding(horizontal: 16)
 
                 Button(action: { isShowingSheet = true }) {
                     HStack(spacing: 10) {
                         Image(R.drawable.plus)
                             .resizable()
-                            .frame(width: 10, height: 10)
-                            .foregroundColor(.mainOrange)
+                            .tint(.mainOrange)
+                            .frame(10)
                         Text(R.strings.addCard)
-                            .foregroundColor(.mainOrange)
-                            .font(.bold14)
+                            .font(.bold14, .mainOrange)
                     }
-                    .frame(maxWidth: .infinity)
+                    .fillMaxWidth()
                     .padding(22)
                     .background {
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(.grayF0F5FA, lineWidth: 2)
                             .background(.white)
-                            .cornerRadius(16)
+                            .clip(16)
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 42)
+                .padding(horizontal: 16, vertical: 42)
             }
         }
         .sheet(isPresented: $isShowingSheet) {
-            AddCardScreen(isPresented: $isShowingSheet)
-        }
-    }
-}
-
-private struct PaymentMethodView: View {
-    var method: PaymentMethod
-    var isSelected: Bool
-    var balance: String? = nil
-    var onSelect: (PaymentMethod) -> Void
-
-    var body: some View {
-        Button(action: { onSelect(method) }) {
-            HStack(spacing: 0) {
-                switch method {
-                case let .card(card):
-                    HStack(spacing: 8) {
-                        if card.system == .unknown {
-                            Image(R.drawable.wallet)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        } else {
-                            Image(card.system.rawValue)
-                                .resizable()
-                                .frame(width: 34, height: 24)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .stroke(.grayF4F0F0, lineWidth: 2)
-                                        .cornerRadius(4)
-                                }
-                        }
-                        Text("**** \(card.number.suffix(4))")
-                            .foregroundColor(.black)
-                            .font(.regular16)
-                    }
-
-                case .cash:
-                    HStack(spacing: 8) {
-                        Image(R.drawable.money)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                        Text(R.strings.cash)
-                            .foregroundColor(.black)
-                            .font(.regular16)
-                    }
-
-                case .daddyPoints:
-                    HStack(spacing: 8) {
-                        Image(R.drawable.wallet)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                        Text(R.strings.daddyPoints)
-                            .foregroundColor(.black)
-                            .font(.regular16)
-                    }
-                }
-
-                Spacer()
-
-                HStack(spacing: 10) {
-                    if let balance = balance {
-                        Text(balance)
-                            .foregroundColor(.black)
-                            .font(.semibold15)
-                    }
-                    Circle()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(isSelected ? .mainOrange : .clear)
-                        .overlay {
-                            if isSelected {
-                                Image(R.drawable.check)
-                                    .resizable()
-                                    .frame(width: 22, height: 22)
-                                    .foregroundColor(.white)
-                            } else {
-                                Circle()
-                                    .strokeBorder(.gray94A3B3, lineWidth: 2)
-                            }
-                        }
-                }
-                .padding(.leading, 10)
-            }
-            .animation(.easeInOut(duration: 0.2), value: isSelected)
-            .frame(maxWidth: .infinity)
-            .padding(16)
+            AddCardBS(isPresented: $isShowingSheet)
         }
     }
 }

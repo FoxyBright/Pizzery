@@ -37,10 +37,11 @@ final class NetworkClient {
         contentType: ContentType = .ApplicationJson,
         body: Encodable? = nil
     ) async -> HttpResult<R> {
-        print("REQUEST (\(method.rawValue)): \(API_URL)\(path)")
-
-        guard let urlObject = URL(string: "\(API_URL)\(path)") else {
-            return .failure("Invalid URL: \(API_URL)\(path)").printContent()
+        let url = "\(Constants.API_URL)\(path)"
+        print("REQUEST (\(method.rawValue)): \(url)")
+        
+        guard let urlObject = URL(string: url) else {
+            return .failure("Invalid URL: \(url)").printContent()
         }
 
         var urlRequest = URLRequest(url: urlObject)

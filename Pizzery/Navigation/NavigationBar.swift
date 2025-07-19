@@ -24,58 +24,51 @@ struct NavigationBar: View {
                 }
             }
         }
-        .padding(.horizontal, 30)
-        .padding(.top, 20)
+        .padding(horizontal: 30)
+        .padding(top: 20)
         .background(.gray3E3E3E)
     }
 }
 
 private enum NavBarButton: CaseIterable {
-    case Menu, Favourites, Basket, Wallet, Profile
+    case menu, favourites, basket, wallet, profile
 
     var icon: String {
         switch self {
-        case .Menu:
-            return "navMenu"
-        case .Wallet:
-            return "navWallet"
-        case .Basket:
-            return "navBasket"
-        case .Favourites:
-            return "navFavorites"
-        case .Profile:
-            return "navProfile"
+        case .menu: return R.drawable.navMenu
+        case .favourites: return R.drawable.navFavorites
+        case .basket: return R.drawable.navBasket
+        case .wallet: return R.drawable.navWallet
+        case .profile: return R.drawable.navProfile
         }
     }
 
     var destination: Destination {
         switch self {
-        case .Menu: return .menu
-        case .Wallet: return .wallet
-        case .Basket: return .basket
-        case .Favourites: return .favourites
-        case .Profile: return .profile
+        case .menu: return .menu
+        case .favourites: return .favourites
+        case .basket: return .basket
+        case .wallet: return .wallet
+        case .profile: return .profile
         }
     }
 }
 
 private struct NavBarButtonView: View {
-
-    var data: NavBarButton
-    var isSelected: Bool
-    var onClick: @MainActor () -> Void
+    let data: NavBarButton
+    let isSelected: Bool
+    let onClick: @MainActor () -> Void
 
     var body: some View {
         Button(action: onClick) {
             Image(data.icon)
                 .resizable()
-                .frame(width: 22, height: 22)
-                .foregroundColor(.white)
-                .background {
-                    Circle()
-                        .fill(isSelected ? .mainOrange : .clear)
-                        .frame(width: 40, height: 40)
-                }
+                .tint(.white)
+                .frame(22)
+        }
+        .padding(10)
+        .background {
+            Circle().fill(isSelected ? .mainOrange : .clear)
         }
     }
 }

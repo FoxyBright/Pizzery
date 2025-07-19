@@ -12,9 +12,10 @@ struct MainContainer: View {
                     title: navController.currentRoute.title,
                     showBackButton: navController.currentRoute.hasBackButton,
                     onBackClick: { navController.pop() },
-                    content: { TopBarContent(navController: navController) }
+                    content: topBarContent
                 )
             }
+
             NavHost(navController) { route in
                 switch route {
                 case .login: LoginScreen()
@@ -30,8 +31,9 @@ struct MainContainer: View {
                 default: EmptyView()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .fillMaxSize()
             .ignoresSafeArea()
+
             if navController.currentRoute.showNavBar {
                 NavigationBar(navController: navController)
             }
@@ -43,14 +45,17 @@ struct MainContainer: View {
     }
 }
 
-private struct TopBarContent: View {
-    @ObservedObject var navController: NavController<Destination>
+extension MainContainer {
 
-    var body: some View {
+    @ViewBuilder
+    fileprivate func topBarContent() -> some View {
         switch navController.currentRoute.route {
+
         case Destination.menu.route:
-            DefaultIconButton("notifyCircle", size: 32) {
-                navController.push(.notifications)
+            Button(action: { navController.push(.notifications) }) {
+                Image(R.drawable.notifyCircle)
+                    .resizable()
+                    .frame(32)
             }
 
         default: Spacer().frame(height: 32)

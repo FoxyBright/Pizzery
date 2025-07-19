@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "650p" : {
+
+    },
     "accountData" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -18,7 +21,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавить карту"
+            "value" : "Добавить новую карту"
           }
         }
       }
@@ -68,7 +71,7 @@
       }
     },
     "cash" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -199,6 +202,17 @@
         }
       }
     },
+    "fillCardData" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполните данные вашей карты"
+          }
+        }
+      }
+    },
     "getCode" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -255,7 +269,7 @@
       }
     },
     "personalWallet" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

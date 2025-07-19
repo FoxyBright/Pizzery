@@ -2,52 +2,65 @@ import SwiftUI
 
 struct DefaultButton: View {
     var text: String
-    var containerColor: Color = .gray3E3E3E
-    var contentColor: Color = .white
-    var leadingIcon: String = ""
-    var trailingIcon: String = ""
-    var iconSize: CGFloat = 24
-    var paddings: CGFloat = 16
-    var cornerRadius: CGFloat = 16
-    var font: Font = .semibold18
-    var isLoading: Bool = false
-    var enabled: Bool = true
-    var action: (@MainActor () -> Void)?
+    var containerColor: Color
+    var contentColor: Color
+    var leadingIcon: String
+    var trailingIcon: String
+    var iconSize: CGFloat
+    var paddings: CGFloat
+    var cornerRadius: CGFloat
+    var font: Font
+    var isLoading: Bool
+    var enabled: Bool
+    var action: @MainActor () -> Void
+
+    init(
+        text: String,
+        containerColor: Color = .gray3E3E3E,
+        contentColor: Color = .white,
+        leadingIcon: String = "",
+        trailingIcon: String = "",
+        iconSize: CGFloat = 24,
+        paddings: CGFloat = 16,
+        cornerRadius: CGFloat = 16,
+        font: Font = .semibold18,
+        isLoading: Bool = false,
+        enabled: Bool = true,
+        action: @escaping () -> Void = {}
+    ) {
+        self.text = text
+        self.containerColor = containerColor
+        self.contentColor = contentColor
+        self.leadingIcon = leadingIcon
+        self.trailingIcon = trailingIcon
+        self.iconSize = iconSize
+        self.paddings = paddings
+        self.cornerRadius = cornerRadius
+        self.font = font
+        self.isLoading = isLoading
+        self.enabled = enabled
+        self.action = action
+    }
 
     var body: some View {
-        Button(action: { if !isLoading, enabled { action?() } }) {
+        Button(action: { if !isLoading, enabled { action() } }) {
             HStack(alignment: .center, spacing: 12) {
-                IconView(
-                    icon: leadingIcon,
-                    size: iconSize,
-                    tint: contentColor
-                )
+                iconView(leadingIcon)
+
                 Spacer()
-                if isLoading {
-                    ProgressView().progressViewStyle(
-                        CircularProgressViewStyle(tint: contentColor)
-                    )
-                } else {
-                    Text(text)
-                        .font(font)
-                        .foregroundColor(contentColor)
-                        .multilineTextAlignment(.center)
-                        .animation(.easeInOut(duration: 0.3), value: text)
-                }
+
+                buttonContent()
+
                 Spacer()
-                IconView(
-                    icon: trailingIcon,
-                    size: iconSize,
-                    tint: contentColor
-                )
+
+                iconView(trailingIcon)
             }
-            .frame(maxWidth: .infinity)
+            .fillMaxWidth()
             .padding(paddings)
             .foregroundColor(contentColor.opacity(enabled ? 1 : 0.6))
             .background(containerColor.opacity(enabled ? 1 : 0.6))
             .animation(.easeInOut(duration: 0.1), value: enabled)
-            .clipped()
-            .cornerRadius(cornerRadius)
+            .clip(cornerRadius)
             .frame(minHeight: paddings * 2 + iconSize)
         }
         .buttonStyle(NoDisabledVisualButtonStyle())
@@ -55,29 +68,31 @@ struct DefaultButton: View {
     }
 }
 
-private struct IconView: View {
-    var icon: String, size: CGFloat, tint: Color
-    
-    var body: some View {
+extension DefaultButton {
+
+    @ViewBuilder
+    func iconView(_ icon: String) -> some View {
         if icon.isNotEmpty {
             Image(icon)
                 .resizable()
-                .frame(width: size, height: size)
-                .foregroundColor(tint)
+                .tint(contentColor)
+                .frame(iconSize)
         } else {
-            Color.clear
-                .frame(width: size, height: size)
-                .hidden()
+            Spacer().frame(iconSize)
         }
     }
-}
 
-private struct NoDisabledVisualButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .opacity(configuration.isPressed ? 0.7 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    @ViewBuilder
+    func buttonContent() -> some View {
+        if isLoading {
+            ProgressView().progressViewStyle(
+                CircularProgressViewStyle(tint: contentColor)
+            )
+        } else {
+            Text(text)
+                .font(font, contentColor)
+                .multilineTextAlignment(.center)
+                .animation(.easeInOut(duration: 0.3), value: text)
+        }
     }
 }

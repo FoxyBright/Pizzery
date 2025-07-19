@@ -53,6 +53,12 @@ class LoginViewModel: ObservableObject {
 
     }
 
+    func cleanAuthData() {
+        phoneNumber = ""
+        authCode = ""
+        hasCode = false
+    }
+
     func logout() {
         Task { await NetworkClient.shared.logout() }
     }

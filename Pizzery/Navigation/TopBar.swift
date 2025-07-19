@@ -1,15 +1,15 @@
 import SwiftUI
 
 struct TopBar<Content>: View where Content: View {
-    var title: String
-    var onBackClick: (() -> Void)?
-    var showBackButton: Bool
+    let title: String
+    let onBackClick: (@MainActor () -> Void)?
+    let showBackButton: Bool
     let content: () -> Content
 
     init(
         title: String = "",
         showBackButton: Bool = false,
-        onBackClick: (() -> Void)? = nil,
+        onBackClick: (@MainActor () -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content = { EmptyView() }
     ) {
         self.title = title
@@ -20,25 +20,41 @@ struct TopBar<Content>: View where Content: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            if showBackButton {
-                DefaultIconButton(
-                    "backButton",
-                    size: 28,
-                    onClick: { onBackClick?() }
-                )
-            } else {
-                Spacer().frame(width: 28)
+            backButton(show: showBackButton) {
+                onBackClick?()
             }
+
             Text(title)
-                .foregroundColor(.black)
-                .font(.bold20)
+                .font(.bold20, .black)
                 .lineLimit(1)
+
             Spacer()
+
             content()
         }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 16)
-        .padding(.bottom, 16)
+        .fillMaxWidth(alignment: .leading)
+        .padding(horizontal: 16)
+        .padding(bottom: 16)
         .background(.mainOrange)
+    }
+}
+
+extension View {
+
+    @ViewBuilder
+    func backButton(
+        show: Bool = false,
+        onBackClick: @escaping (() -> Void) = {}
+    ) -> some View {
+        if show {
+            Button(action: onBackClick) {
+                Image(R.drawable.backButton)
+                    .resizable()
+                    .tint(.gray3E3E3E)
+                    .frame(28)
+            }
+        } else {
+            Spacer().frame(width: 28)
+        }
     }
 }

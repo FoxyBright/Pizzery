@@ -10,40 +10,32 @@ struct LoginScreen: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 260, maxHeight: 200)
-                .padding(.top, 90)
+                .padding(top: 90)
 
             Spacer()
 
             DefaultButton(
                 text: R.strings.continueStr,
                 trailingIcon: R.drawable.arrowRight,
-                action: {
-                    navController.push(
-                        .menu,
-                        reset: true,
-                        animated: false
-                    )
-                },
-            )
-            .padding(.horizontal, 16)
-            .padding(.bottom, 100)
+            ) {
+                navController.push(
+                    .menu,
+                    reset: true,
+                    animated: false
+                )
+            }
+            .padding(horizontal: 16)
+            .padding(bottom: 100)
 
-            TermsOfUseView(
-                onTermsClick: {
-                    openURL(TERMS_OF_USE_URL)
-                },
-                onPrivacyPolicyClick: {
-                    openURL(PRIVACY_POLICY_URL)
-                }
-            )
-            .padding(.horizontal, 16)
+            termsOfUse()
+                .padding(horizontal: 16)
         }
         .background(
             ZStack {
                 GradientBackground()
                 Image(R.drawable.loginBackground)
                     .resizable()
-                    .padding(.trailing, 24)
+                    .padding(end: 24)
                     .scaledToFill()
             }
             .ignoresSafeArea()
@@ -51,10 +43,9 @@ struct LoginScreen: View {
     }
 }
 
-private struct TermsOfUseView: View {
-    var onTermsClick: @MainActor () -> Void
-    var onPrivacyPolicyClick: @MainActor () -> Void
-    var body: some View {
+extension LoginScreen {
+
+    fileprivate func termsOfUse() -> some View {
         ClickableText(
             text: {
                 var text = AttributedString(R.strings.termsOfUse)
@@ -75,11 +66,11 @@ private struct TermsOfUseView: View {
             onClick: { link in
                 switch link {
                 case R.strings.terms:
-                    onTermsClick()
+                    openURL(Constants.TERMS_OF_USE_URL)
                     break
 
                 case R.strings.privacyPolicy:
-                    onPrivacyPolicyClick()
+                    openURL(Constants.PRIVACY_POLICY_URL)
                     break
 
                 default:
@@ -87,8 +78,7 @@ private struct TermsOfUseView: View {
                 }
             }
         )
+        .font(.regular12, .gray828181)
         .multilineTextAlignment(.center)
-        .foregroundColor(.gray828181)
-        .font(.regular12)
     }
 }

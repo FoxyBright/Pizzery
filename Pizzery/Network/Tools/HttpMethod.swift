@@ -1,4 +1,4 @@
-enum HttpMethod: String, CaseIterable {
+enum HttpMethod: String {
     case get = "GET"
     case post = "POST"
     case put = "PUT"

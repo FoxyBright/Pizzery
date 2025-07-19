@@ -1,12 +1,5 @@
 enum PaymentSystem: String {
-    case visa = "visa"
-    case masterCard = "masterCard"
-    case mir = "mir"
-    case amex = "amex"
-    case unionPay = "unionPay"
-    case jcb = "jcb"
-    case maestro = "maestro"
-    case unknown = "wallet"
+    case visa, masterCard, mir, amex, unionPay, jcb, maestro, unknown
 
     static func getByCardNumber(_ number: String) -> PaymentSystem {
         let cleaned = number.filter(\.isNumber)

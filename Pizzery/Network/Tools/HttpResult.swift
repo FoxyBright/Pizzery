@@ -32,8 +32,8 @@ struct HttpResult<T> {
         return self.failure(error.localizedDescription)
     }
 
-    func isSuccess() -> Bool { return error == nil }
     func isFailure() -> Bool { return error != nil }
+    func isSuccess() -> Bool { return data != nil }
 
     func getError() -> ModelErrorResponse? { return error }
     func getOrNull() -> T? { return data }

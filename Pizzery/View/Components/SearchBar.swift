@@ -8,21 +8,19 @@ struct SearchBar: View {
         HStack(spacing: 18) {
             Image(R.drawable.magnifire)
                 .resizable()
-                .frame(width: 24, height: 24)
-                .foregroundColor(.black)
+                .tint(.black)
+                .frame(24)
+            
             TextField(R.strings.searchPlaceholder, text: $text)
-                .foregroundColor(.black)
-                .font(.medium18)
-                .onChange(of: text) { newValue in
-                    onTextChange(newValue)
-                }
+                .font(.medium18, .black)
+                .onChange(of: text, perform: onTextChange)
         }
         .padding(12)
         .background {
             RoundedRectangle(cornerRadius: 50)
                 .stroke(.black, lineWidth: 1)
                 .background(.white)
-                .cornerRadius(50)
+                .clip(50)
         }
     }
 }

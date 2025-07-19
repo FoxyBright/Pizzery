@@ -1,4 +1,4 @@
-enum Country {
+enum Country: CaseIterable {
     case RU
 
     var info: CountryInfo {

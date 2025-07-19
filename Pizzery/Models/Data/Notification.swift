@@ -1,5 +1,3 @@
-import Foundation
-
 struct Notification {
     var id: Int64
     var title: String
