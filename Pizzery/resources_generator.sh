@@ -65,8 +65,10 @@ echo "// This file is generated automatically using the" > "$TMPFILE"
 echo "// Resources Generator bash script." >> "$TMPFILE"
 echo "// Do not try to change it manually." >> "$TMPFILE"
 echo "" >> "$TMPFILE"
+
 echo "import Foundation" >> "$TMPFILE"
 echo "" >> "$TMPFILE"
+
 echo "enum R {" >> "$TMPFILE"
 
 echo "    enum strings {" >> "$TMPFILE"

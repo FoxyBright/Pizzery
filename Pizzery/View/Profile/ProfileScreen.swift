@@ -34,7 +34,7 @@ struct ProfileScreen: View {
                 .refreshable { loginVm.updateUserData() }
             } else {
                 VStack(spacing: 24) {
-                    Text("Для заказа товаров необходимо авторизоваться")
+                    Text(R.strings.needAuthorization)
                         .multilineTextAlignment(.center)
                         .font(.medium24, .black)
                         .padding(horizontal: 16)

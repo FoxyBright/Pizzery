@@ -86,7 +86,7 @@ extension FoodCard {
 
     fileprivate func addFoodBar() -> some View {
         HStack(spacing: 0) {
-            Text("650p")
+            Text(String(650) + "p")
                 .font(.semibold18, .black)
                 .padding(start: 20, end: 8)
 

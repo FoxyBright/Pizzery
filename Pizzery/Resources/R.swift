@@ -6,8 +6,6 @@ import Foundation
 
 enum R {
     enum strings {
-        static var keycbe77581: String { localizedStr("650p") }
-        static var AddressCard: String { localizedStr("AddressCard") }
         /// Личные данные 
         static var accountData: String { localizedStr("accountData") }
         /// Добавить новую карту 
@@ -52,6 +50,8 @@ enum R {
         static var hotDaddyPizza: String { localizedStr("hotDaddyPizza") }
         /// Меню 
         static var menu: String { localizedStr("menu") }
+        /// Чтобы использовать данный функционал необходимо авторизоваться 
+        static var needAuthorization: String { localizedStr("needAuthorization") }
         /// Уведомления 
         static var notifications: String { localizedStr("notifications") }
         /// Заказы 
@@ -76,9 +76,8 @@ enum R {
         static var termsOfUse: String { localizedStr("termsOfUse") }
         /// Оплата 
         static var wallet: String { localizedStr("wallet") }
-        /// Мы отправим вам код  для подтверждения вашего номера телефона. 
+        /// Мы отправим вам код для подтверждения вашего номера телефона. 
         static var weSendCode: String { localizedStr("weSendCode") }
-        static var key277638b3: String { localizedStr("Для заказа товаров необходимо авторизоваться") }
     }
 
     enum drawable {

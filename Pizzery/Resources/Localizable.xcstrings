@@ -1,19 +1,15 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
-    "650p" : {
+    "accountData" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dadda"
+            "value" : "Personal Data"
           }
-        }
-      }
-    },
-    "accountData" : {
-      "extractionState" : "manual",
-      "localizations" : {
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25,6 +21,12 @@
     "addCard" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add New Card"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33,12 +35,15 @@
         }
       }
     },
-    "AddressCard" : {
-
-    },
     "addresses" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Addresses"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -50,6 +55,12 @@
     "basket" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cart"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -61,6 +72,12 @@
     "cardHolder" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card Holder"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -72,6 +89,12 @@
     "cardNumber" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card Number"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -83,6 +106,12 @@
     "cash" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cash"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -94,6 +123,12 @@
     "codeWasSentTo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We sent the code to the number: "
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -105,6 +140,12 @@
     "continueStr" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -116,6 +157,12 @@
     "cvv" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CVV/CVC"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -127,6 +174,12 @@
     "daddyPoints" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daddy points"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -138,6 +191,12 @@
     "deleteAccount" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -149,6 +208,12 @@
     "enterCardHolderName" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter card holder name"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -160,6 +225,12 @@
     "enterCode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter verification code"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -171,6 +242,12 @@
     "enterPhoneNumber" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your phone number"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -182,6 +259,12 @@
     "exitStr" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logout"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -193,6 +276,12 @@
     "expirationDate" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiration date"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -204,6 +293,12 @@
     "favourites" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorites"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -215,6 +310,12 @@
     "fillCardData" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill in your card data"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -226,6 +327,12 @@
     "getCode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get code"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -237,6 +344,12 @@
     "hotDaddyPizza" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hot_Daddy_Pizza"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -248,6 +361,12 @@
     "menu" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -256,9 +375,32 @@
         }
       }
     },
+    "needAuthorization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You need to sign in to use this feature"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы использовать данный функционал необходимо авторизоваться"
+          }
+        }
+      }
+    },
     "notifications" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -270,6 +412,12 @@
     "orders" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orders"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -281,6 +429,12 @@
     "personalWallet" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal wallet"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -292,6 +446,12 @@
     "privacyPolicy" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -303,6 +463,12 @@
     "profile" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -314,6 +480,12 @@
     "searchPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search…"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -325,6 +497,12 @@
     "sendCode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send code"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -336,6 +514,12 @@
     "signIn" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -347,6 +531,12 @@
     "smsCode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SMS Code"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -358,6 +548,12 @@
     "terms" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -369,6 +565,12 @@
     "termsOfUse" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By continuing, you agree that you have read and accept our Terms and Privacy Policy."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -380,6 +582,12 @@
     "wallet" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -391,16 +599,19 @@
     "weSendCode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We will send you a code\nto confirm your phone number."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Мы отправим вам код \nдля подтверждения вашего номера телефона."
+            "value" : "Мы отправим вам код\nдля подтверждения вашего номера телефона."
           }
         }
       }
-    },
-    "Для заказа товаров необходимо авторизоваться" : {
-
     }
   },
   "version" : "1.0"
