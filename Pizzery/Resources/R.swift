@@ -1,3 +1,7 @@
+// This file is generated automatically using the
+// Resources Generator bash script.
+// Do not try to change it manually.
+
 import Foundation
 
 enum R {

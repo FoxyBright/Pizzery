@@ -1,7 +1,7 @@
 # generate R class from iOS app resources (Assets & Localizable)
 # need instal jq ( brew install jq )
 
-INPUT_JSON="./Resources/Localizable.xcstrings"
+STRINGS_DIR="./Resources/Localizable.xcstrings"
 ASSETS_DIR="./Resources/Assets.xcassets"
 OUTPUT_SWIFT="./Resources/R.swift"
 
@@ -56,19 +56,23 @@ collect_drawables() {
     done | sort -u
 }
 
-[ -f "$INPUT_JSON" ] || { echo "❌ $INPUT_JSON not found."; exit 1; }
+[ -f "$STRINGS_DIR" ] || { echo "❌ $STRINGS_DIR not found."; exit 1; }
 [ -d "$ASSETS_DIR" ] || { echo "❌ $ASSETS_DIR not found."; exit 1; }
 
 TMPFILE=$(mktemp)
 
-echo "import Foundation" > "$TMPFILE"
+echo "// This file is generated automatically using the" > "$TMPFILE"
+echo "// Resources Generator bash script." >> "$TMPFILE"
+echo "// Do not try to change it manually." >> "$TMPFILE"
+echo "" >> "$TMPFILE"
+echo "import Foundation" >> "$TMPFILE"
 echo "" >> "$TMPFILE"
 echo "enum R {" >> "$TMPFILE"
 
 echo "    enum strings {" >> "$TMPFILE"
-jq -r '.strings | keys[]' "$INPUT_JSON" | while read -r key; do
+jq -r '.strings | keys[]' "$STRINGS_DIR" | while read -r key; do
     var_name=$(to_camel_case "$key")
-    doc=$(jq -r --arg k "$key" '.strings[$k].localizations.ru.stringUnit.value // empty' "$INPUT_JSON" | tr '\n' ' ')
+    doc=$(jq -r --arg k "$key" '.strings[$k].localizations.ru.stringUnit.value // empty' "$STRINGS_DIR" | tr '\n' ' ')
     [[ -n "$doc" ]] && echo "        /// $doc" >> "$TMPFILE"
     echo "        static var $var_name: String { localizedStr(\"$key\") }" >> "$TMPFILE"
 done
