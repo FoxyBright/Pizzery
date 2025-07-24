@@ -62,8 +62,8 @@ extension FoodCard {
                 .frame(width: 16, height: 14)
                 .padding(8)
         }
-        .background(Color.white)
-        .clip(50)
+        .background(.white)
+        .clipShape(Circle())
     }
 
     fileprivate func foodImage() -> some View {

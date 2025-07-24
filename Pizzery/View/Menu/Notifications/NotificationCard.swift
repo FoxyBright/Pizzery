@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct NotificationView: View {
+struct NotificationCard: View {
     let notification: Notification
     var onDelete: (@MainActor () -> Void)? = nil
 

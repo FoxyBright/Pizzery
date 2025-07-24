@@ -119,25 +119,6 @@ extension SignInScreen {
         .ignoresSafeArea()
     }
 
-    private func numberTextField(
-        text: Binding<String>,
-        placeholder: String,
-        onTextChange: @escaping (String) -> Void = { _ in }
-    ) -> some View {
-        TextField(placeholder, text: text)
-            .font(.bold17, .black)
-            .keyboardType(.numberPad)
-            .padding(16)
-            .background {
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.gray, lineWidth: 1)
-                    .background(.white)
-                    .clip(16)
-            }
-            .shadow(color: .black.opacity(0.06), radius: 2, y: 1)
-            .onChange(of: text.wrappedValue, perform: onTextChange)
-    }
-
     fileprivate func codeField() -> some View {
         numberTextField(
             text: $loginVm.authCode,
@@ -167,5 +148,24 @@ extension SignInScreen {
                 if masked != text { loginVm.phoneNumber = masked }
             }
         }
+    }
+    
+    private func numberTextField(
+        text: Binding<String>,
+        placeholder: String,
+        onTextChange: @escaping (String) -> Void = { _ in }
+    ) -> some View {
+        TextField(placeholder, text: text)
+            .font(.bold17, .black)
+            .keyboardType(.numberPad)
+            .padding(16)
+            .background {
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.gray, lineWidth: 1)
+                    .background(.white)
+                    .clip(16)
+            }
+            .shadow(color: .black.opacity(0.06), radius: 2, y: 1)
+            .onChange(of: text.wrappedValue, perform: onTextChange)
     }
 }

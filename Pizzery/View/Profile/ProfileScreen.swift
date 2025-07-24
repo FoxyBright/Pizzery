@@ -37,7 +37,7 @@ extension ProfileScreen {
     fileprivate func accountCard() -> some View {
         HStack(spacing: 0) {
             AsyncImage(
-                url: URL(string: /*loginVm.user.avatarUrl ?? */ "")
+                url: URL(string: "")
             ) { phase in
                 switch phase {
                 case .empty:
@@ -50,7 +50,7 @@ extension ProfileScreen {
                         .resizable()
                         .scaledToFill()
                         .frame(80)
-                        .clip(50)
+                        .clipShape(Circle())
 
                 default:
                     Circle()

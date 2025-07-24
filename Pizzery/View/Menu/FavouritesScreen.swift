@@ -13,7 +13,13 @@ struct FavouritesScreen: View {
                     id: 1,
                     name: "Маргарита",
                     price: 650.00,
-                    category: .pizza,
+                    category: FoodCategory(
+                        id: 0,
+                        name: "Пицца",
+                        imageUrl: "https://i.pinimg.com/originals/1b/b9/74/1bb974de8c8f34427973c8c48e4875ce.jpg",
+                        hasSale: false,
+                        isNew: true
+                    ),
                     image: "https://i.pinimg.com/originals/1b/b9/74/1bb974de8c8f34427973c8c48e4875ce.jpg",
                     ingredients: ["моцарелла", "оливки", "томатная паста", "перец", "томаты", "салями"]
                 ),
@@ -42,7 +48,13 @@ struct FavouritesScreen: View {
                     id: 2,
                     name: "Маргарита",
                     price: 650.00,
-                    category: .pizza,
+                    category: FoodCategory(
+                        id: 0,
+                        name: "Пицца",
+                        imageUrl: "https://i.pinimg.com/originals/1b/b9/74/1bb974de8c8f34427973c8c48e4875ce.jpg",
+                        hasSale: true,
+                        isNew: false
+                    ),
                     image: "https://i.pinimg.com/originals/1b/b9/74/1bb974de8c8f34427973c8c48e4875ce.jpg",
                     ingredients: ["food"]
                 ),

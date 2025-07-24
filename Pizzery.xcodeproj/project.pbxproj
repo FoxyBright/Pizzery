@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F12B4F2C2E2FD4CC00F6A0A0 /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = F12B4F2B2E2FD4CC00F6A0A0 /* SwiftUIPager */; };
 		F19C1FA62DF3A76100970A70 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = F19C1FA52DF3A76100970A70 /* AnyCodable */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12B4F2C2E2FD4CC00F6A0A0 /* SwiftUIPager in Frameworks */,
 				F19C1FA62DF3A76100970A70 /* AnyCodable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = Pizzery;
 			packageProductDependencies = (
 				F19C1FA52DF3A76100970A70 /* AnyCodable */,
+				F12B4F2B2E2FD4CC00F6A0A0 /* SwiftUIPager */,
 			);
 			productName = Pizzery;
 			productReference = F15E698A2DE650B00076E100 /* Pizzery.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */,
+				F12B4F2A2E2FD4CC00F6A0A0 /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F15E698B2DE650B00076E100 /* Products */;
@@ -358,6 +362,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F12B4F2A2E2FD4CC00F6A0A0 /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.0;
+			};
+		};
 		F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Flight-School/AnyCodable.git";
@@ -369,6 +381,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F12B4F2B2E2FD4CC00F6A0A0 /* SwiftUIPager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F12B4F2A2E2FD4CC00F6A0A0 /* XCRemoteSwiftPackageReference "SwiftUIPager" */;
+			productName = SwiftUIPager;
+		};
 		F19C1FA52DF3A76100970A70 /* AnyCodable */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F19C1FA42DF3A76100970A70 /* XCRemoteSwiftPackageReference "AnyCodable" */;

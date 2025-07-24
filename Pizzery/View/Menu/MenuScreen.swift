@@ -1,32 +1,47 @@
 import SwiftUI
+import SwiftUIPager
 
 #Preview { MenuScreen() }
 struct MenuScreen: View {
     @EnvironmentObject var navController: NavController<Destination>
     @EnvironmentObject var mainVm: MainViewModel
 
+    @State private var posterPage: Page = .first()
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                SearchBar(text: $mainVm.searchText) { text in
-                    mainVm.searchText = text
-                }
-                .padding(horizontal: 16)
-                .padding(top: 46)
-            }
+                searchvBar()
+                    .padding(horizontal: 16)
+                    .padding(top: 46)
 
-            Text(R.strings.hotDaddyPizza)
-                .font(
-                    .regular24,
-                    LinearGradient(
-                        colors: [.secondaryOrange, .mainOrange],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .padding(top: 12)
+                logo()
+                    .padding(horizontal: 16)
+                    .padding(vertical: 12)
+
+                postersPager()
+                    .padding(bottom: mainVm.posters.isEmpty ? 0 : 32)
+
+                if mainVm.pendingMenuCategories
+                    && mainVm.menuCategories.isEmpty
+                {
+                    ProgressView()
+                        .padding(top: 40)
+                } else {
+                    menuCategoriesGrid { category in
+                        // TODO: on category click
+                    }
+                    .padding(horizontal: 24)
+                }
+                
+                Spacer().frame(height: 30)
+            }.animation(
+                .easeInOut(duration: 1),
+                value: mainVm.posters.isNotEmpty
+            )
         }
-        .refreshable {}
+        .refreshable { mainVm.getMenuData(isRefresh: true) }
+        .onAppear { mainVm.getMenuData() }
         .background(
             GradientBackground()
                 .ignoresSafeArea()
@@ -34,46 +49,46 @@ struct MenuScreen: View {
     }
 }
 
-//struct ImagePagerView: View {
-//    let posters: [Poster]
-//    @State private var selectedPage = 0
-//
-//    var body: some View {
-//        TabView(selection: $selectedPage) {
-//            ForEach(posters.indices, id: \.self) { index in
-//                if let imageUrl = posters[index].imageUrls?.first {
-//                    AsyncImage(url: URL(string: imageUrl)) { phase in
-//                        switch phase {
-//                        case .empty:
-//                            ProgressView()
-//                                        .fillMaxSize()
-//                                .background(.gray.opacity(0.1))
-//                        case .success(let image):
-//                            image
-//                                .resizable()
-//                                .scaledToFill()
-//                                .frame(height: 200)
-//                                .clip(20)
-//                                .padding(horizontal: 16)
-//                        case .failure: Color.red
-//                        @unknown default:
-//                            EmptyView()
-//                        }
-//                    }
-//                    .tag(index)
-//                }
-//            }
-//        }
-//        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-//        .frame(height: 220)
-//    }
-//}
+extension MenuScreen {
 
-//private let TEST_POSTER = Poster(
-//    id: Int64.random(in: 0...Int64.max),
-//    imageUrls: [
-//        "https://sun9-73.userapi.com/impg/c854424/v854424634/237236/kw29-eXYji0.jpg?size=604x363&quality=96&sign=a31c267273d02a2e5339237e3b34de4d&type=album"
-//    ],
-//    imageQty: 1,
-//    visible: true
-//)
+    fileprivate func searchvBar() -> some View {
+        SearchBar(text: $mainVm.searchText) { text in
+            mainVm.searchText = text
+        }
+    }
+
+    @ViewBuilder
+    fileprivate func logo() -> some View {
+        let gradient = LinearGradient(
+            colors: [.secondaryOrange, .mainOrange],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+        Text(R.strings.hotDaddyPizza)
+            .font(.regular24, gradient)
+    }
+
+    fileprivate func postersPager() -> some View {
+        PosterPager(mainVm.posters, page: $posterPage)
+            .frame(height: mainVm.posters.isEmpty ? 0 : 150)
+            .clipped()
+            .animation(
+                .easeInOut(duration: 0.4),
+                value: mainVm.posters.isEmpty
+            )
+    }
+
+    @ViewBuilder
+    fileprivate func menuCategoriesGrid(
+        onCategoryClick: @escaping (FoodCategory) -> Void
+    ) -> some View {
+        let cell = GridItem(.flexible(), spacing: 20)
+        LazyVGrid(columns: [cell, cell], spacing: 14) {
+            ForEach(mainVm.menuCategories, id: \.self) { item in
+                FoodCategoryCard(category: item) {
+                    onCategoryClick(item)
+                }
+            }
+        }
+    }
+}

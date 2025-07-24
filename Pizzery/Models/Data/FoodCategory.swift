@@ -1,8 +1,9 @@
-//
-//  FoodCategory.swift
-//  Pizzery
-//
-//  Created by Иван Волков on 24.07.2025.
-//
+import SwiftUI
 
-import Foundation
+struct FoodCategory: Hashable {
+    let id: Int64
+    let name: String
+    let imageUrl: String
+    let hasSale: Bool
+    let isNew: Bool
+}

@@ -5,3 +5,7 @@ func openURL(_ string: String) {
         UIApplication.shared.open(url)
     }
 }
+
+func delay(_ millis: UInt64) async {
+    try? await Task.sleep(nanoseconds: millis * 1_000_000)
+}

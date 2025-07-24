@@ -82,6 +82,9 @@ enum R {
         static var navBasket: String { "navBasket" }
         static var navFavorites: String { "navFavorites" }
         static var navProfile: String { "navProfile" }
+        static var newBadge: String { "newBadge" }
+        static var sale: String { "sale" }
+        static var foodPlaceholder: String { "foodPlaceholder" }
     }
 
     /// localization strings method
