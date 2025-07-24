@@ -7,30 +7,22 @@ final class NetworkClient {
     func getAuthCode(
         phone: String
     ) async -> HttpResult<SuccessResponse> {
-        return await sendRequest(
-            Endpoint.sendCode.path,
-            body: AuthPhoneRequest(phone: phone)
-        )
+        return HttpResult.success(TEST_SUCCESS_RESPONSE)
     }
 
-    func login(
-        code: String
-    ) async -> HttpResult<AuthResponse> {
-        return await sendRequest(
-            Endpoint.login.path,
-            body: AuthCodeRequest(code: code)
-        )
+    func login(code: String) async -> HttpResult<User> {
+        return HttpResult.success(TEST_USER)
     }
 
-    func updateUser() async -> HttpResult<AuthResponse> {
-        return await sendRequest(Endpoint.tryAuth.path)
+    func updateUser() async -> HttpResult<User> {
+        return HttpResult.success(TEST_USER)
     }
 
     func logout() async -> HttpResult<SuccessResponse> {
-        TokenStorage.shared.clearTokens()
-        return await sendRequest(Endpoint.logout.path)
+        return HttpResult.success(TEST_SUCCESS_RESPONSE)
     }
 
+    /// method for sendig HTTP requests
     private func sendRequest<R: Decodable>(
         _ path: String,
         method: HttpMethod = .post,
@@ -39,13 +31,13 @@ final class NetworkClient {
     ) async -> HttpResult<R> {
         let url = "\(Constants.API_URL)\(path)"
         print("REQUEST (\(method.rawValue)): \(url)")
-        
+
         guard let urlObject = URL(string: url) else {
             return .failure("Invalid URL: \(url)").printContent()
         }
 
         var urlRequest = URLRequest(url: urlObject)
-        urlRequest.allHTTPHeaderFields = ["Loyalty-Auth": "1"]
+        urlRequest.allHTTPHeaderFields = ["Auth": "1"]
         urlRequest.httpMethod = method.rawValue
 
         if let request = body {
@@ -73,7 +65,7 @@ final class NetworkClient {
             guard (200...299).contains(httpResponse.statusCode) else {
                 do {
                     let error = try JSONDecoder()
-                        .decode(ModelErrorResponse.self, from: data)
+                        .decode(ErrorResponse.self, from: data)
                     return .failure(error).printContent()
                 } catch {
                     return .failure(error).printContent()

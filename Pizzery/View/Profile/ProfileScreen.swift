@@ -7,82 +7,80 @@ struct ProfileScreen: View {
     var loginVm: LoginViewModel
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                accountCard()
-                    .padding(top: 24)
+        Group {
+            if let user = loginVm.user {
+                ScrollView {
+                    VStack(spacing: 24) {
+                        Spacer().frame(height: 24)
 
-                profileActions()
-                    .padding(horizontal: 8)
+                        accountCard(user: user)
 
-                DefaultButton(
-                    text: R.strings.exitStr,
-                    containerColor: .mainRed.opacity(0.7),
-                    contentColor: .white,
-                    leadingIcon: R.drawable.exitIcon
-                ) {
-                    // TODO: on exit click
+                        profileActions()
+                            .padding(horizontal: 8)
+
+                        DefaultButton(
+                            text: R.strings.exitStr,
+                            containerColor: .mainRed.opacity(0.7),
+                            contentColor: .white,
+                            leadingIcon: R.drawable.exit
+                        ) {
+                            // TODO: on exit click
+                        }
+                        .padding(top: 24)
+
+                        Spacer().frame(height: 6)
+                    }
                 }
-                .padding(vertical: 24)
+                .refreshable { loginVm.updateUserData() }
+            } else {
+                VStack(spacing: 24) {
+                    Text("Для заказа товаров необходимо авторизоваться")
+                        .multilineTextAlignment(.center)
+                        .font(.medium24, .black)
+                        .padding(horizontal: 16)
+
+                    DefaultButton(
+                        text: "Перейти к авторизации",
+                        trailingIcon: R.drawable.arrowRight
+                    ) {
+                        // TODO: on autorize click
+                    }
+                }
+                .fillMaxSize()
             }
         }
+        .fillMaxSize()
         .padding(horizontal: 16)
-        .refreshable { /* TODO: on profile refresh */  }
         .background(GradientBackground().ignoresSafeArea())
     }
 }
 
 extension ProfileScreen {
 
-    fileprivate func accountCard() -> some View {
-        HStack(spacing: 0) {
-            AsyncImage(
-                url: URL(string: "")
-            ) { phase in
-                switch phase {
-                case .empty:
-                    Circle()
-                        .frame(80)
-                        .foregroundColor(.grayF0F2F5)
-                        .overlay { ProgressView() }
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(80)
-                        .clipShape(Circle())
-
-                default:
-                    Circle()
-                        .frame(80)
-                        .foregroundColor(.gray828181)
-                        .overlay {
-                            Image(R.drawable.navProfile)
-                                .resizable()
-                                .tint(.white)
-                                .frame(40)
-                        }
-                }
-            }
-
-            Spacer().frame(width: 16)
+    fileprivate func accountCard(user: User) -> some View {
+        HStack(spacing: 16) {
+            AsyncPicture(
+                user.avatar,
+                placeholderImageName: R.drawable.navProfile
+            )
+            .frame(100)
+            .background(.gray94A3B3)
+            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 8) {
-                if let name = loginVm.user?.firstName {
-                    Text(name)
-                        .font(.medium18, .black)
-                        .lineLimit(1)
+                Spacer().frame(height: 8)
+
+                let dataToShow = [user.name, user.email, user.phone]
+                    .filter { $0.isNotEmpty }
+
+                ForEach(dataToShow.indices, id: \.self) { index in
+                    accountDataRow(
+                        dataToShow[index],
+                        isTitle: index == 0
+                    )
                 }
-                if let email = loginVm.user?.email {
-                    Text(email)
-                        .font(.regular14, .gray828181)
-                        .lineLimit(1)
-                }
-                if let phone = loginVm.user?.phone {
-                    Text(phone)
-                        .font(.regular14, .gray828181)
-                        .lineLimit(1)
-                }
+
+                Spacer()
             }
 
             Spacer()
@@ -92,39 +90,6 @@ extension ProfileScreen {
         .background(.white)
         .clip(20)
         .shadow(color: .black.opacity(0.1), radius: 2, y: 1)
-    }
-
-    private func profileButton(
-        image: String,
-        label: String,
-        onClick: @escaping () -> Void
-    ) -> some View {
-        Button(action: onClick) {
-            HStack(spacing: 0) {
-                Circle()
-                    .frame(40)
-                    .foregroundColor(.white)
-                    .overlay {
-                        Image(image)
-                            .resizable()
-                            .frame(18)
-                    }
-
-                Text(label)
-                    .font(.regular16, .gray32343E)
-                    .lineLimit(1)
-                    .padding(start: 14)
-
-                Spacer()
-
-                Image(R.drawable.nextButton)
-                    .resizable()
-                    .tint(.gray32343E)
-                    .frame(24)
-            }
-            .padding(horizontal: 20, vertical: 12)
-            .background(.grayF0F2F5)
-        }
     }
 
     fileprivate func profileActions() -> some View {
@@ -160,5 +125,53 @@ extension ProfileScreen {
         .background(.grayF0F2F5)
         .clip(16)
         .shadow(color: .black.opacity(0.1), radius: 2, y: 1)
+    }
+
+    private func accountDataRow(
+        _ text: String,
+        isTitle: Bool
+    ) -> some View {
+        if isTitle {
+            Text(text)
+                .font(.medium18, .black)
+                .lineLimit(1)
+        } else {
+            Text(text)
+                .font(.regular14, .gray828181)
+                .lineLimit(1)
+        }
+    }
+
+    private func profileButton(
+        image: String,
+        label: String,
+        onClick: @escaping () -> Void
+    ) -> some View {
+        Button(action: onClick) {
+            HStack(spacing: 0) {
+                Circle()
+                    .frame(40)
+                    .foregroundColor(.white)
+                    .overlay {
+                        Image(image)
+                            .resizable()
+                            .frame(18)
+                    }
+
+                Text(label)
+                    .font(.regular16, .gray32343E)
+                    .lineLimit(1)
+                    .padding(start: 14)
+
+                Spacer()
+
+                Image(R.drawable.nextButton)
+                    .resizable()
+                    .tint(.gray32343E)
+                    .frame(24)
+            }
+            .padding(horizontal: 20, vertical: 12)
+            .background(.grayF0F2F5)
+        }
     }
 }

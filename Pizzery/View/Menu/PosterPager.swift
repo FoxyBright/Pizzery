@@ -23,9 +23,7 @@ struct PosterPager: View {
                     data: items.indices,
                     id: \.self,
                 ) { index in
-                    let img = items[index]
-                        .imageUrls?.first
-                    posterCard(img)
+                    posterCard(items[index].imageUrls.first)
                         .clip(30)
                 }
                 .itemSpacing(16)

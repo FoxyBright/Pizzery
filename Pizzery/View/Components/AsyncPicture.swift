@@ -67,5 +67,9 @@ struct AsyncPicture<
                 placeholderContent()
             }
         }
+        .animation(
+            .easeInOut(duration: 0.3),
+            value: urlString
+        )
     }
 }

@@ -2,7 +2,14 @@
   "sourceLanguage" : "ru",
   "strings" : {
     "650p" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dadda"
+          }
+        }
+      }
     },
     "accountData" : {
       "extractionState" : "manual",
@@ -25,6 +32,9 @@
           }
         }
       }
+    },
+    "AddressCard" : {
+
     },
     "addresses" : {
       "extractionState" : "manual",
@@ -388,6 +398,9 @@
           }
         }
       }
+    },
+    "Для заказа товаров необходимо авторизоваться" : {
+
     }
   },
   "version" : "1.0"

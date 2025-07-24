@@ -10,7 +10,7 @@ class LoginViewModel: ObservableObject {
     @Published var hasCode: Bool = false
 
     // MARK: User data
-    @Published var user: Client? = nil
+    @Published var user: User? = TEST_USER
 
     // MARK: Loading states
     @Published var pendingCode = false
@@ -39,7 +39,7 @@ class LoginViewModel: ObservableObject {
                 .login(code: authCode)
             await MainActor.run {
                 response.onSuccess { response in
-                    self.user = response.user.client
+                    self.user = response
                     self.authorized = true
                     self.phoneNumber = ""
                     self.authCode = ""

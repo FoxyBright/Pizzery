@@ -2,9 +2,9 @@ import Foundation
 
 struct HttpResult<T> {
     private let data: T?
-    private let error: ModelErrorResponse?
+    private let error: ErrorResponse?
 
-    private init(data: T?, error: ModelErrorResponse?) {
+    private init(data: T?, error: ErrorResponse?) {
         self.data = data
         self.error = error
     }
@@ -13,14 +13,14 @@ struct HttpResult<T> {
         return HttpResult(data: data, error: nil)
     }
 
-    static func failure(_ error: ModelErrorResponse) -> HttpResult<T> {
+    static func failure(_ error: ErrorResponse) -> HttpResult<T> {
         return HttpResult(data: nil, error: error)
     }
 
     static func failure(_ msg: String) -> HttpResult<T> {
         return HttpResult(
             data: nil,
-            error: ModelErrorResponse(
+            error: ErrorResponse(
                 code: 0,
                 message: "Inner Error",
                 detail: msg
@@ -35,7 +35,7 @@ struct HttpResult<T> {
     func isFailure() -> Bool { return error != nil }
     func isSuccess() -> Bool { return data != nil }
 
-    func getError() -> ModelErrorResponse? { return error }
+    func getError() -> ErrorResponse? { return error }
     func getOrNull() -> T? { return data }
 
     @discardableResult
@@ -45,7 +45,7 @@ struct HttpResult<T> {
     }
 
     @discardableResult
-    func onFailure(_ action: (ModelErrorResponse) -> Void) -> HttpResult<T> {
+    func onFailure(_ action: (ErrorResponse) -> Void) -> HttpResult<T> {
         if let error = error { action(error) }
         return self
     }
