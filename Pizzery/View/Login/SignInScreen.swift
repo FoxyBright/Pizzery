@@ -66,48 +66,45 @@ struct SignInScreen: View {
 extension SignInScreen {
 
     fileprivate var bublesBackground: some View {
-        ZStack {
-            GradientBackground()
-            GeometryReader { geo in
-                let width = geo.size.width
-                ZStack(alignment: .top) {
-                    ZStack {
-                        Circle()
-                            .foregroundColor(.gray3E3E3E)
-                            .frame(width: width * 1.25, height: width * 1.25)
-                            .shadow(color: .gray, radius: 4, y: 4)
-                            .offset(x: width * -0.25)
-                        Circle()
-                            .foregroundColor(.mainOrange)
-                            .frame(width: width * 0.75, height: width * 0.75)
-                            .offset(x: width * 0.3)
-                    }
-                    .offset(y: -width * 0.4)
-                    .fillMaxHeight(alignment: .top)
-                    .frame(maxWidth: width)
-                    .clipped()
-
-                    Rectangle()
-                        .fillMaxWidth()
-                        .frame(height: 65)
+        GeometryReader { geo in
+            let width = geo.size.width
+            ZStack(alignment: .top) {
+                ZStack {
+                    Circle()
+                        .foregroundColor(.gray3E3E3E)
+                        .frame(width: width * 1.25, height: width * 1.25)
+                        .shadow(color: .gray, radius: 4, y: 4)
+                        .offset(x: width * -0.25)
+                    Circle()
                         .foregroundColor(.mainOrange)
-
-                    Text(
-                        loginVm.hasCode
-                            ? Strings.enterCode
-                            : Strings.enterPhoneNumber
-                    )
-                    .font(.regular20, .white)
-                    .fillMaxWidth(alignment: .leading)
-                    .padding(top: width * 0.4, start: 24)
-
-                    Text(Strings.signIn)
-                        .font(.bold36, .white)
-                        .fillMaxWidth(alignment: .trailing)
-                        .padding(top: width * 0.25, end: 50)
+                        .frame(width: width * 0.75, height: width * 0.75)
+                        .offset(x: width * 0.3)
                 }
-                .fillMaxSize(alignment: .top)
+                .offset(y: -width * 0.4)
+                .fillMaxHeight(alignment: .top)
+                .frame(maxWidth: width)
+                .clipped()
+
+                Rectangle()
+                    .fillMaxWidth()
+                    .frame(height: 65)
+                    .foregroundColor(.mainOrange)
+
+                Text(
+                    loginVm.hasCode
+                        ? Strings.enterCode
+                        : Strings.enterPhoneNumber
+                )
+                .font(.regular20, .white)
+                .fillMaxWidth(alignment: .leading)
+                .padding(top: width * 0.4, start: 24)
+
+                Text(Strings.signIn)
+                    .font(.bold36, .white)
+                    .fillMaxWidth(alignment: .trailing)
+                    .padding(top: width * 0.25, end: 50)
             }
+            .fillMaxSize(alignment: .top)
         }
         .ignoresSafeArea()
     }

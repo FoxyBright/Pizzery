@@ -38,7 +38,6 @@ struct ProfileScreen: View {
         }
         .fillMaxSize()
         .padding(horizontal: 16)
-        .background(GradientBackground().ignoresSafeArea())
     }
 }
 

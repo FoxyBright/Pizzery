@@ -25,7 +25,6 @@ struct NotificationScreen: View {
         .fillMaxSize()
         .refreshable { mainVm.updateNotifications(isRefresh: true) }
         .onAppear { mainVm.updateNotifications() }
-        .background(GradientBackground().ignoresSafeArea())
     }
 }
 

@@ -44,10 +44,6 @@ struct MenuScreen: View {
         }
         .refreshable { mainVm.getMenuData(isRefresh: true) }
         .onAppear { mainVm.getMenuData() }
-        .background(
-            GradientBackground()
-                .ignoresSafeArea()
-        )
     }
 }
 

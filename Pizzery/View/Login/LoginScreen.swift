@@ -17,13 +17,8 @@ struct LoginScreen: View {
             DefaultButton(
                 text: Strings.continueStr,
                 trailingIcon: .arrowRight,
-            ) {
-                navController.push(
-                    .menu,
-                    reset: true,
-                    animated: false
-                )
-            }
+                action: { navController.push(.menu, reset: true) }
+            )
             .padding(horizontal: 16)
             .padding(bottom: 100)
 
@@ -31,14 +26,11 @@ struct LoginScreen: View {
                 .padding(horizontal: 16)
         }
         .background(
-            ZStack {
-                GradientBackground()
-                Image(.loginBackground)
-                    .resizable()
-                    .padding(end: 24)
-                    .scaledToFill()
-            }
-            .ignoresSafeArea()
+            Image(.loginBackground)
+                .resizable()
+                .padding(end: 24)
+                .scaledToFill()
+                .ignoresSafeArea()
         )
     }
 }
