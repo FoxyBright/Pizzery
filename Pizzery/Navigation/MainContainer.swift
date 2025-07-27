@@ -53,7 +53,7 @@ extension MainContainer {
 
         case Destination.menu.route:
             Button(action: { navController.push(.notifications) }) {
-                Image(R.drawable.notifyCircle)
+                Image(.notifyCircle)
                     .resizable()
                     .frame(32)
             }

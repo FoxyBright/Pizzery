@@ -56,7 +56,7 @@ extension FoodCard {
 
     fileprivate func likeButton() -> some View {
         Button(action: onLikeClick) {
-            Image(R.drawable.heart)
+            Image(.heart)
                 .resizable()
                 .tint(isFavourite ? .mainOrange : .gray828181)
                 .frame(width: 16, height: 14)
@@ -93,7 +93,7 @@ extension FoodCard {
             Spacer()
 
             Button(action: onAddClick) {
-                Image(R.drawable.plus)
+                Image(.plus)
                     .resizable()
                     .tint(.white)
                     .frame(16)

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="14cde5b3-1172-4f25-ad44-36af3d237b6b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Pizzery/View/Components/NeedAuthView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Navigation/Destination.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/Navigation/Destination.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Navigation/MainContainer.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/Navigation/MainContainer.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Navigation/NavigationBar.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/Navigation/NavigationBar.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Navigation/TopBar.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/Navigation/TopBar.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Resources/Localizable.xcstrings" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/Resources/Localizable.xcstrings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/Resources/R.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Components/AsyncPicture.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Components/AsyncPicture.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Components/DefaultButton.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Components/DefaultButton.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Components/DefaultCheckBox.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Components/DefaultCheckBox.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Components/DefaultTextField.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Components/DefaultTextField.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Components/SearchBar.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Components/SearchBar.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Login/LoginScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Login/LoginScreen.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Login/SignInScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Login/SignInScreen.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Menu/Food/FoodCard.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Menu/Food/FoodCard.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Menu/Food/FoodCategoryCard.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Menu/Food/FoodCategoryCard.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Menu/MenuScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Menu/MenuScreen.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Menu/Notifications/NotificationCard.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Menu/Notifications/NotificationCard.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Profile/ProfileScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Profile/ProfileScreen.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Wallet/AddCardBS.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Wallet/AddCardBS.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Wallet/PaymentMethodView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Wallet/PaymentMethodView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/View/Wallet/WalletScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/View/Wallet/WalletScreen.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/ViewModel/LoginViewModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/ViewModel/LoginViewModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizzery/resources_generator.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Pizzery/resources_generator.sh" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;FoxyBright&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/FoxyBright/Pizzery.git&quot;,
+    &quot;accountId&quot;: &quot;678232d4-a648-4447-b64a-f63eb1987353&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="30NIaw77vTwmcdnlIbQA5QNrDgT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/foxybright/StudioProjects/Pizzery&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dev.polek.adbwifi.settings.AdbWifiConfigurable&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="14cde5b3-1172-4f25-ad44-36af3d237b6b" name="Changes" comment="" />
+      <created>1753461670165</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753461670165</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

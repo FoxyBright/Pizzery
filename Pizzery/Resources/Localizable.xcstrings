@@ -126,13 +126,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We sent the code to the number: "
+            "value" : "We sent the code to the number: %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Мы отправили код на номер: "
+            "value" : "Мы отправили код на номер: %@"
           }
         }
       }
@@ -337,6 +337,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Получить код"
+          }
+        }
+      }
+    },
+    "goToAutorization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to authorization"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти к авторизации"
           }
         }
       }

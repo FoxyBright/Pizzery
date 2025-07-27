@@ -17,14 +17,18 @@ struct PosterPager: View {
                     width: geo.size.width * 0.8,
                     height: geo.size.height
                 )
-
                 Pager(
                     page: page,
                     data: items.indices,
                     id: \.self,
                 ) { index in
-                    posterCard(items[index].imageUrls.first)
-                        .clip(30)
+                    AsyncImage(
+                        url: items[index].imageUrls.first,
+                        placeholderContent: {
+                            Color.grayCBCBCB.opacity(0.3)
+                        }
+                    )
+                    .clip(30)
                 }
                 .itemSpacing(16)
                 .horizontal(.startToEnd)
@@ -34,41 +38,5 @@ struct PosterPager: View {
                 .fillMaxSize()
             }
         }
-    }
-}
-
-extension PosterPager {
-
-    @ViewBuilder
-    fileprivate func posterCard(_ imageUrl: String?) -> some View {
-        if let imageUrl = imageUrl {
-            AsyncImage(url: URL(string: imageUrl)) { phase in
-                switch phase {
-                case .empty: posterLoadingView()
-
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .fillMaxSize()
-
-                default: posterCardPlaceholcer()
-                }
-            }
-        } else {
-            posterCardPlaceholcer()
-        }
-    }
-
-    fileprivate func posterLoadingView() -> some View {
-        ProgressView()
-            .fillMaxSize()
-            .background(.grayCBCBCB.opacity(0.3))
-    }
-
-    fileprivate func posterCardPlaceholcer() -> some View {
-        Rectangle()
-            .fillMaxSize()
-            .foregroundColor(.grayCBCBCB.opacity(0.3))
     }
 }

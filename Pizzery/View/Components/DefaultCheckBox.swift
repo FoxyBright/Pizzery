@@ -12,7 +12,7 @@ struct DefaultCheckBox: View {
                 .foregroundColor(isSelected ? .mainOrange : .clear)
                 .overlay {
                     if isSelected {
-                        Image(R.drawable.check)
+                        Image(.check)
                             .resizable()
                             .fillMaxSize()
                             .tint(isSelected ? .white : .clear)

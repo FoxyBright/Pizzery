@@ -19,10 +19,10 @@ struct ProfileScreen: View {
                             .padding(horizontal: 8)
 
                         DefaultButton(
-                            text: R.strings.exitStr,
+                            text: Strings.exitStr,
                             containerColor: .mainRed.opacity(0.7),
                             contentColor: .white,
-                            leadingIcon: R.drawable.exit
+                            leadingIcon: .exit
                         ) {
                             // TODO: on exit click
                         }
@@ -33,20 +33,7 @@ struct ProfileScreen: View {
                 }
                 .refreshable { loginVm.updateUserData() }
             } else {
-                VStack(spacing: 24) {
-                    Text(R.strings.needAuthorization)
-                        .multilineTextAlignment(.center)
-                        .font(.medium24, .black)
-                        .padding(horizontal: 16)
-
-                    DefaultButton(
-                        text: "Перейти к авторизации",
-                        trailingIcon: R.drawable.arrowRight
-                    ) {
-                        // TODO: on autorize click
-                    }
-                }
-                .fillMaxSize()
+                NeedAuthView()
             }
         }
         .fillMaxSize()
@@ -59,9 +46,11 @@ extension ProfileScreen {
 
     fileprivate func accountCard(user: User) -> some View {
         HStack(spacing: 16) {
-            AsyncPicture(
-                user.avatar,
-                placeholderImageName: R.drawable.navProfile
+            AsyncImage(
+                url: user.avatar,
+                placeholderImage: .navProfile,
+                placeholderColor: .white,
+                placeholderPadding: 24
             )
             .frame(100)
             .background(.gray94A3B3)
@@ -97,26 +86,26 @@ extension ProfileScreen {
             Spacer().frame(height: 10)
 
             profileButton(
-                image: R.drawable.profile,
-                label: R.strings.accountData,
+                image: .profile,
+                label: Strings.accountData,
                 onClick: { navController.push(.account) }
             )
 
             profileButton(
-                image: R.drawable.map,
-                label: R.strings.addresses,
+                image: .map,
+                label: Strings.addresses,
                 onClick: { navController.push(.addresses) }
             )
 
             profileButton(
-                image: R.drawable.orderPackage,
-                label: R.strings.orders,
+                image: .orderPackage,
+                label: Strings.orders,
                 onClick: { navController.push(.orders) }
             )
 
             profileButton(
-                image: R.drawable.deleteTrash,
-                label: R.strings.deleteAccount,
+                image: .deleteTrash,
+                label: Strings.deleteAccount,
                 onClick: { /* TODO: on delete account click */  }
             )
 
@@ -143,7 +132,7 @@ extension ProfileScreen {
     }
 
     private func profileButton(
-        image: String,
+        image: UIImage,
         label: String,
         onClick: @escaping () -> Void
     ) -> some View {
@@ -153,7 +142,7 @@ extension ProfileScreen {
                     .frame(40)
                     .foregroundColor(.white)
                     .overlay {
-                        Image(image)
+                        Image(uiImage: image)
                             .resizable()
                             .frame(18)
                     }
@@ -165,7 +154,7 @@ extension ProfileScreen {
 
                 Spacer()
 
-                Image(R.drawable.nextButton)
+                Image(.nextButton)
                     .resizable()
                     .tint(.gray32343E)
                     .frame(24)

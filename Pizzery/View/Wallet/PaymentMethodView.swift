@@ -13,7 +13,7 @@ struct PaymentMethodView: View {
                 case let .card(card):
                     HStack(spacing: 8) {
                         if card.system == .unknown {
-                            Image(R.drawable.wallet)
+                            Image(.wallet)
                                 .resizable()
                                 .tint(.gray3E3E3E)
                                 .frame(24)
@@ -33,21 +33,21 @@ struct PaymentMethodView: View {
 
                 case .cash:
                     HStack(spacing: 8) {
-                        Image(R.drawable.money)
+                        Image(.money)
                             .resizable()
                             .tint(.mainGreen)
                             .frame(24)
-                        Text(R.strings.cash)
+                        Text(Strings.cash)
                             .font(.regular16, .black)
                     }
 
                 case .daddyPoints:
                     HStack(spacing: 8) {
-                        Image(R.drawable.wallet)
+                        Image(.wallet)
                             .resizable()
                             .tint(.gray3E3E3E)
                             .frame(24)
-                        Text(R.strings.daddyPoints)
+                        Text(Strings.daddyPoints)
                             .font(.regular16, .black)
                     }
                 }

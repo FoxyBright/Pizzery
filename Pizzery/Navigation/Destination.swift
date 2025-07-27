@@ -34,15 +34,15 @@ enum Destination: Equatable {
 
     var title: String {
         switch self {
-        case .menu: return R.strings.menu
-        case .notifications: return R.strings.notifications
-        case .favourites: return R.strings.favourites
-        case .basket: return R.strings.basket
-        case .wallet: return R.strings.wallet
-        case .profile: return R.strings.profile
-        case .account: return R.strings.accountData
-        case .addresses: return R.strings.addresses
-        case .orders: return R.strings.orders
+        case .menu: return Strings.menu
+        case .notifications: return Strings.notifications
+        case .favourites: return Strings.favourites
+        case .basket: return Strings.basket
+        case .wallet: return Strings.wallet
+        case .profile: return Strings.profile
+        case .account: return Strings.accountData
+        case .addresses: return Strings.addresses
+        case .orders: return Strings.orders
         default: return ""
         }
     }

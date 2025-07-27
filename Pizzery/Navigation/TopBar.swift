@@ -48,7 +48,7 @@ extension View {
     ) -> some View {
         if show {
             Button(action: onBackClick) {
-                Image(R.drawable.backButton)
+                Image(.backButton)
                     .resizable()
                     .tint(.gray3E3E3E)
                     .frame(28)

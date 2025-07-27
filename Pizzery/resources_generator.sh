@@ -1,9 +1,8 @@
-# generate R class from iOS app resources (Assets & Localizable)
+# generate Strings class from Localizable.xcstrings
 # need instal jq ( brew install jq )
 
 STRINGS_DIR="./Resources/Localizable.xcstrings"
-ASSETS_DIR="./Resources/Assets.xcassets"
-OUTPUT_SWIFT="./Resources/R.swift"
+OUTPUT_SWIFT="./Resources/Strings.swift"
 
 SWIFT_RESERVED_WORDS=(
     associatedtype class deinit enum extension fileprivate func import init
@@ -49,47 +48,59 @@ to_camel_case() {
     echo "$result"
 }
 
-collect_drawables() {
-    local assets_dir="$1"
-    find "$assets_dir" -type d -name "*.imageset" | while read -r path; do
-        basename "$path" .imageset
-    done | sort -u
-}
-
 [ -f "$STRINGS_DIR" ] || { echo "❌ $STRINGS_DIR not found."; exit 1; }
-[ -d "$ASSETS_DIR" ] || { echo "❌ $ASSETS_DIR not found."; exit 1; }
 
 TMPFILE=$(mktemp)
 
-echo "// This file is generated automatically using the" > "$TMPFILE"
-echo "// Resources Generator bash script." >> "$TMPFILE"
-echo "// Do not try to change it manually." >> "$TMPFILE"
-echo "" >> "$TMPFILE"
+cat <<EOF > "$TMPFILE"
+// This file is generated automatically using the
+// Resources Generator bash script.
+// Do not try to change it manually.
 
-echo "import Foundation" >> "$TMPFILE"
-echo "" >> "$TMPFILE"
+import Foundation
 
-echo "enum R {" >> "$TMPFILE"
+enum Strings {
+EOF
 
-echo "    enum strings {" >> "$TMPFILE"
 jq -r '.strings | keys[]' "$STRINGS_DIR" | while read -r key; do
+    echo "" >> "$TMPFILE"
     var_name=$(to_camel_case "$key")
-    doc=$(jq -r --arg k "$key" '.strings[$k].localizations.ru.stringUnit.value // empty' "$STRINGS_DIR" | tr '\n' ' ')
-    [[ -n "$doc" ]] && echo "        /// $doc" >> "$TMPFILE"
-    echo "        static var $var_name: String { localizedStr(\"$key\") }" >> "$TMPFILE"
-done
-echo "    }" >> "$TMPFILE"
-echo "" >> "$TMPFILE"
+    doc=$(jq -r --arg k "$key" \
+        '.strings[$k].localizations.ru.stringUnit.value // empty' \
+        "$STRINGS_DIR" | tr '\n' ' ')
+    [[ -n "$doc" ]] && echo "    /// $doc" >> "$TMPFILE"
 
-echo "    enum drawable {" >> "$TMPFILE"
-collect_drawables "$ASSETS_DIR" | while read -r image_name; do
-    var_name=$(to_camel_case "$image_name")
-    echo "        static var $var_name: String { \"$image_name\" }" >> "$TMPFILE"
+    # получаем исходное значение, чтобы посчитать %@
+    value=$(jq -r --arg k "$key" \
+        '.strings[$k].localizations.ru.stringUnit.value' \
+        "$STRINGS_DIR")
+
+    # считаем, сколько %@
+    count=$(grep -o '%@' <<< "$value" | wc -l | tr -d ' ')
+
+if ((count == 0)); then
+    echo "    static var $var_name: String { localizedStr(\"$key\") }" >> "$TMPFILE"
+else
+    params=()
+    interp=""
+    for i in $(seq 1 $count); do
+        params+=("arg$i: String")
+        interp+=", arg$i"
+    done
+    IFS=", " read -r param_list <<< "${params[*]}"
+    interp_str="${interp}"
+    
+cat <<EOF >> "$TMPFILE"
+    static func $var_name($param_list) -> String {
+        let localizedStr = NSLocalizedString("$key", comment: "$key")
+        return String(format: localizedStr$interp_str)
+    }
+EOF
+fi
 done
-echo "    }" >> "$TMPFILE"
-echo "" >> "$TMPFILE"
 
 cat <<EOF >> "$TMPFILE"
+
     private static func localizedStr(_ key: String) -> String {
         return NSLocalizedString(key, comment: key)
     }

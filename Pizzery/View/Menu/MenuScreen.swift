@@ -11,9 +11,11 @@ struct MenuScreen: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                searchvBar()
-                    .padding(horizontal: 16)
-                    .padding(top: 46)
+                SearchBar(text: $mainVm.searchText) { text in
+                    mainVm.searchText = text
+                }
+                .padding(horizontal: 16)
+                .padding(top: 46)
 
                 logo()
                     .padding(horizontal: 16)
@@ -33,7 +35,7 @@ struct MenuScreen: View {
                     }
                     .padding(horizontal: 24)
                 }
-                
+
                 Spacer().frame(height: 30)
             }.animation(
                 .easeInOut(duration: 1),
@@ -51,12 +53,6 @@ struct MenuScreen: View {
 
 extension MenuScreen {
 
-    fileprivate func searchvBar() -> some View {
-        SearchBar(text: $mainVm.searchText) { text in
-            mainVm.searchText = text
-        }
-    }
-
     @ViewBuilder
     fileprivate func logo() -> some View {
         let gradient = LinearGradient(
@@ -64,7 +60,7 @@ extension MenuScreen {
             startPoint: .leading,
             endPoint: .trailing
         )
-        Text(R.strings.hotDaddyPizza)
+        Text(Strings.hotDaddyPizza)
             .font(.regular24, gradient)
     }
 

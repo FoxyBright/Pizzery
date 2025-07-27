@@ -6,7 +6,7 @@ struct LoginScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image(R.drawable.logo)
+            Image(.logo)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 260, maxHeight: 200)
@@ -15,8 +15,8 @@ struct LoginScreen: View {
             Spacer()
 
             DefaultButton(
-                text: R.strings.continueStr,
-                trailingIcon: R.drawable.arrowRight,
+                text: Strings.continueStr,
+                trailingIcon: .arrowRight,
             ) {
                 navController.push(
                     .menu,
@@ -33,7 +33,7 @@ struct LoginScreen: View {
         .background(
             ZStack {
                 GradientBackground()
-                Image(R.drawable.loginBackground)
+                Image(.loginBackground)
                     .resizable()
                     .padding(end: 24)
                     .scaledToFill()
@@ -48,15 +48,15 @@ extension LoginScreen {
     fileprivate func termsOfUse() -> some View {
         ClickableText(
             text: {
-                var text = AttributedString(R.strings.termsOfUse)
-                if let terms = text.range(of: R.strings.terms) {
-                    text[terms].link = URL(string: R.strings.terms)
+                var text = AttributedString(Strings.termsOfUse)
+                if let terms = text.range(of: Strings.terms) {
+                    text[terms].link = URL(string: Strings.terms)
                     text[terms].foregroundColor = .mainRed
                     text[terms].underlineStyle = .single
                     text[terms].font = .semibold12
                 }
-                if let privacy = text.range(of: R.strings.privacyPolicy) {
-                    text[privacy].link = URL(string: R.strings.privacyPolicy)
+                if let privacy = text.range(of: Strings.privacyPolicy) {
+                    text[privacy].link = URL(string: Strings.privacyPolicy)
                     text[privacy].foregroundColor = .mainRed
                     text[privacy].underlineStyle = .single
                     text[privacy].font = .semibold12
@@ -65,11 +65,11 @@ extension LoginScreen {
             },
             onClick: { link in
                 switch link {
-                case R.strings.terms:
+                case Strings.terms:
                     openURL(Constants.TERMS_OF_USE_URL)
                     break
 
-                case R.strings.privacyPolicy:
+                case Strings.privacyPolicy:
                     openURL(Constants.PRIVACY_POLICY_URL)
                     break
 

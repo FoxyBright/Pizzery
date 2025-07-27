@@ -14,7 +14,7 @@ struct WalletScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Text(R.strings.personalWallet)
+                Text(Strings.personalWallet)
                     .font(.semibold16, .black)
                     .fillMaxWidth(alignment: .leading)
                     .lineLimit(1)
@@ -63,11 +63,11 @@ struct WalletScreen: View {
 
                 Button(action: { isShowingSheet = true }) {
                     HStack(spacing: 10) {
-                        Image(R.drawable.plus)
+                        Image(.plus)
                             .resizable()
                             .tint(.mainOrange)
                             .frame(10)
-                        Text(R.strings.addCard)
+                        Text(Strings.addCard)
                             .font(.bold14, .mainOrange)
                     }
                     .fillMaxWidth()

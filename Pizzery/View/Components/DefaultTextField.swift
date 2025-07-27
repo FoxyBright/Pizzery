@@ -21,7 +21,7 @@ struct DefaultTextField: View {
 
                 if hasInfoButton {
                     Button(action: onInfoCLick) {
-                        Image(R.drawable.info)
+                        Image(.info)
                             .resizable()
                             .tint(.gray828181)
                             .frame(20)

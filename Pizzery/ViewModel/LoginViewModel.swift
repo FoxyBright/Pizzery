@@ -4,7 +4,7 @@ class LoginViewModel: ObservableObject {
 
     // MARK: login data
     @Published var authorized: Bool = false
-    @Published var phoneNumber: String = "(999) 999-99-99"
+    @Published var phoneNumber: String = ""
     @Published var country: Country = .RU
     @Published var authCode: String = ""
     @Published var hasCode: Bool = false

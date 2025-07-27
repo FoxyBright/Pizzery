@@ -18,35 +18,27 @@ struct SignInScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer()
-
             Text(
                 loginVm.hasCode
-                    ? R.strings.codeWasSentTo
-                        .appending(" ")
-                        .appending(loginVm.formPhone(filterNumbers: false))
-                    : R.strings.weSendCode
+                    ? Strings.codeWasSentTo(
+                        arg1: loginVm.formPhone(filterNumbers: false)
+                    )
+                    : Strings.weSendCode
             )
             .multilineTextAlignment(.center)
             .font(.regular14, .gray828181)
-            .padding(top: 40)
+            .padding(top: 100, bottom: 28)
 
-            VStack {
-                if loginVm.hasCode {
-                    codeField()
-                } else {
-                    phoneField()
-                }
+            if loginVm.hasCode {
+                codeField()
+            } else {
+                phoneField()
             }
-            .padding(horizontal: 16)
-            .padding(top: 28)
-
-            Spacer()
 
             DefaultButton(
                 text: loginVm.hasCode
-                    ? R.strings.sendCode
-                    : R.strings.getCode,
+                    ? Strings.sendCode
+                    : Strings.getCode,
                 isLoading: loginVm.pendingCode
                     || loginVm.pendingLogin,
                 enabled: isButtonEnabled,
@@ -58,8 +50,10 @@ struct SignInScreen: View {
                     }
                 }
             )
-            .padding(horizontal: 16)
+            .padding(top: 32)
         }
+        .fillMaxSize()
+        .padding(horizontal: 16)
         .background(bublesBackground)
         .animation(.easeInOut(duration: 0.3), value: loginVm.hasCode)
         .onChange(of: loginVm.authorized) { authorized in
@@ -82,38 +76,37 @@ extension SignInScreen {
                             .foregroundColor(.gray3E3E3E)
                             .frame(width: width * 1.25, height: width * 1.25)
                             .shadow(color: .gray, radius: 4, y: 4)
-                            .offset(x: width * -0.2)
+                            .offset(x: width * -0.25)
                         Circle()
                             .foregroundColor(.mainOrange)
                             .frame(width: width * 0.75, height: width * 0.75)
                             .offset(x: width * 0.3)
                     }
-                    .offset(y: -200)
-                    .addSafeArea()
-                    .fillMaxSize(alignment: .top)
+                    .offset(y: -width * 0.4)
+                    .fillMaxHeight(alignment: .top)
+                    .frame(maxWidth: width)
                     .clipped()
 
                     Rectangle()
-                        .frame(maxWidth: width, maxHeight: 65)
+                        .fillMaxWidth()
+                        .frame(height: 65)
                         .foregroundColor(.mainOrange)
 
                     Text(
                         loginVm.hasCode
-                            ? R.strings.enterCode
-                            : R.strings.enterPhoneNumber
+                            ? Strings.enterCode
+                            : Strings.enterPhoneNumber
                     )
                     .font(.regular20, .white)
-                    .fillMaxWidth(alignment: .trailing)
-                    .addSafeArea()
-                    .padding(top: 110, start: 24)
+                    .fillMaxWidth(alignment: .leading)
+                    .padding(top: width * 0.4, start: 24)
 
-                    Text(R.strings.signIn)
+                    Text(Strings.signIn)
                         .font(.bold36, .white)
                         .fillMaxWidth(alignment: .trailing)
-                        .addSafeArea()
-                        .padding(50)
+                        .padding(top: width * 0.25, end: 50)
                 }
-                .fillMaxSize()
+                .fillMaxSize(alignment: .top)
             }
         }
         .ignoresSafeArea()
@@ -122,7 +115,7 @@ extension SignInScreen {
     fileprivate func codeField() -> some View {
         numberTextField(
             text: $loginVm.authCode,
-            placeholder: R.strings.smsCode,
+            placeholder: Strings.smsCode,
             onTextChange: { loginVm.authCode = $0 }
         )
     }
@@ -149,7 +142,7 @@ extension SignInScreen {
             }
         }
     }
-    
+
     private func numberTextField(
         text: Binding<String>,
         placeholder: String,

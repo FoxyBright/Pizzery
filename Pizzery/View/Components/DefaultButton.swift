@@ -4,8 +4,8 @@ struct DefaultButton: View {
     var text: String
     var containerColor: Color
     var contentColor: Color
-    var leadingIcon: String
-    var trailingIcon: String
+    var leadingIcon: UIImage?
+    var trailingIcon: UIImage?
     var iconSize: CGFloat
     var paddings: CGFloat
     var cornerRadius: CGFloat
@@ -18,8 +18,8 @@ struct DefaultButton: View {
         text: String,
         containerColor: Color = .gray3E3E3E,
         contentColor: Color = .white,
-        leadingIcon: String = "",
-        trailingIcon: String = "",
+        leadingIcon: UIImage? = nil,
+        trailingIcon: UIImage? = nil,
         iconSize: CGFloat = 24,
         paddings: CGFloat = 16,
         cornerRadius: CGFloat = 16,
@@ -71,9 +71,9 @@ struct DefaultButton: View {
 extension DefaultButton {
 
     @ViewBuilder
-    func iconView(_ icon: String) -> some View {
-        if icon.isNotEmpty {
-            Image(icon)
+    func iconView(_ res: UIImage?) -> some View {
+        if let icon = res {
+            Image(uiImage: icon)
                 .resizable()
                 .tint(contentColor)
                 .frame(iconSize)

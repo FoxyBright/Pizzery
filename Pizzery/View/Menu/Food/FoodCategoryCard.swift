@@ -6,13 +6,23 @@ struct FoodCategoryCard: View {
 
     var body: some View {
         Button(action: onClick) {
-            ZStack {
-                VStack(spacing: 12) {
-                    categoryImage()
-                        .padding(top: 10)
+            VStack(spacing: 12) {
+                AsyncImage(
+                    url: category.imageUrl,
+                    placeholderImage: .foodPlaceholder,
+                    placeholderColor: .grayCBCBCB
+                )
+                .frame(100)
+                .clipShape(Circle())
+                .padding(top: 10)
 
-                    categoryName()
-                }
+                Text(category.name)
+                    .multilineTextAlignment(.center)
+                    .font(.bold16, .white)
+                    .fillMaxWidth(alignment: .center)
+                    .padding(16)
+                    .background(.mainOrange)
+                    .clip(50)
             }
         }
         .fillMaxWidth()
@@ -20,47 +30,18 @@ struct FoodCategoryCard: View {
         .clip(20)
         .overlay(alignment: .topTrailing) {
             if category.hasSale {
-                Image(R.drawable.sale)
+                Image(.sale)
                     .frame(50)
                     .offset(x: 10, y: -10)
             }
         }
         .overlay(alignment: .topLeading) {
             if category.isNew {
-                Image(R.drawable.newBadge)
+                Image(.newBadge)
                     .frame(40)
                     .offset(x: -10)
             }
         }
         .shadow(color: .black.opacity(0.06), radius: 2, y: 1)
-    }
-}
-
-extension FoodCategoryCard {
-
-    fileprivate func categoryImage() -> some View {
-        AsyncPicture(
-            category.imageUrl,
-            placeholderImageName: R.drawable.foodPlaceholder
-        )
-        .frame(100)
-        .background(.grayCBCBCB)
-        .clipShape(Circle())
-    }
-
-    fileprivate func categoryName() -> some View {
-        ZStack(alignment: .center) {
-            Text(category.name)
-                .multilineTextAlignment(.center)
-                .font(.bold16, .white)
-        }
-        .fillMaxWidth(alignment: .center)
-        .padding(16)
-        .background(.mainOrange)
-        .clip(50)
-    }
-
-    fileprivate func saleIcon() -> some View {
-        Image(R.drawable.sale)
     }
 }

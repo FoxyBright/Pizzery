@@ -19,12 +19,12 @@ struct AddCardBS: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    Text(R.strings.addCard)
+                    Text(Strings.addCard)
                         .font(.regular24, .black)
                         .fillMaxWidth(alignment: .leading)
                         .padding(top: 20)
 
-                    Text(R.strings.fillCardData)
+                    Text(Strings.fillCardData)
                         .font(.regular14, .gray828181)
                         .fillMaxWidth(alignment: .leading)
                         .padding(top: 12, bottom: 24)
@@ -39,7 +39,7 @@ struct AddCardBS: View {
                     }
 
                     DefaultButton(
-                        text: R.strings.continueStr,
+                        text: Strings.continueStr,
                         enabled: number.count == 19
                             && date.count == 5
                             && cvv.count >= 3
@@ -69,7 +69,7 @@ extension AddCardBS {
     fileprivate func cardNumberField() -> some View {
         DefaultTextField(
             text: $number,
-            label: R.strings.cardNumber,
+            label: Strings.cardNumber,
             placeholder: "0000 0000 0000 0000",
             keyboardType: .numberPad
         ) { value in
@@ -87,7 +87,7 @@ extension AddCardBS {
     fileprivate func expirationDateField() -> some View {
         DefaultTextField(
             text: $date,
-            label: R.strings.expirationDate,
+            label: Strings.expirationDate,
             placeholder: datePlaceholder,
             keyboardType: UIKeyboardType.numberPad,
         ) { value in
@@ -126,7 +126,7 @@ extension AddCardBS {
     fileprivate func cvvField() -> some View {
         DefaultTextField(
             text: $cvv,
-            label: R.strings.cvv,
+            label: Strings.cvv,
             placeholder: "1234",
             keyboardType: .numberPad,
             hasInfoButton: true,
@@ -142,8 +142,8 @@ extension AddCardBS {
     fileprivate func cardholderNameField() -> some View {
         DefaultTextField(
             text: $holderName,
-            label: R.strings.cardHolder,
-            placeholder: R.strings.enterCardHolderName,
+            label: Strings.cardHolder,
+            placeholder: Strings.enterCardHolderName,
             setAutocapitalization: true
         ) { value in
             let allowed = value.filter {

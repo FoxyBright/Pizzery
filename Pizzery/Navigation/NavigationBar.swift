@@ -33,13 +33,13 @@ struct NavigationBar: View {
 private enum NavBarButton: CaseIterable {
     case menu, favourites, basket, wallet, profile
 
-    var icon: String {
+    var icon: UIImage {
         switch self {
-        case .menu: return R.drawable.navMenu
-        case .favourites: return R.drawable.navFavorites
-        case .basket: return R.drawable.navBasket
-        case .wallet: return R.drawable.navWallet
-        case .profile: return R.drawable.navProfile
+        case .menu: return .navMenu
+        case .favourites: return .navFavorites
+        case .basket: return .navBasket
+        case .wallet: return .navWallet
+        case .profile: return .navProfile
         }
     }
 
@@ -61,7 +61,7 @@ private struct NavBarButtonView: View {
 
     var body: some View {
         Button(action: onClick) {
-            Image(data.icon)
+            Image(uiImage: data.icon)
                 .resizable()
                 .tint(.white)
                 .frame(22)

@@ -14,7 +14,7 @@ struct NotificationCard: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                Image(R.drawable.notificationBell)
+                Image(.notificationBell)
                     .resizable()
                     .tint(.gray3E3E3E)
                     .frame(42)
@@ -32,7 +32,7 @@ struct NotificationCard: View {
                 Spacer()
 
                 Button(action: { onDelete?() }) {
-                    Image(R.drawable.trash)
+                    Image(.trash)
                         .resizable()
                         .tint(.mainRed)
                         .frame(20)
