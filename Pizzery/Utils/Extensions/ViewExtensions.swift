@@ -45,10 +45,6 @@ extension View {
         self.frame(maxHeight: .infinity, alignment: alignment)
     }
 
-    func addSafeArea() -> some View {
-        modifier(AddSafeAreaModifier())
-    }
-    
     func debugBorder() -> some View {
         #if DEBUG
             self.border(Color.random())
