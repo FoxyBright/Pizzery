@@ -36,7 +36,7 @@ struct AsyncImage<Placeholder: View, Content: View>: View {
                 Image(uiImage: placeholderImage)
                     .resizable()
                     .tint(placeholderColor)
-                    .fillMaxSize()
+                    .scaledToFill()
                     .padding(placeholderPadding)
             )
         }

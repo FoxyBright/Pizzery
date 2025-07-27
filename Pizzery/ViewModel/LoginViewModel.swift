@@ -10,7 +10,7 @@ class LoginViewModel: ObservableObject {
     @Published var hasCode: Bool = false
 
     // MARK: User data
-    @Published var user: User? = nil
+    @Published var user: User? = TEST_USER
 
     // MARK: Loading states
     @Published var pendingCode = false

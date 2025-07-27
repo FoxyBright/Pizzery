@@ -35,7 +35,6 @@ struct PosterPager: View {
                 .interactive(scale: 0.9)
                 .preferredItemSize(posterSize)
                 .loopPages(true)
-                .fillMaxSize()
             }
         }
     }
