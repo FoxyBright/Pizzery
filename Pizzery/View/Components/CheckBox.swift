@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DefaultCheckBox: View {
+struct CheckBox: View {
     var isSelected: Bool
     var size: CGFloat = 24
     var onSwitch: @MainActor (Bool) -> Void = { _ in }

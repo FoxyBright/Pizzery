@@ -59,7 +59,7 @@ struct PaymentMethodView: View {
                         Text(balance)
                             .font(.semibold15, .black)
                     }
-                    DefaultCheckBox(
+                    CheckBox(
                         isSelected: isSelected
                     ) { _ in
                         onSelect(method)

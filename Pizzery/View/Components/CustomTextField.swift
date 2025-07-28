@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DefaultTextField: View {
+struct CustomTextField: View {
     @Binding var text: String
     var label: String = ""
     var placeholder: String = ""

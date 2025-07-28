@@ -9,81 +9,80 @@ struct WalletScreen: View {
     @StateObject
     private var cardsRepository = BankCardRepository.shared
 
-    @State private var isShowingSheet = false
+    @State private var showAddCardSheet = false
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                Text(Strings.personalWallet)
-                    .font(.semibold16, .black)
-                    .fillMaxWidth(alignment: .leading)
-                    .lineLimit(1)
-                    .padding(top: 46, bottom: 24)
-                    .padding(horizontal: 20)
+        if let user = loginVm.user {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(Strings.personalWallet)
+                        .font(.semibold16, .black)
+                        .fillMaxWidth(alignment: .leading)
+                        .lineLimit(1)
+                        .padding(top: 46, bottom: 24)
+                        .padding(start: 4)
 
-                VStack(spacing: 0) {
-                    PaymentMethodView(
-                        method: PaymentMethod.daddyPoints,
-                        isSelected: ordersVm.selectedPaymentMethod
-                            == PaymentMethod.daddyPoints,
-                        balance: String(loginVm.user?.bonusBalance ?? 0),
-                        onSelect: { ordersVm.selectPaymentMethod($0) }
+                    paymentMethods(user: user)
+
+                    OutlinedButton(
+                        text: Strings.addCard,
+                        leadingIcon: .plus,
+                        iconSize: 16,
+                        action: { showAddCardSheet = true }
                     )
-
-                    Divider()
-                        .foregroundColor(.grayCBCBCB)
-                        .padding(horizontal: 16)
-
-                    ForEach(cardsRepository.cards, id: \.number) { card in
-                        PaymentMethodView(
-                            method: .card(card: card),
-                            isSelected: ordersVm.selectedPaymentMethod
-                                == .card(card: card),
-                            onSelect: { ordersVm.selectPaymentMethod($0) }
-                        )
-                        Divider()
-                            .foregroundColor(.grayCBCBCB)
-                            .padding(horizontal: 16)
-                    }
-
-                    PaymentMethodView(
-                        method: PaymentMethod.cash,
-                        isSelected: ordersVm.selectedPaymentMethod
-                            == PaymentMethod.cash,
-                        onSelect: { ordersVm.selectPaymentMethod($0) }
-                    )
-                }
-                .background {
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.grayCBCBCB, lineWidth: 1)
-                        .background(.white)
-                        .clip(16)
+                    .padding(vertical: 42)
                 }
                 .padding(horizontal: 16)
-
-                Button(action: { isShowingSheet = true }) {
-                    HStack(spacing: 10) {
-                        Image(.plus)
-                            .resizable()
-                            .tint(.mainOrange)
-                            .frame(10)
-                        Text(Strings.addCard)
-                            .font(.bold14, .mainOrange)
-                    }
-                    .fillMaxWidth()
-                    .padding(22)
-                    .background {
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(.grayF0F5FA, lineWidth: 2)
-                            .background(.white)
-                            .clip(16)
-                    }
-                }
-                .padding(horizontal: 16, vertical: 42)
             }
+            .background(.white)
+            .sheet(isPresented: $showAddCardSheet) {
+                AddCardBS(isPresented: $showAddCardSheet)
+            }
+        } else {
+            NeedAuthScreen()
         }
-        .sheet(isPresented: $isShowingSheet) {
-            AddCardBS(isPresented: $isShowingSheet)
+    }
+}
+
+extension WalletScreen {
+    fileprivate func paymentMethods(user: User) -> some View {
+        VStack(spacing: 0) {
+            PaymentMethodView(
+                method: PaymentMethod.daddyPoints,
+                isSelected: ordersVm.selectedPaymentMethod
+                    == PaymentMethod.daddyPoints,
+                balance: String(user.bonusBalance),
+                onSelect: { ordersVm.selectPaymentMethod($0) }
+            )
+
+            Divider()
+                .foregroundColor(.grayCBCBCB)
+                .padding(horizontal: 16)
+
+            ForEach(cardsRepository.cards, id: \.number) { card in
+                PaymentMethodView(
+                    method: .card(card: card),
+                    isSelected: ordersVm.selectedPaymentMethod
+                        == .card(card: card),
+                    onSelect: { ordersVm.selectPaymentMethod($0) }
+                )
+                Divider()
+                    .foregroundColor(.grayCBCBCB)
+                    .padding(horizontal: 16)
+            }
+
+            PaymentMethodView(
+                method: PaymentMethod.cash,
+                isSelected: ordersVm.selectedPaymentMethod
+                    == PaymentMethod.cash,
+                onSelect: { ordersVm.selectPaymentMethod($0) }
+            )
+        }
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(.grayCBCBCB, lineWidth: 1)
+                .background(.white)
+                .clip(16)
         }
     }
 }

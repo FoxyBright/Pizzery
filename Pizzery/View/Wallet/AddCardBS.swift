@@ -16,19 +16,19 @@ struct AddCardBS: View {
                 .frame(width: 50, height: 5)
                 .clip(50)
                 .padding(vertical: 6)
-
+            
             ScrollView {
                 VStack(spacing: 0) {
                     Text(Strings.addCard)
                         .font(.regular24, .black)
                         .fillMaxWidth(alignment: .leading)
                         .padding(top: 20)
-
+                    
                     Text(Strings.fillCardData)
                         .font(.regular14, .gray828181)
                         .fillMaxWidth(alignment: .leading)
                         .padding(top: 12, bottom: 24)
-
+                    
                     VStack(spacing: 16) {
                         cardNumberField()
                         HStack(spacing: 13) {
@@ -37,13 +37,13 @@ struct AddCardBS: View {
                         }
                         cardholderNameField()
                     }
-
-                    DefaultButton(
+                    
+                    SolidButton(
                         text: Strings.continueStr,
                         enabled: number.count == 19
-                            && date.count == 5
-                            && cvv.count >= 3
-                            && holderName.isNotEmpty,
+                        && date.count == 5
+                        && cvv.count >= 3
+                        && holderName.isNotEmpty,
                         action: {
                             cardsRepository.addCard(
                                 Card(
@@ -61,13 +61,14 @@ struct AddCardBS: View {
                 .padding(horizontal: 24)
             }
         }
+        .background(.white)
     }
 }
 
 extension AddCardBS {
 
     fileprivate func cardNumberField() -> some View {
-        DefaultTextField(
+        CustomTextField(
             text: $number,
             label: Strings.cardNumber,
             placeholder: "0000 0000 0000 0000",
@@ -85,7 +86,7 @@ extension AddCardBS {
     }
 
     fileprivate func expirationDateField() -> some View {
-        DefaultTextField(
+        CustomTextField(
             text: $date,
             label: Strings.expirationDate,
             placeholder: datePlaceholder,
@@ -124,7 +125,7 @@ extension AddCardBS {
     }
 
     fileprivate func cvvField() -> some View {
-        DefaultTextField(
+        CustomTextField(
             text: $cvv,
             label: Strings.cvv,
             placeholder: "1234",
@@ -140,7 +141,7 @@ extension AddCardBS {
     }
 
     fileprivate func cardholderNameField() -> some View {
-        DefaultTextField(
+        CustomTextField(
             text: $holderName,
             label: Strings.cardHolder,
             placeholder: Strings.enterCardHolderName,

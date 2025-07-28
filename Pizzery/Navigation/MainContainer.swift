@@ -3,7 +3,7 @@ import SwiftUI
 struct MainContainer: View {
 
     @StateObject
-    var navController = NavController<Destination>(initial: .menu)
+    var navController = NavController<Destination>(initial: .login)
 
     var body: some View {
         NavHost(navController) { route in

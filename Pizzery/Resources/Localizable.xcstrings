@@ -397,14 +397,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "You need to sign in to use this feature"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Чтобы использовать данный функционал необходимо авторизоваться"
+            "value" : "Для продолжения необходимо авторизоваться"
           }
         }
       }

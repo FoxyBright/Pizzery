@@ -18,41 +18,49 @@ struct SignInScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text(
-                loginVm.hasCode
+            Spacer()
+            
+            VStack(spacing: 0) {
+                Text(
+                    loginVm.hasCode
                     ? Strings.codeWasSentTo(
                         arg1: loginVm.formPhone(filterNumbers: false)
                     )
                     : Strings.weSendCode
-            )
-            .multilineTextAlignment(.center)
-            .font(.regular14, .gray828181)
-            .padding(top: 100, bottom: 28)
-
-            if loginVm.hasCode {
-                codeField()
-            } else {
-                phoneField()
-            }
-
-            DefaultButton(
-                text: loginVm.hasCode
+                )
+                .multilineTextAlignment(.center)
+                .font(.regular14, .gray828181)
+                .padding(top: 100, bottom: 28)
+                
+                if loginVm.hasCode {
+                    codeField()
+                } else {
+                    phoneField()
+                }
+                
+                SolidButton(
+                    text: loginVm.hasCode
                     ? Strings.sendCode
                     : Strings.getCode,
-                isLoading: loginVm.pendingCode
+                    isLoading: loginVm.pendingCode
                     || loginVm.pendingLogin,
-                enabled: isButtonEnabled,
-                action: {
-                    if loginVm.hasCode {
-                        loginVm.login()
-                    } else {
-                        loginVm.getAuthCode()
+                    enabled: isButtonEnabled,
+                    action: {
+                        if loginVm.hasCode {
+                            loginVm.login()
+                        } else {
+                            loginVm.getAuthCode()
+                        }
                     }
-                }
-            )
-            .padding(top: 32)
+                )
+                .padding(top: 32)
+            }
+            
+            Spacer()
+            
+            TermsOfUse()
+                .padding(vertical: 32)
         }
-        .fillMaxSize()
         .padding(horizontal: 16)
         .background(bublesBackground)
         .animation(.easeInOut(duration: 0.3), value: loginVm.hasCode)

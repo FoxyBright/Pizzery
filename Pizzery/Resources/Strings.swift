@@ -78,7 +78,7 @@ enum Strings {
     /// Меню 
     static var menu: String { localizedStr("menu") }
 
-    /// Чтобы использовать данный функционал необходимо авторизоваться 
+    /// Для продолжения необходимо авторизоваться 
     static var needAuthorization: String { localizedStr("needAuthorization") }
 
     /// Уведомления 

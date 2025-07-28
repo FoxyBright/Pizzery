@@ -18,7 +18,7 @@ struct ProfileScreen: View {
                         profileActions()
                             .padding(horizontal: 8)
 
-                        DefaultButton(
+                        SolidButton(
                             text: Strings.exitStr,
                             containerColor: .mainRed.opacity(0.7),
                             contentColor: .white,
@@ -30,14 +30,13 @@ struct ProfileScreen: View {
 
                         Spacer().frame(height: 6)
                     }
+                    .padding(horizontal: 16)
                 }
                 .refreshable { loginVm.updateUserData() }
             } else {
-                NeedAuthView()
+                NeedAuthScreen()
             }
         }
-        .fillMaxSize()
-        .padding(horizontal: 16)
     }
 }
 

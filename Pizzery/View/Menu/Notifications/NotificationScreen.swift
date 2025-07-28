@@ -1,30 +1,37 @@
 import SwiftUI
 
 struct NotificationScreen: View {
-    @EnvironmentObject private var mainVm: MainViewModel
+    @EnvironmentObject
+    private var loginVm: LoginViewModel
+    @EnvironmentObject
+    private var mainVm: MainViewModel
 
     var body: some View {
-        VStack {
-            if mainVm.pendingNotifications {
-                ProgressView()
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 18) {
-                        Spacer().frame(height: 6)
+        if loginVm.user != nil {
+            VStack {
+                if mainVm.pendingNotifications {
+                    ProgressView()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 18) {
+                            Spacer().frame(height: 6)
 
-                        ForEach(mainVm.notifications, id: \.id) { item in
-                            notificationCard(item)
+                            ForEach(mainVm.notifications, id: \.id) { item in
+                                notificationCard(item)
+                            }
+                            .padding(horizontal: 16)
+
+                            Spacer().frame(height: 30)
                         }
-                        .padding(horizontal: 16)
-
-                        Spacer().frame(height: 30)
                     }
-                } 
+                }
             }
+            .fillMaxSize()
+            .refreshable { mainVm.updateNotifications(isRefresh: true) }
+            .onAppear { mainVm.updateNotifications() }
+        } else {
+            NeedAuthScreen()
         }
-        .fillMaxSize()
-        .refreshable { mainVm.updateNotifications(isRefresh: true) }
-        .onAppear { mainVm.updateNotifications() }
     }
 }
 
