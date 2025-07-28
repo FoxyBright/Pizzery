@@ -7,35 +7,33 @@ struct ProfileScreen: View {
     var loginVm: LoginViewModel
 
     var body: some View {
-        Group {
-            if let user = loginVm.user {
-                ScrollView {
-                    VStack(spacing: 24) {
-                        Spacer().frame(height: 24)
+        if let user = loginVm.user {
+            ScrollView {
+                VStack(spacing: 24) {
+                    Spacer().frame(height: 24)
 
-                        accountCard(user: user)
+                    accountCard(user: user)
 
-                        profileActions()
-                            .padding(horizontal: 8)
+                    profileActions()
+                        .padding(horizontal: 8)
 
-                        SolidButton(
-                            text: Strings.exitStr,
-                            containerColor: .mainRed.opacity(0.7),
-                            contentColor: .white,
-                            leadingIcon: .exit
-                        ) {
-                            // TODO: on exit click
-                        }
-                        .padding(top: 24)
-
-                        Spacer().frame(height: 6)
+                    SolidButton(
+                        text: Strings.exitStr,
+                        containerColor: .mainRed.opacity(0.7),
+                        contentColor: .white,
+                        leadingIcon: .exit
+                    ) {
+                        // TODO: on exit click
                     }
-                    .padding(horizontal: 16)
+                    .padding(top: 24)
+
+                    Spacer().frame(height: 6)
                 }
-                .refreshable { loginVm.updateUserData() }
-            } else {
-                NeedAuthScreen()
+                .padding(horizontal: 16)
             }
+            .refreshable { loginVm.updateUserData() }
+        } else {
+            NeedAuthScreen()
         }
     }
 }

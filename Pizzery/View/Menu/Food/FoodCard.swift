@@ -43,7 +43,7 @@ extension FoodCard {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 Rectangle()
-                    .fill(.turquoise)
+                    .fill(.mainCyan)
                     .frame(height: geo.size.height * 0.4)
                     .fillMaxWidth()
                 Rectangle()

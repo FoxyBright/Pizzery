@@ -3,7 +3,7 @@ import SwiftUI
 struct MainContainer: View {
 
     @StateObject
-    var navController = NavController<Destination>(initial: .login)
+    var navController = NavController<Destination>(initial: .profile)
 
     var body: some View {
         NavHost(navController) { route in
@@ -29,6 +29,7 @@ struct MainContainer: View {
                     case .orderInfo(let id): OrderInfoScreen(orderId: id)
                     case .orders: OrderListScreen()
                     case .profile: ProfileScreen()
+                    case .addresses: AddressesScreen()
                     default: EmptyView()
                     }
                 }
