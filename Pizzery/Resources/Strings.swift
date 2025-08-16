@@ -6,6 +6,8 @@ import Foundation
 
 enum Strings {
 
+    static var orderLld: String { localizedStr("Order: %lld") }
+
     /// Личные данные 
     static var accountData: String { localizedStr("accountData") }
 
